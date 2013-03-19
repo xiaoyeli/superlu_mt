@@ -1,0 +1,4 @@
+Title: 10x10 grid, with COLMMD order                                           Key:         
+Dimension 100x100; # nonzeros 460
+Use minimum degree ordering on A'*A.
+Factor PA = LU ... relax 6	w 20	maxsuper 200	rowblk 200
