@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 2.1) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -13,29 +13,10 @@
 #define __SUPERLU_zSP_DEFS
 
 /*
- * File name:           pzsp_defs.h
- * Purpose:             Sparse matrix types and function prototypes
- * History:
+ * File name:       pzsp_defs.h
+ * Purpose:         Sparse matrix types and function prototypes
+ * Modified:        03/20/2013    
  */
-
-/****************************
-  Include thread header file
-  ***************************/
-#if defined ( _SOLARIS )
-#include <thread.h>
-#include <sched.h>
-#elif defined( _DEC )
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#elif defined ( _OPENMP )
-#include <omp.h>
-#elif defined ( _PTHREAD )
-#include <pthread.h>
-#elif defined ( _CRAY )
-#include <fortran.h>
-#include <string.h>
-#endif
 
 /* Define my integer type int_t */
 typedef int int_t; /* default */
@@ -45,6 +26,26 @@ typedef int int_t; /* default */
 #include "supermatrix.h"
 #include "slu_mt_util.h"
 #include "pxgstrf_synch.h"
+
+/****************************
+  Include thread header file
+  ***************************/
+#if ( MACH==PTHREAD )
+    #include <pthread.h>
+#elif ( MACH==OPENMP )
+    #include <omp.h>
+#elif ( MACH==SUN )
+    #include <thread.h>
+    #include <sched.h>
+#elif ( MACH==DEC )
+    #include <pthread.h>
+    #include <unistd.h>
+    #include <sys/mman.h>
+#elif ( MACH==CRAY_PVP )
+    #include <fortran.h>
+    #include <string.h>
+#endif
+
 
 #include "slu_dcomplex.h"
 

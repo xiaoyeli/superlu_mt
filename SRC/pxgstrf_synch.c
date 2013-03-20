@@ -1,9 +1,10 @@
 /*
- * -- SuperLU MT routine (version 1.0) --
+ * -- SuperLU MT routine (version 2.1) --
  * Univ. of California Berkeley, Xerox Palo Alto Research Center,
  * and Lawrence Berkeley National Lab.
  * August 15, 1997
  *
+ * Modified:  March 20, 2013 version 2.1
  */
 #include <stdio.h>
 #include <math.h>
@@ -50,7 +51,8 @@ ParallelInit(int n, pxgstrf_relax_t *pxgstrf_relax,
 	pthread_mutex_init(&pxgstrf_shared->lu_locks[i], NULL);
 #else
 
-    pxgstrf_shared->lu_locks = (mutex_t *) SUPERLU_MALLOC(NO_GLU_LOCKS * sizeof(mutex_t));
+    pxgstrf_shared->lu_locks =
+	(mutex_t *) SUPERLU_MALLOC( NO_GLU_LOCKS * sizeof(mutex_t) );
 
 #endif    
     
@@ -337,6 +339,8 @@ int NewNsuper(const int pnum, pxgstrf_shared_t *pxgstrf_shared, int *data)
 #pragma critical lock(lock)
 #elif  ( MACH==CRAY_PVP )
 #pragma _CRI guard (*lock)
+#elif ( MACH==OPENMP )
+#pragma omp critical ( NSUPER_LOCK )
 #endif    
     {
       i = ++(*data);
