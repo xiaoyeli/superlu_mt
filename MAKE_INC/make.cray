@@ -14,7 +14,7 @@
 #
 #  The machine (platform) identifier to append to the library names
 #
-PLAT = _CRAY
+PLAT = _cray
 
 #
 #  The name of the libraries to be created/linked to
@@ -40,7 +40,11 @@ PREDEFS      	= -D__CRAY
 #
 CC           	= cc
 CFLAGS       	= $(PREDEFS) -O3
-
+#
+# There are a few files that should NOT be optimized, which appear in the
+# end of SRC/Makefile, taking the flag $(NOOPTS)
+# NOOPTS should be defined to explicitly turn off any optimization.
+NOOPTS	 =
 ############################################################################
 
 FORTRAN	     	= f90

@@ -1,4 +1,4 @@
-		SuperLU_MT (version 2.0)
+		SuperLU_MT (version 2.1)
 		========================
 
 Copyright (c) 2003, The Regents of the University of California, through
@@ -49,17 +49,17 @@ matrices, in both single and double precision.
 
 The distribution contains the following directory structure:
 
-SuperLU_MT_2.0/README    instructions on installation
-SuperLU_MT_2.0/CBLAS/    BLAS routines in C, functional but not fast
-SuperLU_MT_2.0/DOC/      Users' Guide
-SuperLU_MT_2.0/EXAMPLE/  example programs
-SuperLU_MT_2.0/INSTALL/  test machine dependent parameters; the Users' Guide.
-SuperLU_MT_2.0/MAKE_INC/ sample machine-specific make.inc files
-SuperLU_MT_2.0/SRC/      C source code, to be compiled into libsuperlu_mt.a
-SuperLU_MT_2.0/TESTING/  driver routines to test correctness
-SuperLU_MT_2.0/lib/      SuperLU_MT library archive libsuperlu_mt.a
-SuperLU_MT_2.0/Makefile  top level Makefile that does installation and testing
-SuperLU_MT_2.0/make.inc  compiler, compile flags, library definitions and C
+SuperLU_MT_2.1/README    instructions on installation
+SuperLU_MT_2.1/CBLAS/    BLAS routines in C, functional but not fast
+SuperLU_MT_2.1/DOC/      Users' Guide
+SuperLU_MT_2.1/EXAMPLE/  example programs
+SuperLU_MT_2.1/INSTALL/  test machine dependent parameters; the Users' Guide.
+SuperLU_MT_2.1/MAKE_INC/ sample machine-specific make.inc files
+SuperLU_MT_2.1/SRC/      C source code, to be compiled into libsuperlu_mt.a
+SuperLU_MT_2.1/TESTING/  driver routines to test correctness
+SuperLU_MT_2.1/lib/      SuperLU_MT library archive libsuperlu_mt.a
+SuperLU_MT_2.1/Makefile  top level Makefile that does installation and testing
+SuperLU_MT_2.1/make.inc  compiler, compile flags, library definitions and C
                          preprocessor definitions, included in all Makefiles.
                          (You may need to edit it to suit your system
                           before compiling the whole package.)
@@ -76,18 +76,23 @@ on your system setup:
    The following machine-specific make.inc files are provided in the
    MAKE_INC/ directory:
 
-	make.inc	Platforms
-        --------        ---------
-        make.pthreads   machine that supports POSIX threads
-        make.openmp     machine that supports OpenMP
-        make.alpha      DEC Alpha Servers
-        make.altix    	SGI Altix
-        make.cray       Cray C90/J90
-        make.ibm        IBM Power series
-        make.origin     SGI/Cray Origin2000
-        make.sgi        SGI Power Challenge
-        make.sun        Sun Ultra Enterprise servers
+	make.inc	CPP in CFLAGS	Platforms
+        --------        -------------	---------
+        make.pthread    -D__PTHREAD	POSIX threads
+        make.openmp     -D__OPENMP 	OpenMP
+        make.alpha      -D__DEC		DEC Alpha Servers
+        make.altix    	-D__PTHREAD	SGI Altix
+        make.cray       -D__CRAY	Cray C90/J90
+        make.ibm        -D__PTHREAD	IBM Power series
+        make.origin     -D__ORIGIN	SGI/Cray Origin2000
+        make.sgi        -D__SGI		SGI Power Challenge
+        make.sun        -D__SOLARIS	Sun Ultra Enterprise servers
 
+   In each case, the CFLAGS should include a CPP definition to choose the
+   proper thread program interface. For example, in make.pthread, need:
+
+   	  CFLAGS = -D__PTHREAD ...
+   
    When you have selected the machine to which you wish to install SuperLU_MT,
    copy the appropriate sample include file (if one is present) into 
    make.inc. For example, if you wish to run SuperLU_MT on a Sun SMP system,
@@ -100,6 +105,11 @@ on your system setup:
    for detailed instructions on porting.
    
 2. The BLAS library.
+
+   *********************************************************
+   ** NOTE: must link with a single-thread BLAS library.   *
+   *********************************************************
+   
    The parallel routines in SuperLU_MT uses some sequential BLAS routines
    within each process (or thread). If there is BLAS library available on
    your machine, you may define the following in the file make.inc:
