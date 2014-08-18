@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU MT routine (version 2.1) --
+ * -- SuperLU MT routine (version 2.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -13,10 +13,29 @@
 #define __SUPERLU_cSP_DEFS
 
 /*
- * File name:       pcsp_defs.h
- * Purpose:         Sparse matrix types and function prototypes
- * Modified:        03/20/2013    
+ * File name:           pcsp_defs.h
+ * Purpose:             Sparse matrix types and function prototypes
+ * History:
  */
+
+/****************************
+  Include thread header file
+  ***************************/
+#if defined ( _SOLARIS )
+#include <thread.h>
+#include <sched.h>
+#elif defined( _DEC )
+#include <pthread.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#elif defined ( _OPENMP )
+#include <omp.h>
+#elif defined ( _PTHREAD )
+#include <pthread.h>
+#elif defined ( _CRAY )
+#include <fortran.h>
+#include <string.h>
+#endif
 
 /* Define my integer type int_t */
 typedef int int_t; /* default */
@@ -26,26 +45,6 @@ typedef int int_t; /* default */
 #include "supermatrix.h"
 #include "slu_mt_util.h"
 #include "pxgstrf_synch.h"
-
-/****************************
-  Include thread header file
-  ***************************/
-#if ( MACH==PTHREAD )
-    #include <pthread.h>
-#elif ( MACH==OPENMP )
-    #include <omp.h>
-#elif ( MACH==SUN )
-    #include <thread.h>
-    #include <sched.h>
-#elif ( MACH==DEC )
-    #include <pthread.h>
-    #include <unistd.h>
-    #include <sys/mman.h>
-#elif ( MACH==CRAY_PVP )
-    #include <fortran.h>
-    #include <string.h>
-#endif
-
 
 #include "slu_scomplex.h"
 
@@ -267,6 +266,7 @@ extern void pxgstrf_scheduler (const int, const int, const int *,
 extern int  cParallelInit (int, pxgstrf_relax_t *, superlumt_options_t *,
 			  pxgstrf_shared_t *);
 extern int  ParallelFinalize ();
+extern void pcgstrf_StackFree ();
 extern int  queue_init (queue_t *, int);
 extern int  queue_destroy (queue_t *);
 extern int  EnqueueRelaxSnode (queue_t *, int, pxgstrf_relax_t *,

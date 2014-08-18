@@ -368,10 +368,8 @@ void
 
 #if ( DEBUGlevel>=2 )
 /*  if (jj >= LOCOL && jj <= HICOL) {*/
-  if ( jj==BADCOL ) {
-    dprint_lu_col(pnum, "panel:", jcol, jj, w, pivrow, xprune, Glu);
-    dcheck_zero_vec(pnum, "after pcgstrf_copy_to_ucol() dense_col[]", n, &dense[k]);
-  }
+                cprint_lu_col(pnum, "panel:", jcol, jj, w, pivrow, xprune, Glu);
+                ccheck_zero_vec(pnum, "after pcgstrf_copy_to_ucol() dense_col[]", n, &dense[k]);
 #endif
 		} /* for jj ... */
 		

@@ -1,11 +1,15 @@
 /*
- * -- SuperLU MT routine (version 1.0) --
+ * -- SuperLU MT routine (version 2.2) --
  * Univ. of California Berkeley, Xerox Palo Alto Research Center,
  * and Lawrence Berkeley National Lab.
  * August 15, 1997
  *
+ * Last modified: August 18, 2014
+ *
  */
+#ifdef unix
 #include <unistd.h>
+#endif
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -289,10 +293,12 @@ compressSUP(const int n, GlobalLU_t *Glu)
 }
 
 int check_mem_leak(char *where)
-{ 
+{
+#ifdef unix
     void *addr;
     addr = (void *)sbrk(0);
     printf("\tsbrk(0) %s: addr = %u\n", where, (unsigned int) addr);
+#endif
     return 0;
 }
 

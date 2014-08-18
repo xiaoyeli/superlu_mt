@@ -11,7 +11,9 @@ set NRHS        = (2)
 set LWORK       = (0 10000000)
 set PANELSIZE   = (2)
 set RELAX       = (2)
-set NPROCS	= (1 2)
+set NPROCS	= (1 4)
+
+setenv OMP_NUM_THREADS 4
 
 #
 # Loop through all matrices ...

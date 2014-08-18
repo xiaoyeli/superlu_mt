@@ -9,6 +9,19 @@
 	     where, jcol, pnum, kcol, t2*1e3);\
       fflush(stdout); } }
 
+static int
+check_panel_dfs_list(int pnum, char *msg, int jcol, int nseg, int *segrep)
+{
+    register int k;
+
+    printf("(%d) pcgstrf_panel_bmod(%s) jcol %d, nseg %d in top. order ->\n",
+	   pnum, msg, jcol, nseg);
+    for (k = nseg-1; k >= 0; --k)
+	printf("(%d) segrep-%d ", pnum, segrep[k]);
+    printf("\n");
+    fflush(stdout);
+    return 0;
+}
 
 #ifdef PREDICT_OPT
 
@@ -81,7 +94,8 @@ pcgstrf_panel_bmod(
     complex       *dense_col;  /* dense[] for a column in the panel */
     int          *col_marker; /* each column of the spa_marker[*,w] */
     int          *col_lsub;   /* each column of the panel_lsub[*,w] */
-    static   int first = 1, rowblk, colblk;
+    /*    static   int first = 1, rowblk, colblk;*/
+    register int rowblk = sp_ienv(4), colblk = sp_ienv(5);
 
 #ifdef PROFILE
     double   t1, t2; /* temporary time */
@@ -96,12 +110,14 @@ pcgstrf_panel_bmod(
 #if ( DEBUGlevel>=2 )
     int dbg_addr = 0*m;
 #endif
-    
+
+#if 0    
     if ( first ) {
 	rowblk   = sp_ienv(4);
 	colblk   = sp_ienv(5);
 	first = 0;
     }
+#endif
     
     xsup      = Glu->xsup;
     xsup_end  = Glu->xsup_end;
@@ -433,16 +449,3 @@ if ( jcol==BADCOL )
 
 }
 
-static int
-check_panel_dfs_list(int pnum, char *msg, int jcol, int nseg, int *segrep)
-{
-    register int k;
-
-    printf("(%d) pcgstrf_panel_bmod(%s) jcol %d, nseg %d in top. order ->\n",
-	   pnum, msg, jcol, nseg);
-    for (k = nseg-1; k >= 0; --k)
-	printf("(%d) segrep-%d ", pnum, segrep[k]);
-    printf("\n");
-    fflush(stdout);
-    return 0;
-}

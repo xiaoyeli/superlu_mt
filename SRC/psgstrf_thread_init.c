@@ -144,7 +144,7 @@ psgstrf_thread_init(SuperMatrix *A, SuperMatrix *L, SuperMatrix *U,
 	psgstrf_threadarg[i].pxgstrf_shared = pxgstrf_shared;
     }
 
-#if ( DEBUGlevel==1 )
+#if ( PRNTlevel>=1 )
     printf("** psgstrf_thread_init() called\n");
 #endif
 

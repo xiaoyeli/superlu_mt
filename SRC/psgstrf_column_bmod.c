@@ -101,7 +101,7 @@ psgstrf_column_bmod(
 	k--;
 	ksupno = supno[krep];
 #if ( DEBUGlvel>=2 )
-if (jcol==BADCOL)
+	/* if (jcol==BADCOL)*/
 printf("(%d) psgstrf_column_bmod[1]: %d, nseg %d, krep %d, jsupno %d, ksupno %d\n",
        pnum, jcol, nseg, krep, jsupno, ksupno);
 #endif    
@@ -128,7 +128,7 @@ printf("(%d) psgstrf_column_bmod[1]: %d, nseg %d, krep %d, jsupno %d, ksupno %d\
 	    Gstat->procstat[pnum].fcops += flopcnt;
 
 #if ( DEBUGlevel>=2 )
-if (jcol==BADCOL)	    
+	    /*if (jcol==BADCOL)	   */
 printf("(%d) psgstrf_column_bmod[2]: %d, krep %d, kfnz %d, segsze %d, d_fsupc %d,\
 fsupc %d, nsupr %d, nsupc %d\n",
        pnum, jcol, krep, kfnz, segsze, d_fsupc, fsupc, nsupr, nsupc);
@@ -147,6 +147,7 @@ fsupc %d, nsupr %d, nsupc %d\n",
 		    irow = lsub[i];
 		    dense[irow] -=  ukj*lusup[luptr];
 		    luptr++;
+		    /*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		}
 	    } else if ( segsze <= 3 ) {
 		ukj = dense[lsub[krep_ind]];
@@ -162,6 +163,7 @@ fsupc %d, nsupr %d, nsupc %d\n",
 		    	luptr1++;
 		    	dense[irow] -= ( ukj*lusup[luptr]
 					+ ukj1*lusup[luptr1] );
+			/*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		    }
 		} else { /* Case 3: 3cols-col update */
 		    ukj2 = dense[lsub[krep_ind - 2]];
@@ -177,9 +179,9 @@ fsupc %d, nsupr %d, nsupc %d\n",
 			luptr2++;
 		    	dense[irow] -= ( ukj*lusup[luptr]
 			     + ukj1*lusup[luptr1] + ukj2*lusup[luptr2] );
+			/*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		    }
 		}
-
 
 	    } else {
 	  	/*
@@ -233,6 +235,7 @@ fsupc %d, nsupr %d, nsupc %d\n",
                     dense[irow] = tempv[i]; /* Scatter */
                     tempv[i] = zero;
                     isub++;
+		    /*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
                 }
 
 		/* Scatter tempv1[] into SPA dense[*] */
@@ -241,6 +244,7 @@ fsupc %d, nsupr %d, nsupc %d\n",
                     dense[irow] -= tempv1[i];
 		    tempv1[i] = zero;
 		    ++isub;
+		    /*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		}
 	    } /* else segsze >= 4 */
 	    
@@ -266,6 +270,7 @@ fsupc %d, nsupr %d, nsupc %d\n",
   	irow = lsub[isub];
 	lusup[nextlu] = dense[irow];
 	dense[irow] = zero;
+	/*printf("_column_bmod: jcol %d, zeroed dense[irow %d]\n",jcol,irow);*/
 #ifdef DEBUG
 if (jcol == -1)
     printf("(%d) psgstrf_column_bmod[lusup] jcol %d, irow %d, lusup %.10e\n",

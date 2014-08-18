@@ -67,7 +67,7 @@ pztest: $(ZLINTST) $(ALINTST) ../lib/$(SUPERLULIB) $(TMGLIB)
 	$(LOADER) $(LOADOPTS) $(ZLINTST) $(ALINTST) \
 	$(TMGLIB) ../lib/$(SUPERLULIB) $(BLASLIB) -lm $(MPLIB) -o $@
 
-single: pdtest pstest.out
+single: pstest pstest.out
 
 double: pdtest pdtest.out
 

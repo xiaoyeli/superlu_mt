@@ -77,6 +77,8 @@ psgstrf_copy_to_ucol(
 		    usub[nextu] = perm_r[irow];
 		    ucol[nextu] = dense[irow];
 		    dense[irow] = zero;
+		    /*printf("_copy_to_ucol: jcol %d, zeroed dense[%d] %e\n",
+		      jcol, irow, dense[irow]);*/
 #ifdef DEBUG
 if (jcol == EMPTY)
     printf("(%d) pcopy_to_ucol[]: jcol %d, krep %d, irow %d, ucol %.10e\n",

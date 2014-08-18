@@ -253,6 +253,8 @@ pxgstrf_scheduler(const int pnum, const int n, const int *etree,
 }
 
 
+/* @@@@@@@@@@@@@@ not called @@@@@@@@@@@@@@@@@@ */
+#if 0
 /* Fix the order of the panels to be taken. */
 void
 Preorder(const int pnum, const int n, const int *etree, int *cur_pan,
@@ -284,3 +286,5 @@ Preorder(const int pnum, const int n, const int *etree, int *cur_pan,
     --pxgstrf_shared->tasks_remain;
     *bcol = *cur_pan;
 }
+#endif
+/* @@@@@@@@@@@@@@ not called @@@@@@@@@@@@@@@@@@ */

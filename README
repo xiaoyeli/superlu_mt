@@ -1,4 +1,4 @@
-		SuperLU_MT (version 2.1)
+		SuperLU_MT (version 2.2)
 		========================
 
 Copyright (c) 2003, The Regents of the University of California, through
@@ -49,17 +49,17 @@ matrices, in both single and double precision.
 
 The distribution contains the following directory structure:
 
-SuperLU_MT_2.1/README    instructions on installation
-SuperLU_MT_2.1/CBLAS/    BLAS routines in C, functional but not fast
-SuperLU_MT_2.1/DOC/      Users' Guide
-SuperLU_MT_2.1/EXAMPLE/  example programs
-SuperLU_MT_2.1/INSTALL/  test machine dependent parameters; the Users' Guide.
-SuperLU_MT_2.1/MAKE_INC/ sample machine-specific make.inc files
-SuperLU_MT_2.1/SRC/      C source code, to be compiled into libsuperlu_mt.a
-SuperLU_MT_2.1/TESTING/  driver routines to test correctness
-SuperLU_MT_2.1/lib/      SuperLU_MT library archive libsuperlu_mt.a
-SuperLU_MT_2.1/Makefile  top level Makefile that does installation and testing
-SuperLU_MT_2.1/make.inc  compiler, compile flags, library definitions and C
+SuperLU_MT_2.2/README    instructions on installation
+SuperLU_MT_2.2/CBLAS/    BLAS routines in C, functional but not fast
+SuperLU_MT_2.2/DOC/      Users' Guide
+SuperLU_MT_2.2/EXAMPLE/  example programs
+SuperLU_MT_2.2/INSTALL/  test machine dependent parameters; the Users' Guide.
+SuperLU_MT_2.2/MAKE_INC/ sample machine-specific make.inc files
+SuperLU_MT_2.2/SRC/      C source code, to be compiled into libsuperlu_mt.a
+SuperLU_MT_2.2/TESTING/  driver routines to test correctness
+SuperLU_MT_2.2/lib/      SuperLU_MT library archive libsuperlu_mt.a
+SuperLU_MT_2.2/Makefile  top level Makefile that does installation and testing
+SuperLU_MT_2.2/make.inc  compiler, compile flags, library definitions and C
                          preprocessor definitions, included in all Makefiles.
                          (You may need to edit it to suit your system
                           before compiling the whole package.)

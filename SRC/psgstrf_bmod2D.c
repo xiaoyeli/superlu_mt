@@ -136,6 +136,8 @@ psgstrf_bmod2D(
 		irow = lsub[i];
                 dense_col[irow] -= ukj * lusup[luptr];
 		++luptr;
+
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);
 #ifdef SCATTER_FOUND		
 		if ( col_marker[irow] != jj ) {
 		    col_marker[irow] = jj;
@@ -154,11 +156,13 @@ psgstrf_bmod2D(
 	    if ( segsze == 2 ) {
                 ukj -= ukj1 * lusup[luptr1];
 		dense_col[lsub[krep_ind]] = ukj;
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,lsub[krep_ind],ukj);
 		for (i = lptr + nsupc; i < xlsub_end[fsupc]; ++i) {
 		    irow = lsub[i];
 		    luptr++; luptr1++;
                     dense_col[irow] -= (ukj * lusup[luptr]
                                                 + ukj1 * lusup[luptr1]);
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);
 #ifdef SCATTER_FOUND		
 		    if ( col_marker[irow] != jj ) {
 			col_marker[irow] = jj;
@@ -176,11 +180,14 @@ psgstrf_bmod2D(
                 ukj = ukj - ukj1*lusup[luptr1] - ukj2*lusup[luptr2];
 		dense_col[lsub[krep_ind]] = ukj;
 		dense_col[lsub[krep_ind-1]] = ukj1;
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,lsub[krep_ind],ukj);
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,lsub[krep_ind-1],ukj1);
 		for (i = lptr + nsupc; i < xlsub_end[fsupc]; ++i) {
 		    irow = lsub[i];
 		    luptr++; luptr1++; luptr2++;
                     dense_col[irow] -= (ukj * lusup[luptr]
                              + ukj1*lusup[luptr1] + ukj2*lusup[luptr2]);
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);
 #ifdef SCATTER_FOUND		
 		    if ( col_marker[irow] != jj ) {
 			col_marker[irow] = jj;
@@ -295,6 +302,7 @@ psgstrf_bmod2D(
 	    for (i = 0; i < block_nrow; i++) {
 		irow = lsub[isub];
                 dense_col[irow] -= MatvecTmp[i]; /* Scatter-add */
+		printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);
 #ifdef SCATTER_FOUND		
 		if ( col_marker[irow] != jj ) {
 		    col_marker[irow] = jj;
@@ -330,6 +338,7 @@ psgstrf_bmod2D(
 	for (i = 0; i < segsze; i++) {
 	    irow = lsub[isub];
 	    dense_col[irow] = TriTmp[i]; /* Scatter */
+	    printf("_bmod2D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);
 	    TriTmp[i] = zero;
 	    ++isub;
 	}

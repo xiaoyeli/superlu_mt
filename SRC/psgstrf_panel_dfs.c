@@ -126,6 +126,7 @@ if (jcol == BADPAN)
 	for (k = xa_begin[jj]; k < xa_end[jj]; ++k) {
 	    krow = asub[k];
 	    dense_col[krow] = a[k];
+	    /*printf("panel_dfs: col jj %d, dense_col[krow %d] %e\n", jj,krow,a[k]);*/
 	    kmark = col_marker[krow];
 	    
 	    /* if krow was visited before, go to the next nonzero */

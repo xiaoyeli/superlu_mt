@@ -1,13 +1,14 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 2.2) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
- *
+ * 
+ * Last modified: 
+ * -- 8/29/2013: added lock to access Stack memory supplied by user
+ *   
  */
-#include <stdio.h>
-#include <stdlib.h>
 #include "pcsp_defs.h"
 
 /* ------------------
@@ -42,6 +43,9 @@ typedef struct {
     int  top1;  /* grow upward, relative to &array[0] */
     int  top2;  /* grow downward */
     void *array;
+#if ( MACH==PTHREAD )
+    pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+#endif
 } LU_stack_t;
 
 typedef enum {HEAD, TAIL}   stack_end_t;
@@ -82,34 +86,70 @@ void pcgstrf_SetupSpace(void *work, int lwork)
     }
 }
 
+/*
+ * Destroy the lock used for user stack memory.
+ */
+void pcgstrf_StackFree()
+{
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+     if ( whichspace == USER ) 
+         pthread_mutex_destroy( &stack.lock );
+#endif
+} 
 
 void *cuser_malloc(int bytes, int which_end)
 {
     void *buf;
-    
-    if ( StackFull(bytes) ) return (NULL);
 
-    if ( which_end == HEAD ) {
-	buf = (char*) stack.array + stack.top1;
-	stack.top1 += bytes;
-    } else {
-	stack.top2 -= bytes;
-	buf = (char*) stack.array + stack.top2;
-    }
-    
-    stack.used += bytes;
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+    pthread_mutex_lock( &stack.lock );
+#elif ( MACH==OPENMP ) /* Use openMP ... */
+#pragma omp critical ( STACK_LOCK )
+#endif
+    {    
+        if ( StackFull(bytes) ) {
+            buf = NULL;
+            goto end;
+        }
+
+        if ( which_end == HEAD ) {
+	    buf = (char*) stack.array + stack.top1;
+	    stack.top1 += bytes;
+        } else {
+	    stack.top2 -= bytes;
+	    buf = (char*) stack.array + stack.top2;
+        }
+        stack.used += bytes;
+        
+     end: ;
+    } /* ---- end critical section ---- */
+
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+    pthread_mutex_unlock( &stack.lock );
+#endif
     return buf;
 }
 
 
 void cuser_free(int bytes, int which_end)
 {
-    if ( which_end == HEAD ) {
-	stack.top1 -= bytes;
-    } else {
-	stack.top2 += bytes;
+
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+    pthread_mutex_lock( &stack.lock );
+#elif ( MACH==OPENMP ) /* Use openMP ... */
+#pragma omp critical ( STACK_LOCK )
+#endif
+
+    {
+        if ( which_end == HEAD ) stack.top1 -= bytes;
+        else stack.top2 += bytes;
+        stack.used -= bytes;
     }
-    stack.used -= bytes;
+
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+    pthread_mutex_unlock( &stack.lock );
+#endif
+
 }
 
 
@@ -405,19 +445,29 @@ pcgstrf_WorkInit(int n, int panel_size, int **iworkptr, complex **dworkptr)
     if ( whichspace == SYSTEM )
 	*dworkptr = (complex *) SUPERLU_MALLOC(dsize);
     else {
-	*dworkptr = (complex *) cuser_malloc(dsize, TAIL);
-	if ( NotDoubleAlign(*dworkptr) ) {
-	    old_ptr = *dworkptr;
-	    *dworkptr = (complex*) DoubleAlign(*dworkptr);
-	    *dworkptr = (complex*) ((double*)*dworkptr - 1);
-	    extra = (char*)old_ptr - (char*)*dworkptr;
+	    *dworkptr = (complex *) cuser_malloc(dsize, TAIL);
+	    if ( NotDoubleAlign(*dworkptr) ) {
+	        old_ptr = *dworkptr;
+	        *dworkptr = (complex*) DoubleAlign(*dworkptr);
+	        *dworkptr = (complex*) ((double*)*dworkptr - 1);
+	        extra = (char*)old_ptr - (char*)*dworkptr;
 #ifdef CHK_EXPAND	    
-	    printf("pcgstrf_WorkInit: not aligned, extra %d\n", extra);
+	        printf("pcgstrf_WorkInit: not aligned, extra %d\n", extra);
 #endif	    
-	    stack.top2 -= extra;
-	    stack.used += extra;
-	}
-    }
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+        pthread_mutex_lock( &stack.lock );
+#elif ( MACH==OPENMP ) /* Use openMP ... */
+#pragma omp critical ( STACK_LOCK )
+#endif
+              {
+	        stack.top2 -= extra;
+	        stack.used += extra;
+	      }
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+        pthread_mutex_unlock( &stack.lock );
+#endif
+	    }
+    } /* else */
     if ( ! *dworkptr ) {
 	fprintf(stderr, "malloc fails for local dworkptr[].");
 	return (isize + dsize + n);
@@ -453,9 +503,20 @@ void pcgstrf_WorkFree(int *iwork, complex *dwork, GlobalLU_t *Glu)
 	SUPERLU_FREE (iwork);
 	SUPERLU_FREE (dwork);
     } else {
-	stack.used -= (stack.size - stack.top2);
-	stack.top2 = stack.size;
-/*	pcgstrf_StackCompress(Glu);  */
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+        pthread_mutex_lock( &stack.lock );
+#elif ( MACH==OPENMP ) /* Use openMP ... */
+#pragma omp critical ( STACK_LOCK )
+#endif
+        {
+	    stack.used -= (stack.size - stack.top2);
+	    stack.top2 = stack.size;
+	    
+	    /*	pcgstrf_StackCompress(Glu);  */
+        }
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+        pthread_mutex_unlock( &stack.lock );
+#endif
     }
 }
 
@@ -463,6 +524,10 @@ void pcgstrf_WorkFree(int *iwork, complex *dwork, GlobalLU_t *Glu)
  * Expand the data structures for L and U during the factorization.
  * Return value:   0 - successful return
  *               > 0 - number of bytes allocated when run out of space
+ *
+ * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ * !! Warning: Not Implemented in SuperLU_MT !!
+ * @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
  */
 int
 pcgstrf_MemXpand(
@@ -543,6 +608,7 @@ void
     double   alpha = EXPAND;
     void     *new_mem, *old_mem;
     int      new_len, tries, lword, extra, bytes_to_copy;
+    void     *ret = NULL;
 
     if ( no_expand == 0 || keep_prev ) /* First time allocate requested */
         new_len = *prev_len;
@@ -576,9 +642,6 @@ void
             SUPERLU_FREE (cexpanders[type].mem);
         }
         cexpanders[type].mem = (void *) new_mem;
-#if ( MACH==SGI || MACH==ORIGIN )
-/*      bzero(new_mem, new_len*lword);*/
-#endif
 
     } else { /* whichspace == USER */
         if ( no_expand == 0 ) {
@@ -591,19 +654,36 @@ void
 #ifdef CHK_EXPAND
                 printf("expand(): not aligned, extra %d\n", extra);
 #endif
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+      pthread_mutex_lock( &stack.lock );
+#elif ( MACH==OPENMP ) /* Use openMP ... */
+#pragma omp critical ( STACK_LOCK )
+#endif
+              {
                 stack.top1 += extra;
                 stack.used += extra;
+              }
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+      pthread_mutex_unlock( &stack.lock );
+#endif
             }
             cexpanders[type].mem = (void *) new_mem;
-        }
-        else {
+        } else {
             tries = 0;
             extra = (new_len - *prev_len) * lword;
             if ( keep_prev ) {
-                if ( StackFull(extra) ) return (NULL);
+                if ( StackFull(extra) ) {
+                    new_len = 0;
+                    cexpanders[type].mem = NULL;
+		    return NULL;
+                }
             } else {
                 while ( StackFull(extra) ) {
-                    if ( ++tries > 10 ) return (NULL);
+                    if ( ++tries > 10 ) {
+                        new_len = 0;
+                        cexpanders[type].mem = NULL;
+			return NULL;
+		    }
                     alpha = Reduce(alpha);
                     new_len = alpha * *prev_len;
                     extra = (new_len - *prev_len) * lword;
@@ -636,9 +716,10 @@ void
                 }
 
             } /* if ... */
-
         } /* else ... */
-    }
+
+    } /* else, whichspace == USER */
+
 #ifdef DEBUG
     printf("pcgstrf_expand[type %d]\n", type);
 #endif
@@ -647,7 +728,7 @@ void
     if ( no_expand ) ++no_expand;
 
     return (void *) cexpanders[type].mem;
-
+  
 } /* expand */
 
 
@@ -707,6 +788,7 @@ pcgstrf_StackCompress(GlobalLU_t *Glu)
 #endif    
     
 }
+
 
 /*
  * Allocate storage for original matrix A

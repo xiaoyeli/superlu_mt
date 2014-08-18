@@ -6,9 +6,9 @@
 #
 #  Purpose:         Top-level Definitions
 #
-#  Creation date:   August 15, 1997
+#  Creation date:   October 2, 1995
 #
-#  Modified:	    September 1, 1999 version 1.0
+#  Modified:        March 20, 2013  Version 2.1
 #
 ############################################################################
 #
@@ -19,49 +19,41 @@ PLAT = _OPENMP
 #
 #  The name of the libraries to be created/linked to
 #
-TMGLIB       	= libtmglib$(PLAT).a
-SUPERLULIB   	= libsuperlu_mt$(PLAT).a
-BLASDEF	        = -DUSE_VENDOR_BLAS
-#BLASLIB = ../lib/libblas$(PLAT).a
-MATHLIB		= -lm 
-MPLIB		= -mp=nonuma
- #-lpthread
+TMGLIB       = libtmglib.a
+SUPERLULIB   = libsuperlu_mt$(PLAT).a
 
-#
+BLASDEF   =
+BLASLIB = ../lib/libblas$(PLAT).a
+MATHLIB   = -lm
+MPLIB     =
+
 #  The archiver and the flag(s) to use when building archive (library)
 #  If your system has no ranlib, set RANLIB = echo.
 #
-ARCH          	= ar
-ARCHFLAGS     	= cr
-RANLIB       	= ranlib
-
-############################################################################
-#
+ARCH         = ar
+ARCHFLAGS    = cr
+RANLIB       = ranlib
+ 
 # Definitions used by CPP:
-PREDEFS      	= -D__OPENMP
+PREDEFS         = -D__OPENMP
 #
-CC           	= cc
-CFLAGS       	= $(PREDEFS) -g -DDEBUGlevel=1 -DPRNTlevel=3 -mp=nonuma
+
+CC           = gcc -fopenmp
+CFLAGS       = -O3 $(PREDEFS) -DPRNTlevel=0 -DDEBUGlevel=0
 #
 # There are a few files that should NOT be optimized, which appear in the
 # end of SRC/Makefile, taking the flag $(NOOPTS)
 # NOOPTS should be defined to explicitly turn off any optimization.
-NOOPTS	     	= -O0
-
-BLASOPTS	=
+NOOPTS	 = -O0
 
 ############################################################################
+FORTRAN      = gfortran -fopenmp
+FFLAGS       = 
+LOADER       = gcc -fopenmp
+LOADOPTS     =
 
-FORTRAN		= f77
-FFLAGS		= -O
-
-############################################################################
-
-LOADER       	= cc
-LOADOPTS     	= -O -mp=nonuma  #-pthread
-
-############################################################################
 #
-#  C preprocessor defs for compilation (-DNoChange, -DAdd_, or -DUpCase)
+#  C preprocessor defs for compilation for the Fortran interface
+#  (-DNoChange, -DAdd_, -DAdd__, or -DUpCase)
 #
-CDEFS        	= -DAdd_
+CDEFS        = -DNoChange

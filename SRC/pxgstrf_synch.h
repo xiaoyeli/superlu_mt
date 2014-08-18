@@ -1,9 +1,11 @@
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 2.2) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
+ * Last modified: 
+ * -- 8/29/2013: added lock to access Stack memory supplied by user
  */
 
 #ifndef __SUPERLU_SYNCH /* allow multiple inclusions */
@@ -24,6 +26,7 @@ typedef enum {
     LULOCK,      /* locked once per column in L-supernode */
     NSUPER_LOCK, /* locked once per supernode */
     SCHED_LOCK,  /* locked once per panel, if succeeded each time */
+    STACK_LOCK,  /* locked when upating Stack memory supplied by User */
     NO_GLU_LOCKS
 } lu_locks_t;
 

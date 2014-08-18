@@ -70,12 +70,15 @@ pzgstrf_column_dfs(
     int     ito;	        /* Used to compress row subscripts */
     int     mem_error;
     int     *xsup, *xsup_end, *supno, *lsub, *xlsub, *xlsub_end;
-    static  int  first = 1, maxsuper;
+/*    static  int  first = 1, maxsuper;*/
+    int maxsuper = sp_ienv(3);
 
+#if 0
     if ( first ) {
 	maxsuper = sp_ienv(3);
 	first = 0;
     }
+#endif
 
     /* Initialize pointers */
     xsup      = Glu->xsup;

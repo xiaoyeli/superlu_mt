@@ -129,8 +129,9 @@ if (krep == BADCOL && jj == -1) {
 #endif	    
 	    for (i = lptr + nsupc; i < xlsub_end[fsupc]; i++) {
 		irow = lsub[i];
-                        dense_col[irow] -= ukj * lusup[luptr];
+		dense_col[irow] -= ukj * lusup[luptr];
 		++luptr;
+		/*printf("_bmod1D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);*/
 #ifdef SCATTER_FOUND		
 		if ( col_marker[irow] != jj ) {
 		    col_marker[irow] = jj;
@@ -152,11 +153,14 @@ if (krep == BADCOL && jj == -1) {
 	    if ( segsze == 2 ) {
                 ukj -= ukj1 * lusup[luptr1];
 		dense_col[lsub[krep_ind]] = ukj;
+		/*printf("_bmod1D: jj %d, dense_col[lsub %d] %e\n",jj,lsub[krep_ind],ukj);*/
 		for (i = lptr + nsupc; i < xlsub_end[fsupc]; ++i) {
 		    irow = lsub[i];
 		    ++luptr;  ++luptr1;
-                            dense_col[irow] -= (ukj * lusup[luptr]
+		    dense_col[irow] -= (ukj * lusup[luptr]
                                                 + ukj1 * lusup[luptr1]);
+		    /*printf("_bmod1D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);*/
+
 #ifdef SCATTER_FOUND		
 		    if ( col_marker[irow] != jj ) {
 			col_marker[irow] = jj;
@@ -171,11 +175,15 @@ if (krep == BADCOL && jj == -1) {
                 ukj = ukj - ukj1*lusup[luptr1] - ukj2*lusup[luptr2];
 		dense_col[lsub[krep_ind]] = ukj;
 		dense_col[lsub[krep_ind-1]] = ukj1;
+		/*printf("_bmod1D: jj %d, dense_col[lsub %d] %e\n",jj,lsub[krep_ind],ukj);
+		  printf("_bmod1D: jj %d, dense_col[lsub-1 %d] %e\n",jj,lsub[krep_ind-1],ukj1);*/
 		for (i = lptr + nsupc; i < xlsub_end[fsupc]; ++i) {
 		    irow = lsub[i];
 		    ++luptr; ++luptr1; ++luptr2;
                     dense_col[irow] -= (ukj * lusup[luptr]
                              + ukj1*lusup[luptr1] + ukj2*lusup[luptr2]);
+		    /*printf("_bmod1D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);*/
+
 #ifdef SCATTER_FOUND		
 		    if ( col_marker[irow] != jj ) {
 			col_marker[irow] = jj;
@@ -258,7 +266,7 @@ if (krep == BADCOL && jj == -1) {
 		tempv[i] = zero;
 		isub++;
 #if ( DEBUGlevel>=2 )
-	if (jj == -1 && krep == 3423)
+		/*if (jj == -1 && krep == 3423)*/
 	    printf("(%d) psgstrf_bmod1D[scatter] jj %d, dense_col[%d] %e\n",
 		   pnum, jj, irow, dense_col[irow]);
 #endif
@@ -269,6 +277,8 @@ if (krep == BADCOL && jj == -1) {
 	    for (i = 0; i < nrow; i++) {
 		irow = lsub[isub];
                 dense_col[irow] -= tempv1[i]; /* Scatter-add */
+		/*printf("(%d) psgstrf_bmod1D[scatter-2] jj %d, dense_col[%d] %e\n",
+		  pnum, jj, irow, dense_col[irow]);*/
 #ifdef SCATTER_FOUND		
 		if ( col_marker[irow] != jj ) {
 		    col_marker[irow] = jj;

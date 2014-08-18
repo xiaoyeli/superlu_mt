@@ -68,9 +68,8 @@
  *
  * </pre>
  */
-
+#include <stdio.h>
 #include "pdsp_defs.h"
-
 
 /*! \brief Eat up the rest of the current line */
 static int dDumpLine(FILE *fp)
@@ -148,7 +147,7 @@ static int dReadValues(FILE *fp, int n, double *destination, int perline,
 
     i = 0;
     while (i < n) {
-        fgets(buf, 100, fp);    /* read a line at a time */
+        j = fgets(buf, 100, fp);    /* read a line at a time */
         for (j=0; j<perline && i<n; j++) {
             tmp = buf[(j+1)*persize];     /* save the char at that place */
             buf[(j+1)*persize] = 0;       /* null terminate */
@@ -170,7 +169,7 @@ dreadrb(int *nrow, int *ncol, int *nonz,
         double **nzval, int **rowind, int **colptr)
 {
 
-    register int i, numer_lines = 0;
+    register int i, j, numer_lines = 0;
     int tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
     char buf[100], type[4];
     FILE *fp;
@@ -183,24 +182,24 @@ dreadrb(int *nrow, int *ncol, int *nonz,
 
     /* Line 2 */
     for (i=0; i<4; i++) {
-        fscanf(fp, "%14c", buf); buf[14] = 0;
+        j = fscanf(fp, "%14c", buf); buf[14] = 0;
         sscanf(buf, "%d", &tmp);
         if (i == 3) numer_lines = tmp;
     }
     dDumpLine(fp);
 
     /* Line 3 */
-    fscanf(fp, "%3c", type);
-    fscanf(fp, "%11c", buf); /* pad */
+    j = fscanf(fp, "%3c", type);
+    j = fscanf(fp, "%11c", buf); /* pad */
     type[3] = 0;
 #ifdef DEBUG
     printf("Matrix type %s\n", type);
 #endif
 
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", nrow);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", ncol);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", nonz);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", &tmp);
+    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", nrow);
+    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", ncol);
+    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", nonz);
+    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", &tmp);
 
     if (tmp != 0)
         printf("This is not an assembled matrix!\n");
@@ -212,11 +211,11 @@ dreadrb(int *nrow, int *ncol, int *nonz,
     dallocateA(*ncol, *nonz, nzval, rowind, colptr);
 
     /* Line 4: format statement */
-    fscanf(fp, "%16c", buf);
+    j = fscanf(fp, "%16c", buf);
     dParseIntFormat(buf, &colnum, &colsize);
-    fscanf(fp, "%16c", buf);
+    j = fscanf(fp, "%16c", buf);
     dParseIntFormat(buf, &rownum, &rowsize);
-    fscanf(fp, "%20c", buf);
+    j = fscanf(fp, "%20c", buf);
     dParseFloatFormat(buf, &valnum, &valsize);
     dDumpLine(fp);
 

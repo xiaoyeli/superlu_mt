@@ -308,6 +308,8 @@ ccheck_zero_vec(int pnum, char *msg, int n, complex *vec)
     if ( nonzero ) {
 	printf("(%d) %s\n", pnum, msg);
 	SUPERLU_ABORT("Not a zero vector.");
+    } else {
+        printf(".. Normal exit ccheck_zero_vec() ..\n");
     }
 }
 
