@@ -13,18 +13,22 @@ include ../make.inc
 #  The executable files are called
 #       pslinsol	
 #	pslinsolx
+#	pslinsolx1
 #	psrepeat
 #	psspmd
 #       pdlinsol
 #       pdlinsolx
+#       pdlinsolx1
 #       pdrepeat
 #       pdspmd
 #       pclinsol
 #       pclinsolx
+#       pclinsolx1
 #       pcrepeat
 #       pcspmd
 #       pzlinsol
 #       pzlinsolx
+#       pzlinsolx1
 #       pzrepeat
 #       pzspmd
 #
@@ -37,28 +41,28 @@ HEADER = ../SRC
 
 all:    single double complex complex16
 
-single:    pslinsol pslinsolx psrepeat psspmd
-double:    pdlinsol pdlinsolx pdrepeat pdspmd
-complex:   pclinsol pclinsolx pcrepeat pcspmd
-complex16: pzlinsol pzlinsolx pzrepeat pzspmd
+single:    pslinsol pslinsolx pslinsolx1 psrepeat psspmd
+double:    pdlinsol pdlinsolx pdlinsolx1 pdrepeat pdspmd
+complex:   pclinsol pclinsolx pclinsolx1 pcrepeat pcspmd
+complex16: pzlinsol pzlinsolx pzlinsolx1 pzrepeat pzspmd
 
 SLINOBJS 	= pslinsol.o
-SLINXOBJS 	= pslinsolx.o
+SLINXOBJS 	= pslinsolx.o pslinsolx1.o
 SREPOBJS	= psrepeat.o
 SSPMDOBJS	= psspmd.o 
 
 DLINOBJS	= pdlinsol.o sp_ienv.o
-DLINXOBJS       = pdlinsolx.o
+DLINXOBJS       = pdlinsolx.o pdlinsolx1.o
 DREPOBJS	= pdrepeat.o
 DSPMDOBJS       = pdspmd.o
 
 CLINOBJS	= pclinsol.o
-CLINXOBJS       = pclinsolx.o
+CLINXOBJS       = pclinsolx.o pclinsolx1.o
 CREPOBJS	= pcrepeat.o
 CSPMDOBJS       = pcspmd.o
 
 ZLINOBJS	= pzlinsol.o
-ZLINXOBJS       = pzlinsolx.o
+ZLINXOBJS       = pzlinsolx.o pzlinsolx1.o
 ZREPOBJS	= pzrepeat.o
 ZSPMDOBJS       = pzspmd.o
 
@@ -66,8 +70,12 @@ pslinsol: $(SLINOBJS) ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) $(SLINOBJS) \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
-pslinsolx: $(SLINXOBJS) ../lib/$(SUPERLULIB)
-	$(LOADER) $(LOADOPTS) $(SLINXOBJS) \
+pslinsolx: pslinsolx.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pslinsolx.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
+pslinsolx1: pslinsolx1.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pslinsolx1.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
 psrepeat: $(SREPOBJS) ../lib/$(SUPERLULIB)
@@ -82,8 +90,12 @@ pdlinsol: $(DLINOBJS) ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) $(DLINOBJS) \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
-pdlinsolx: $(DLINXOBJS) ../lib/$(SUPERLULIB)
-	$(LOADER) $(LOADOPTS) $(DLINXOBJS) \
+pdlinsolx: pdlinsolx.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pdlinsolx.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
+pdlinsolx1: pdlinsolx1.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pdlinsolx1.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
 pdrepeat: $(DREPOBJS) ../lib/$(SUPERLULIB)
@@ -98,8 +110,12 @@ pclinsol: $(CLINOBJS) ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) $(CLINOBJS) \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
-pclinsolx: $(CLINXOBJS) ../lib/$(SUPERLULIB)
-	$(LOADER) $(LOADOPTS) $(CLINXOBJS) \
+pclinsolx: pclinsolx.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pclinsolx.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
+pclinsolx1: pclinsolx1.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pclinsolx1.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
 pcrepeat: $(CREPOBJS) ../lib/$(SUPERLULIB)
@@ -114,8 +130,12 @@ pzlinsol: $(ZLINOBJS) ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) $(ZLINOBJS) \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
-pzlinsolx: $(ZLINXOBJS) ../lib/$(SUPERLULIB)
-	$(LOADER) $(LOADOPTS) $(ZLINXOBJS) \
+pzlinsolx: pzlinsolx.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pzlinsolx.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
+pzlinsolx1: pzlinsolx1.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pzlinsolx1.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
 pzrepeat: $(ZREPOBJS) ../lib/$(SUPERLULIB)
@@ -139,5 +159,5 @@ f77exm: $(F77EXM) ../lib/$(SUPERLULIB)
 	$(FORTRAN) $(FFLAGS) -c $< $(VERBOSE)
 
 clean:	
-	rm -f *.o core p*linsol p*linsolx p*repeat p*spmd f77exm
+	rm -f *.o core p*linsol p*linsolx* p*repeat p*spmd f77exm
 

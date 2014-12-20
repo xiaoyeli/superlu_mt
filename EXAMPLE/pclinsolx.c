@@ -130,9 +130,9 @@ main(int argc, char *argv[])
     superlumt_options.refact = refact;
     superlumt_options.panel_size = panel_size;
     superlumt_options.relax = relax;
-    superlumt_options.diag_pivot_thresh = u;
     superlumt_options.usepr = usepr;
     superlumt_options.drop_tol = drop_tol;
+    superlumt_options.diag_pivot_thresh = u;
     superlumt_options.SymmetricMode = NO;
     superlumt_options.PrintStat = NO;
     superlumt_options.perm_c = perm_c;
