@@ -115,11 +115,15 @@ pcgstrf_thread_init(SuperMatrix *A, SuperMatrix *L, SuperMatrix *U,
     /* Identify relaxed supernodes at the bottom of the etree. */
     pxgstrf_relax = (pxgstrf_relax_t *)
         SUPERLU_MALLOC( (size_t) (n+2) * sizeof(pxgstrf_relax_t) );
+
+#if 0
     if ( options->SymmetricMode == YES ) {
         heap_relax_snode(n, options, pxgstrf_relax);
     } else {
         pxgstrf_relax_snode(n, options, pxgstrf_relax);
-    }        
+    }
+#endif        
+    pxgstrf_relax_snode(n, options, pxgstrf_relax);
     
     /* Initialize mutex variables, task queue, determine panels. */
     ParallelInit(n, pxgstrf_relax, options, pxgstrf_shared);

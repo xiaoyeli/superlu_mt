@@ -23,12 +23,13 @@ get_colamd(
 	   )
 {
     int Alen, *A, i, info, *p;
-    double *knobs;
+    double knobs[COLAMD_KNOBS];
+    int stats[COLAMD_STATS];
+
+    /*    if ( !(knobs = (double *) SUPERLU_MALLOC(COLAMD_KNOBS * sizeof(double))) )
+	  SUPERLU_ABORT("Malloc fails for knobs");*/
 
     Alen = colamd_recommended(nnz, m, n);
-
-    if ( !(knobs = (double *) SUPERLU_MALLOC(COLAMD_KNOBS * sizeof(double))) )
-        SUPERLU_ABORT("Malloc fails for knobs");
     colamd_set_defaults(knobs);
 
     if (!(A = (int *) SUPERLU_MALLOC(Alen * sizeof(int))) )
@@ -37,12 +38,14 @@ get_colamd(
         SUPERLU_ABORT("Malloc fails for p[]");
     for (i = 0; i <= n; ++i) p[i] = colptr[i];
     for (i = 0; i < nnz; ++i) A[i] = rowind[i];
-    info = colamd(m, n, Alen, A, p, knobs);
+
+    info = colamd(m, n, Alen, A, p, knobs, stats);
+
     if ( info == FALSE ) SUPERLU_ABORT("COLAMD failed");
 
     for (i = 0; i < n; ++i) perm_c[p[i]] = i;
 
-    SUPERLU_FREE(knobs);
+    /* SUPERLU_FREE(knobs);*/
     SUPERLU_FREE(A);
     SUPERLU_FREE(p);
 }

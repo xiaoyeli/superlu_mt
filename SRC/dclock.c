@@ -30,7 +30,7 @@ double usertimer_()
 }
 
 
-#else  /* unix */
+#else  /* default to unix */
 
 #include <sys/types.h>
 #include <sys/times.h>
