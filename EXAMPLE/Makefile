@@ -159,5 +159,5 @@ f77exm: $(F77EXM) ../lib/$(SUPERLULIB)
 	$(FORTRAN) $(FFLAGS) -c $< $(VERBOSE)
 
 clean:	
-	rm -f *.o core p*linsol p*linsolx* p*repeat p*spmd f77exm
+	rm -f *.o core p*linsol p*linsolx p*linsolx1 p*repeat p*spmd f77exm
 

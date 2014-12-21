@@ -88,7 +88,7 @@ main(int argc, char *argv[])
      *   permc_spec = 2: minimum degree ordering on structure of A'+A
      *   permc_spec = 3: approximate minimum degree for unsymmetric matrices
      */    	
-    permc_spec = 1;
+    permc_spec = 3;
     get_perm_c(permc_spec, &A, perm_c);
 
     pdgssv(nprocs, &A, perm_c, perm_r, &L, &U, &B, &info);
