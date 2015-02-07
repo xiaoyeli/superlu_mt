@@ -14,8 +14,9 @@
  *       compilation to choose the appropriate function.
  *
  */
+#include "slu_mt_machines.h"
 
-#ifdef SUN 
+#if ( MACH==SUN )
 /*
  * 	It uses the system call gethrtime(3C), which is accurate to 
  *	nanoseconds. 
@@ -28,7 +29,7 @@ double SuperLU_timer_() {
 
 #else
 
-#if MACH==OPENMP
+#if ( MACH==OPENMP )
 
 #include <omp.h>
 double SuperLU_timer_()

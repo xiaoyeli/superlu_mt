@@ -211,7 +211,9 @@ sp_colorder(SuperMatrix *A, int *perm_c, superlumt_options_t *options,
 	    cholnzcnt(n, b_colptr, b_rowind,
 		      invp, perm_c, etree, colcnt_h, &nlnz, part_super_h);
 #endif
+#if ( PRNTlevel>=1 ) 
 	    printf(".. bnz %d\n", bnz);
+#endif
 
 	    SUPERLU_FREE(b_colptr);
 	    if ( bnz ) SUPERLU_FREE(b_rowind);

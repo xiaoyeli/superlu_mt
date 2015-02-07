@@ -14,11 +14,11 @@
 
 #define PTHREAD         0
 #define OPENMP		1
-#define SUN             6
 #define SGI	        2
 #define ORIGIN	        3
 #define DEC	        4
 #define CRAY_PVP	5
+#define SUN             6
 
 #ifdef __PTHREAD
 #define MACH PTHREAD

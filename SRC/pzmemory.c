@@ -44,7 +44,7 @@ typedef struct {
     int  top2;  /* grow downward */
     void *array;
 #if ( MACH==PTHREAD )
-    pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t lock;;
 #endif
 } LU_stack_t;
 
@@ -84,6 +84,9 @@ void pzgstrf_SetupSpace(void *work, int lwork)
         stack.top2 = lwork;
         stack.array = (void *) work;
     }
+#if ( MACH==PTHREAD )
+    pthread_mutex_init ( &stack.lock, NULL);
+#endif
 }
 
 /*
