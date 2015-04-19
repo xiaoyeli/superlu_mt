@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -12,7 +12,7 @@
 
 void
 dgscon(char *norm, SuperMatrix *L, SuperMatrix *U,
-       double anorm, double *rcond, int *info)
+       double anorm, double *rcond, int_t *info)
 {
 /*
     Purpose   
@@ -55,7 +55,7 @@ dgscon(char *norm, SuperMatrix *L, SuperMatrix *U,
             The reciprocal of the condition number of the matrix A,   
             computed as RCOND = 1/(norm(A) * norm(inv(A))).
 	    
-    INFO    (output) int*
+    INFO    (output) int_t*
             = 0:  successful exit   
             < 0:  if INFO = -i, the i-th argument had an illegal value   
 
@@ -63,13 +63,14 @@ dgscon(char *norm, SuperMatrix *L, SuperMatrix *U,
 */
 
     /* Local variables */
-    int    kase, kase1, onenrm, i;
+    int_t    kase, kase1, onenrm;
+    int      i;
     double ainvnm;
     double *work;
-    int    *iwork;
-    extern int drscl_(int *, double *, double *, int *);
+    int_t    *iwork;
+    extern int_t drscl_(int_t *, double *, double *, int_t *);
 
-    extern int dlacon_(int *, double *, double *, int *, double *, int *);
+    extern int_t dlacon_(int_t *, double *, double *, int_t *, double *, int_t *);
 
     
     /* Test the input parameters. */

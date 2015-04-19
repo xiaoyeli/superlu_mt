@@ -17,14 +17,14 @@
 /* 
  * Function prototypes 
  */
-extern void cusolve(int, int, complex*, complex*);
-extern void clsolve(int, int, complex*, complex*);
-extern void cmatvec(int, int, int, complex*, complex*, complex*);
+extern void cusolve(int_t, int_t, complex*, complex*);
+extern void clsolve(int_t, int_t, complex*, complex*);
+extern void cmatvec(int_t, int_t, int_t, complex*, complex*, complex*);
 
 
-int
+int_t
 sp_ctrsv(char *uplo, char *trans, char *diag, SuperMatrix *L, 
-         SuperMatrix *U, complex *x, int *info)
+         SuperMatrix *U, complex *x, int_t *info)
 {
 /*
  *   Purpose
@@ -74,7 +74,7 @@ sp_ctrsv(char *uplo, char *trans, char *diag, SuperMatrix *L,
  *             element right-hand side vector b. On exit, X is overwritten 
  *             with the solution vector x.
  *
- *   info    - (output) int*
+ *   info    - (output) int_t*
  *             If *info = -i, the i-th argument had an illegal value.
  *
  */
@@ -88,7 +88,7 @@ sp_ctrsv(char *uplo, char *trans, char *diag, SuperMatrix *L,
     complex temp;
     complex alpha = {1.0, 0.0}, beta = {1.0, 0.0};
     complex comp_zero = {0.0, 0.0};
-    register int fsupc, luptr, istart, irow, k, iptr, jcol, nsuper;
+    register int_t fsupc, luptr, istart, irow, k, iptr, jcol, nsuper;
     int          nsupr, nsupc, nrow, i;
     complex *work;
     flops_t solve_ops;
@@ -394,9 +394,9 @@ sp_ctrsv(char *uplo, char *trans, char *diag, SuperMatrix *L,
 
 
 
-int
+int_t
 sp_cgemv(char *trans, complex alpha, SuperMatrix *A, complex *x, 
-	 int incx, complex beta, complex *y, int incy)
+	 int_t incx, complex beta, complex *y, int_t incy)
 {
 /*  Purpose   
     =======   
@@ -458,9 +458,9 @@ sp_cgemv(char *trans, complex alpha, SuperMatrix *A, complex *x,
     complex   *Aval;
     int info;
     complex temp, temp1;
-    int lenx, leny, i, j, irow;
-    int iy, jx, jy, kx, ky;
-    int notran;
+    int_t lenx, leny, i, j, irow;
+    int_t iy, jx, jy, kx, ky;
+    int_t notran;
     complex comp_zero = {0.0, 0.0};
     complex comp_one = {1.0, 0.0};
 

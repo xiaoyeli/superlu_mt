@@ -3,24 +3,24 @@
 
 void
 psgstrf_panel_dfs(
-		  const int  pnum,  /* process number */
-		  const int  m,     /* number of rows in the matrix */
-		  const int  w,     /* current panel width */
-		  const int  jcol,  /* leading column of the current panel */
+		  const int_t  pnum,  /* process number */
+		  const int_t  m,     /* number of rows in the matrix */
+		  const int_t  w,     /* current panel width */
+		  const int_t  jcol,  /* leading column of the current panel */
 		  SuperMatrix *A,   /* original matrix */
-		  int *perm_r, /* row pivotings that are done so far */
-		  int *xprune, /* in */
-		  int *ispruned,   /* in */
-		  int *lbusy,      /* in; size n */
-		  int *nseg,	   /* out */
-		  int *panel_lsub, /* out */
-		  int *w_lsub_end, /* out; values irrelevant on entry */
-		  int *segrep,     /* out */
-		  int *repfnz,     /* out */
-		  int *marker,     /* modified */
-		  int *spa_marker, /* modified; size n-by-w */
-		  int        *parent,     /* working array */
-		  int *xplore,     /* working array */
+		  int_t *perm_r, /* row pivotings that are done so far */
+		  int_t *xprune, /* in */
+		  int_t *ispruned,   /* in */
+		  int_t *lbusy,      /* in; size n */
+		  int_t *nseg,	   /* out */
+		  int_t *panel_lsub, /* out */
+		  int_t *w_lsub_end, /* out; values irrelevant on entry */
+		  int_t *segrep,     /* out */
+		  int_t *repfnz,     /* out */
+		  int_t *marker,     /* modified */
+		  int_t *spa_marker, /* modified; size n-by-w */
+		  int_t        *parent,     /* working array */
+		  int_t *xplore,     /* working array */
 		  float *dense,      /* out; size n-by-w */
 		  GlobalLU_t *Glu         /* modified */
 		  )
@@ -76,19 +76,19 @@ psgstrf_panel_dfs(
  */
     NCPformat *Astore;
     float    *a;
-    int       *asub;
-    int       *xa_begin, *xa_end;
-    register int krep, chperm, chmark, chrep, kchild, myfnz;
-    register int k, krow, kmark, kperm, fsupc;
-    register int xdfs, maxdfs, kpar, jj, nextp;
-    register int nextl_col;/* next open position in panel_lsub[*,jj] */
-    int       *marker1;	   /* marker1[jj] == jcol if vertex jj was visited 
+    int_t       *asub;
+    int_t       *xa_begin, *xa_end;
+    register int_t krep, chperm, chmark, chrep, kchild, myfnz;
+    register int_t k, krow, kmark, kperm, fsupc;
+    register int_t xdfs, maxdfs, kpar, jj, nextp;
+    register int_t nextl_col;/* next open position in panel_lsub[*,jj] */
+    int_t       *marker1;	   /* marker1[jj] == jcol if vertex jj was visited 
 			      by a previous column within this panel.   */
-    int       *repfnz_col; /* start of each column in the panel */
+    int_t       *repfnz_col; /* start of each column in the panel */
     float    *dense_col;  /* start of each column in the panel */
-    int       *xsup, *xsup_end, *supno, *lsub, *xlsub, *xlsub_end;
+    int_t       *xsup, *xsup_end, *supno, *lsub, *xlsub, *xlsub_end;
 
-    int       *col_marker; /* marker array of each column in the panel */
+    int_t       *col_marker; /* marker array of each column in the panel */
 
     /* Initialize pointers */
     xsup       = Glu->xsup;
@@ -126,7 +126,6 @@ if (jcol == BADPAN)
 	for (k = xa_begin[jj]; k < xa_end[jj]; ++k) {
 	    krow = asub[k];
 	    dense_col[krow] = a[k];
-	    /*printf("panel_dfs: col jj %d, dense_col[krow %d] %e\n", jj,krow,a[k]);*/
 	    kmark = col_marker[krow];
 	    
 	    /* if krow was visited before, go to the next nonzero */
@@ -193,7 +192,7 @@ if (jj == BADCOL)
 #ifdef CHK_DFS
 if (jj == BADCOL)		    
 {
-    register int i;
+    register int_t i;
     printf("(%d) psgstrf_panel_dfs[2] %d, ispruned[%d] %d, xdfs %d, maxdfs %d\n",
 	   pnum, jj, krep, ispruned[krep], xdfs, maxdfs);
     /*for (i = xdfs; i < maxdfs; i++) printf("(%d) lsub-%d", pnum, lsub[i]);*/
@@ -302,7 +301,7 @@ if (jj == BADCOL)
 #ifdef CHK_DFS
 if (jj == BADCOL)			
 {
-    register int i;
+    register int_t i;
     printf("(%d) psgstrf_panel_dfs[5] pop stack: %d, krep %d, xdfs %d, maxdfs %d\n",
 	   pnum, jj, krep, xdfs, maxdfs);
     /* for (i = xdfs; i < maxdfs; i++) printf("(%d) lsub-%d", pnum, lsub[i]);*/

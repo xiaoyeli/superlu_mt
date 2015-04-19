@@ -10,7 +10,7 @@
 
 void
 heap_relax_snode (
-		  const     int n,
+		  const     int_t n,
 		  superlumt_options_t *superlumt_options,
 		  pxgstrf_relax_t *pxgstrf_relax /* relaxed s-nodes */
 		  )
@@ -23,28 +23,28 @@ heap_relax_snode (
  *    the etree.
  *
  */ 
-    register int i, j, k, l, parent;
-    register int snode_start;	/* beginning of a snode */
-    int *et_save, *post, *inv_post, *iwork;
-    int nsuper_et = 0, nsuper_et_post = 0;
+    register int_t i, j, k, l, parent;
+    register int_t snode_start;	/* beginning of a snode */
+    int_t *et_save, *post, *inv_post, *iwork;
+    int_t nsuper_et = 0, nsuper_et_post = 0;
 
-    register int fcol;	 /* beginning of a snode */
-    int *desc;  /* no of descendants of each etree node. */
-    int *et = superlumt_options->etree; /* column elimination tree */
-    int relax = superlumt_options->relax; /* maximum no of columns allowed 
+    register int_t fcol;	 /* beginning of a snode */
+    int_t *desc;  /* no of descendants of each etree node. */
+    int_t *et = superlumt_options->etree; /* column elimination tree */
+    int_t relax = superlumt_options->relax; /* maximum no of columns allowed 
 					     in a relaxed s-node */
     
     desc = intCalloc(n+1);
 
     /* The etree may not be postordered, but is always heap-ordered. */
 
-    if ( !(iwork = (int*) intMalloc(3*n+2)) ) 
+    if ( !(iwork = (int_t*) intMalloc(3*n+2)) ) 
 	SUPERLU_ABORT("SUPERLU_MALLOC fails for iwork[]");
     inv_post = iwork    + n+1;
     et_save  = inv_post + n+1;
 
     /* Post order etree */
-    post = (int *) TreePostorder(n, et);
+    post = (int_t *) TreePostorder(n, et);
     for (i = 0; i < n+1; ++i) inv_post[post[i]] = i;
 
     /* Renumber etree in postorder */

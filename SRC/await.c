@@ -6,9 +6,11 @@
  *
  * This routine should NOT be optimized.
  */
-int await(volatile int *status)
+#include "pdsp_defs.h"
+
+int_t await(volatile int_t *status)
 {
-    register int i, j, k, randnum;
+    register int_t i, j, k, randnum;
 
     /* randnum = ( random() & 0xff ); */
     randnum = 0;

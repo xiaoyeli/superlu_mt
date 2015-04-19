@@ -5,19 +5,19 @@
 
 #define PRINT_SPIN_TIME(where)  { \
   if ( t2 > 0.001 ) { \
-      printf("[%d] Panel%6d on P%2d waits s-node%6d for %8.2f msec.\n",\
+      printf("[" IFMT "] Panel " IFMT " on P" IFMT " waits s-node"IFMT " for %8.2f msec.\n",\
 	     where, jcol, pnum, kcol, t2*1e3);\
       fflush(stdout); } }
 
-static int
-check_panel_dfs_list(int pnum, char *msg, int jcol, int nseg, int *segrep)
+static int_t
+check_panel_dfs_list(int_t pnum, char *msg, int_t jcol, int_t nseg, int_t *segrep)
 {
-    register int k;
+    register int_t k;
 
-    printf("(%d) pdgstrf_panel_bmod(%s) jcol %d, nseg %d in top. order ->\n",
+    printf("(" IFMT ") pdgstrf_panel_bmod(%s) jcol " IFMT ", nseg " IFMT " in top. order ->\n",
 	   pnum, msg, jcol, nseg);
     for (k = nseg-1; k >= 0; --k)
-	printf("(%d) segrep-%d ", pnum, segrep[k]);
+	printf("(" IFMT ") segrep-" IFMT, pnum, segrep[k]);
     printf("\n");
     fflush(stdout);
     return 0;
@@ -26,7 +26,7 @@ check_panel_dfs_list(int pnum, char *msg, int jcol, int nseg, int *segrep)
 #ifdef PREDICT_OPT
 
 /* comparison function used by qsort() - in decreasing order */
-int numcomp(desc_eft_t *a, desc_eft_t *b)
+int_t numcomp(desc_eft_t *a, desc_eft_t *b)
 {
     if ( a->eft < b->eft )
 	return -1;
@@ -39,19 +39,19 @@ int numcomp(desc_eft_t *a, desc_eft_t *b)
 
 void
 pdgstrf_panel_bmod(
-		   const int  pnum, /* process number */
-		   const int  m,    /* number of rows in the matrix */
-		   const int  w,    /* current panel width */
-		   const int  jcol, /* leading column of the current panel */
-		   const int  bcol, /* first column of the farthest busy snode*/
-		   int   *inv_perm_r,/* in; inverse of the row pivoting */
-		   int   *etree,     /* in */
-		   int   *nseg,      /* modified */
-		   int   *segrep,    /* modified */
-		   int   *repfnz,    /* modified, size n-by-w */
-		   int   *panel_lsub,/* modified */
-		   int   *w_lsub_end,/* modified */
-		   int   *spa_marker,/* modified; size n-by-w */
+		   const int_t  pnum, /* process number */
+		   const int_t  m,    /* number of rows in the matrix */
+		   const int_t  w,    /* current panel width */
+		   const int_t  jcol, /* leading column of the current panel */
+		   const int_t  bcol, /* first column of the farthest busy snode*/
+		   int_t   *inv_perm_r,/* in; inverse of the row pivoting */
+		   int_t   *etree,     /* in */
+		   int_t   *nseg,      /* modified */
+		   int_t   *segrep,    /* modified */
+		   int_t   *repfnz,    /* modified, size n-by-w */
+		   int_t   *panel_lsub,/* modified */
+		   int_t   *w_lsub_end,/* modified */
+		   int_t   *spa_marker,/* modified; size n-by-w */
 		   double *dense, /* modified, size n-by-w */
 		   double *tempv, /* working array - zeros on input/output */
 		   pxgstrf_shared_t *pxgstrf_shared /* modified */
@@ -84,18 +84,18 @@ pdgstrf_panel_bmod(
  */
     GlobalLU_t *Glu = pxgstrf_shared->Glu;  /* modified */
     Gstat_t *Gstat = pxgstrf_shared->Gstat; /* modified */
-    register int j, k, ksub;
-    register int fsupc, nsupc, nsupr, nrow;
-    register int kcol, krep, ksupno, dadsupno;
-    register int jj;	      /* index through each column in the panel */
-    int          *xsup, *xsup_end, *supno;
-    int          *lsub, *xlsub, *xlsub_end;
-    int          *repfnz_col; /* repfnz[] for a column in the panel */
+    register int_t j, k, ksub;
+    register int_t fsupc, nsupc, nsupr, nrow;
+    register int_t kcol, krep, ksupno, dadsupno;
+    register int_t jj;	      /* index through each column in the panel */
+    int_t          *xsup, *xsup_end, *supno;
+    int_t          *lsub, *xlsub, *xlsub_end;
+    int_t          *repfnz_col; /* repfnz[] for a column in the panel */
     double       *dense_col;  /* dense[] for a column in the panel */
-    int          *col_marker; /* each column of the spa_marker[*,w] */
-    int          *col_lsub;   /* each column of the panel_lsub[*,w] */
+    int_t          *col_marker; /* each column of the spa_marker[*,w] */
+    int_t          *col_lsub;   /* each column of the panel_lsub[*,w] */
     /*    static   int first = 1, rowblk, colblk;*/
-    register int rowblk = sp_ienv(4), colblk = sp_ienv(5);
+    register int_t rowblk = sp_ienv(4), colblk = sp_ienv(5);
 
 #ifdef PROFILE
     double   t1, t2; /* temporary time */
@@ -104,11 +104,11 @@ pdgstrf_panel_bmod(
 #ifdef PREDICT_OPT    
     register float pmod, max_child_eft = 0, sum_pmod = 0, min_desc_eft = 0;
     register float pmod_eft;
-    register int   kid, ndesc = 0;
+    register int_t   kid, ndesc = 0;
 #endif
     
 #if ( DEBUGlevel>=2 )
-    int dbg_addr = 0*m;
+    int_t dbg_addr = 0*m;
 #endif
 
 #if 0    

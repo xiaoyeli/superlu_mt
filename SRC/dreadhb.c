@@ -1,38 +1,39 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
  */
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "pdsp_defs.h"
 
 
 /* Eat up the rest of the current line */
-int dDumpLine(FILE *fp)
+int_t dDumpLine(FILE *fp)
 {
-    register int c;
+    register int_t c;
     while ((c = fgetc(fp)) != '\n') ;
     return 0;
 }
 
-int dParseIntFormat(char *buf, int *num, int *size)
+int_t dParseIntFormat(char *buf, int_t *num, int_t *size)
 {
     char *tmp;
 
     tmp = buf;
     while (*tmp++ != '(') ;
-    sscanf(tmp, "%d", num);
+    *num = atoi(tmp);
     while (*tmp != 'I' && *tmp != 'i') ++tmp;
     ++tmp;
-    sscanf(tmp, "%d", size);
+    *size = atoi(tmp);
     return 0;
 }
 
-int dParseFloatFormat(char *buf, int *num, int *size)
+int_t dParseFloatFormat(char *buf, int_t *num, int_t *size)
 {
     char *tmp, *period;
     
@@ -59,9 +60,9 @@ int dParseFloatFormat(char *buf, int *num, int *size)
     return 0;
 }
 
-int dReadVector(FILE *fp, int n, int *where, int perline, int persize)
+int_t dReadVector(FILE *fp, int_t n, int_t *where, int_t perline, int_t persize)
 {
-    register int i, j, item;
+    register int_t i, j, item;
     char tmp, buf[100];
     
     i = 0;
@@ -79,9 +80,9 @@ int dReadVector(FILE *fp, int n, int *where, int perline, int persize)
     return 0;
 }
 
-int dReadValues(FILE *fp, int n, double *destination, int perline, int persize)
+int_t dReadValues(FILE *fp, int_t n, double *destination, int_t perline, int_t persize)
 {
-    register int i, j, k, s;
+    register int_t i, j, k, s;
     char tmp, buf[100];
     
     i = 0;
@@ -104,8 +105,8 @@ int dReadValues(FILE *fp, int n, double *destination, int perline, int persize)
 
 
 void
-dreadhb(int *nrow, int *ncol, int *nonz,
-	double **nzval, int **rowind, int **colptr)
+dreadhb(int_t *nrow, int_t *ncol, int_t *nonz,
+	double **nzval, int_t **rowind, int_t **colptr)
 {
 /* 
  * Purpose
@@ -174,8 +175,8 @@ dreadhb(int *nrow, int *ncol, int *nonz,
  *
  */
 
-    register int i, numer_lines, rhscrd = 0;
-    int tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
+    register int_t i, numer_lines, rhscrd = 0;
+    int_t tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
     char buf[100], type[4], key[10];
     FILE *fp;
 
@@ -191,7 +192,7 @@ dreadhb(int *nrow, int *ncol, int *nonz,
     /* Line 2 */
     for (i=0; i<5; i++) {
 	fscanf(fp, "%14c", buf); buf[14] = 0;
-	sscanf(buf, "%d", &tmp);
+	tmp = atoi(buf); /*sscanf(buf, "%d", &tmp);*/
 	if (i == 3) numer_lines = tmp;
 	if (i == 4 && tmp) rhscrd = tmp;
     }
@@ -201,14 +202,14 @@ dreadhb(int *nrow, int *ncol, int *nonz,
     fscanf(fp, "%3c", type);
     fscanf(fp, "%11c", buf); /* pad */
     type[3] = 0;
-#ifdef DEBUG
+#if ( DEBUGlevel>=1 )
     printf("Matrix type %s\n", type);
 #endif
     
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", nrow);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", ncol);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", nonz);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", &tmp);
+    fscanf(fp, "%14c", buf); *nrow = atoi(buf); 
+    fscanf(fp, "%14c", buf); *ncol = atoi(buf); 
+    fscanf(fp, "%14c", buf); *nonz = atoi(buf); 
+    fscanf(fp, "%14c", buf); tmp = atoi(buf);   
     
     if (tmp != 0)
 	  printf("This is not an assembled matrix!\n");
@@ -232,7 +233,7 @@ dreadhb(int *nrow, int *ncol, int *nonz,
     /* Line 5: right-hand side */    
     if ( rhscrd ) dDumpLine(fp); /* skip RHSFMT */
     
-#ifdef DEBUG
+#if ( DEBUGlevel>=1 )
     printf("%d rows, %d nonzeros\n", *nrow, *nonz);
     printf("colnum %d, colsize %d\n", colnum, colsize);
     printf("rownum %d, rowsize %d\n", rownum, rowsize);

@@ -2,14 +2,14 @@
 #include "pssp_defs.h"
 
 
-int
+int_t
 psgstrf_copy_to_ucol(
-		     const int  pnum,    /* process number */
-		     const int  jcol,	 /* current column */
-		     const int  nseg,	 /* number of U-segments */
-		     const int  *segrep, /* in */
-		     const int  *repfnz, /* in */
-		     const int  *perm_r, /* in */
+		     const int_t  pnum,    /* process number */
+		     const int_t  jcol,	 /* current column */
+		     const int_t  nseg,	 /* number of U-segments */
+		     const int_t  *segrep, /* in */
+		     const int_t  *repfnz, /* in */
+		     const int_t  *perm_r, /* in */
 		     float	 *dense,  /* modified - reset to zero on exit */
 		     pxgstrf_shared_t *pxgstrf_shared /* modified */
 		     )
@@ -20,12 +20,12 @@ psgstrf_copy_to_ucol(
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
- * Gather the nonzeros from SPA dense[*,jcol] into global ucol[*].
+ * Gather the nonzeros from SPA dense[*,jcol] int_to global ucol[*].
  */
-    register int ksub, krep, ksupno, i, k, kfnz, segsze;
-    register int fsupc, isub, irow, jsupno, colsize;
-    int      nextu, mem_error;
-    int      *xsup, *supno, *lsub, *xlsub, *usub;
+    register int_t ksub, krep, ksupno, i, k, kfnz, segsze;
+    register int_t fsupc, isub, irow, jsupno, colsize;
+    int_t      nextu, mem_error;
+    int_t      *xsup, *supno, *lsub, *xlsub, *usub;
     float   *ucol;
     GlobalLU_t *Glu = pxgstrf_shared->Glu; /* modified */
 
@@ -77,8 +77,6 @@ psgstrf_copy_to_ucol(
 		    usub[nextu] = perm_r[irow];
 		    ucol[nextu] = dense[irow];
 		    dense[irow] = zero;
-		    /*printf("_copy_to_ucol: jcol %d, zeroed dense[%d] %e\n",
-		      jcol, irow, dense[irow]);*/
 #ifdef DEBUG
 if (jcol == EMPTY)
     printf("(%d) pcopy_to_ucol[]: jcol %d, krep %d, irow %d, ucol %.10e\n",

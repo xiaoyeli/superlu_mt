@@ -123,6 +123,7 @@ complex16: $(ZLUSRC) $(ALLAUX) $(DZAUX)
 dlamch.o: dlamch.c ; $(CC) -c $(NOOPTS) $<
 slamch.o: slamch.c ; $(CC) -c $(NOOPTS) $<
 superlu_timer.o:  superlu_timer.c ; $(CC) -c $(PREDEFS) $(NOOPTS) $<
+dclock.o:  dclock.c ; $(CC) -c $(PREDEFS) $(NOOPTS) $<
 
 # Do not optimize this on Cray; related to 'volatile' variable.
 await.o: await.c

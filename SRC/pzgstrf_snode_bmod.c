@@ -1,12 +1,12 @@
 
 #include "pzsp_defs.h"
 
-int
+int_t
 pzgstrf_snode_bmod(
-		   const int  pnum,   /* process number */
-		   const int  jcol,   /* in - current column in the s-node */
-		   const int  jsupno, /* in */
-		   const int  fsupc,  /* in - first column in the s-node */
+		   const int_t  pnum,   /* process number */
+		   const int_t  jcol,   /* in - current column in the s-node */
+		   const int_t  jsupno, /* in */
+		   const int_t  fsupc,  /* in - first column in the s-node */
 		   doublecomplex     *dense, /* in */
 		   doublecomplex     *tempv, /* working array */
 		   GlobalLU_t *Glu,   /* modified */
@@ -34,11 +34,12 @@ pzgstrf_snode_bmod(
     doublecomplex         alpha = none, beta = one;
 #endif
     
-    int            luptr, nsupc, nsupr, nrow;
-    int            isub, irow, i, iptr; 
-    register int   ufirst, nextlu;
+    int_t            luptr;
+    int              nsupc, nsupr, nrow;
+    int_t            isub, irow, i, iptr; 
+    register int_t   ufirst, nextlu;
     doublecomplex         *lusup;
-    int            *lsub, *xlsub, *xlsub_end, *xlusup, *xlusup_end;
+    int_t            *lsub, *xlsub, *xlsub_end, *xlusup, *xlusup_end;
     register float flopcnt;
 
     lsub       = Glu->lsub;

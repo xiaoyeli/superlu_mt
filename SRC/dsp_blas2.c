@@ -17,14 +17,14 @@
 /* 
  * Function prototypes 
  */
-extern void dusolve(int, int, double*, double*);
-extern void dlsolve(int, int, double*, double*);
-extern void dmatvec(int, int, int, double*, double*, double*);
+extern void dusolve(int_t, int_t, double*, double*);
+extern void dlsolve(int_t, int_t, double*, double*);
+extern void dmatvec(int_t, int_t, int_t, double*, double*, double*);
 
 
-int
+int_t
 sp_dtrsv(char *uplo, char *trans, char *diag, SuperMatrix *L, 
-         SuperMatrix *U, double *x, int *info)
+         SuperMatrix *U, double *x, int_t *info)
 {
 /*
  *   Purpose
@@ -74,7 +74,7 @@ sp_dtrsv(char *uplo, char *trans, char *diag, SuperMatrix *L,
  *             element right-hand side vector b. On exit, X is overwritten 
  *             with the solution vector x.
  *
- *   info    - (output) int*
+ *   info    - (output) int_t*
  *             If *info = -i, the i-th argument had an illegal value.
  *
  */
@@ -86,7 +86,7 @@ sp_dtrsv(char *uplo, char *trans, char *diag, SuperMatrix *L,
     double   *Lval, *Uval;
     int incx = 1, incy = 1;
     double alpha = 1.0, beta = 1.0;
-    register int fsupc, luptr, istart, irow, k, iptr, jcol, nsuper;
+    register int_t fsupc, luptr, istart, irow, k, iptr, jcol, nsuper;
     int          nsupr, nsupc, nrow, i;
     double *work;
     flops_t solve_ops;
@@ -304,9 +304,9 @@ sp_dtrsv(char *uplo, char *trans, char *diag, SuperMatrix *L,
 
 
 
-int
+int_t
 sp_dgemv(char *trans, double alpha, SuperMatrix *A, double *x, 
-	 int incx, double beta, double *y, int incy)
+	 int_t incx, double beta, double *y, int_t incy)
 {
 /*  Purpose   
     =======   
@@ -370,9 +370,9 @@ sp_dgemv(char *trans, double alpha, SuperMatrix *A, double *x,
     double   *Aval;
     int info;
     double temp;
-    int lenx, leny, i, j, irow;
-    int iy, jx, jy, kx, ky;
-    int notran;
+    int_t lenx, leny, i, j, irow;
+    int_t iy, jx, jy, kx, ky;
+    int_t notran;
 
     notran = lsame_(trans, "N");
     Astore = A->Store;

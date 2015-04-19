@@ -4,12 +4,12 @@
 void
 pzgstrf_thread_finalize(pzgstrf_threadarg_t *pzgstrf_threadarg, 
 			pxgstrf_shared_t *pxgstrf_shared,
-			SuperMatrix *A, int *perm_r,
+			SuperMatrix *A, int_t *perm_r,
 			SuperMatrix *L, SuperMatrix *U
 			)
 {
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -22,6 +22,8 @@ pzgstrf_thread_finalize(pzgstrf_threadarg_t *pzgstrf_threadarg,
  * factorization pzgstrf_thread(). It sets up the L and U data
  * structures, and deallocats the storage associated with the structures
  * pxgstrf_shared and pzgstrf_threadarg.
+ *
+ * Only Master thread calls this routine.
  *
  * Arguments
  * =========
@@ -38,7 +40,7 @@ pzgstrf_thread_finalize(pzgstrf_threadarg_t *pzgstrf_threadarg,
  *          (A->nrow, A->ncol). The type of A can be:
  *          Stype = NCP; Dtype = _D; Mtype = GE.
  *
- * perm_r   (input) int*, dimension A->nrow
+ * perm_r   (input) int_t*, dimension A->nrow
  *          Row permutation vector which defines the permutation matrix Pr,
  *          perm_r[i] = j means row i of A is in position j in Pr*A.
  *
@@ -54,8 +56,8 @@ pzgstrf_thread_finalize(pzgstrf_threadarg_t *pzgstrf_threadarg,
  *
  *
  */
-    register int nprocs, n, i, iinfo;
-    int       nnzL, nnzU;
+    register int_t nprocs, n, i, iinfo;
+    int_t       nnzL, nnzU;
     superlumt_options_t *superlumt_options;
     GlobalLU_t *Glu;
     extern ExpHeader *zexpanders;

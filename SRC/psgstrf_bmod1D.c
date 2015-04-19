@@ -3,25 +3,25 @@
 #include <stdlib.h>
 #include "pssp_defs.h"
 
-void slsolve(int, int, float *, float *);
-void smatvec(int, int, int, float *, float *, float *);
+void slsolve(int_t, int_t, float *, float *);
+void smatvec(int_t, int_t, int_t, float *, float *, float *);
 
 void
 psgstrf_bmod1D(
-	       const int pnum,  /* process number */
-	       const int m,     /* number of rows in the matrix */
-	       const int w,     /* current panel width */
-	       const int jcol,  /* leading column of the current panel */
-	       const int fsupc, /* leading column of the updating supernode */ 
-	       const int krep,  /* last column of the updating supernode */ 
-	       const int nsupc, /* number of columns in the updating s-node */ 
-	       int nsupr, /* number of rows in the updating supernode */  
-	       int nrow,  /* number of rows below the diagonal block of
+	       const int_t pnum,  /* process number */
+	       const int_t m,     /* number of rows in the matrix */
+	       const int_t w,     /* current panel width */
+	       const int_t jcol,  /* leading column of the current panel */
+	       const int_t fsupc, /* leading column of the updating supernode */ 
+	       const int_t krep,  /* last column of the updating supernode */ 
+	       const int_t nsupc, /* number of columns in the updating s-node */ 
+	       int_t nsupr, /* number of rows in the updating supernode */  
+	       int_t nrow,  /* number of rows below the diagonal block of
 			     the updating supernode */ 
-	       int *repfnz,     /* in */
-	       int *panel_lsub, /* modified */
-	       int *w_lsub_end, /* modified */
-	       int *spa_marker, /* modified; size n-by-w */
+	       int_t *repfnz,     /* in */
+	       int_t *panel_lsub, /* modified */
+	       int_t *w_lsub_end, /* modified */
+	       int_t *spa_marker, /* modified; size n-by-w */
 	       float *dense,   /* modified */
 	       float *tempv,   /* working array - zeros on entry/exit */
 	       GlobalLU_t *Glu, /* modified */
@@ -53,19 +53,19 @@ psgstrf_bmod1D(
 #endif
 
     float       ukj, ukj1, ukj2;
-    int          luptr, luptr1, luptr2;
-    int          segsze;
-    register int lptr; /* start of row subscripts of the updating supernode */
-    register int i, krep_ind, kfnz, isub, irow, no_zeros;
-    register int jj;	      /* index through each column in the panel */
-    int          *repfnz_col; /* repfnz[] for a column in the panel */
+    int_t          luptr, luptr1, luptr2;
+    int            segsze, nrow32 = nrow, nsupr32 = nsupr;
+    register int_t lptr; /* start of row subscripts of the updating supernode */
+    register int_t i, krep_ind, kfnz, isub, irow, no_zeros;
+    register int_t jj;	      /* index through each column in the panel */
+    int_t          *repfnz_col; /* repfnz[] for a column in the panel */
     float       *dense_col;  /* dense[] for a column in the panel */
     float      *tempv1;     /* used to store matrix-vector result */
-    int          *col_marker; /* each column of the spa_marker[*,w] */
-    int          *col_lsub;   /* each column of the panel_lsub[*,w] */
-    int          *lsub, *xlsub_end;
+    int_t          *col_marker; /* each column of the spa_marker[*,w] */
+    int_t          *col_lsub;   /* each column of the panel_lsub[*,w] */
+    int_t          *lsub, *xlsub_end;
     float       *lusup;
-    int          *xlusup;
+    int_t          *xlusup;
     register float flopcnt;
 
     float      zero = 0.0;
@@ -129,9 +129,8 @@ if (krep == BADCOL && jj == -1) {
 #endif	    
 	    for (i = lptr + nsupc; i < xlsub_end[fsupc]; i++) {
 		irow = lsub[i];
-		dense_col[irow] -= ukj * lusup[luptr];
+                        dense_col[irow] -= ukj * lusup[luptr];
 		++luptr;
-		/*printf("_bmod1D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);*/
 #ifdef SCATTER_FOUND		
 		if ( col_marker[irow] != jj ) {
 		    col_marker[irow] = jj;
@@ -153,14 +152,11 @@ if (krep == BADCOL && jj == -1) {
 	    if ( segsze == 2 ) {
                 ukj -= ukj1 * lusup[luptr1];
 		dense_col[lsub[krep_ind]] = ukj;
-		/*printf("_bmod1D: jj %d, dense_col[lsub %d] %e\n",jj,lsub[krep_ind],ukj);*/
 		for (i = lptr + nsupc; i < xlsub_end[fsupc]; ++i) {
 		    irow = lsub[i];
 		    ++luptr;  ++luptr1;
-		    dense_col[irow] -= (ukj * lusup[luptr]
+                            dense_col[irow] -= (ukj * lusup[luptr]
                                                 + ukj1 * lusup[luptr1]);
-		    /*printf("_bmod1D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);*/
-
 #ifdef SCATTER_FOUND		
 		    if ( col_marker[irow] != jj ) {
 			col_marker[irow] = jj;
@@ -175,15 +171,11 @@ if (krep == BADCOL && jj == -1) {
                 ukj = ukj - ukj1*lusup[luptr1] - ukj2*lusup[luptr2];
 		dense_col[lsub[krep_ind]] = ukj;
 		dense_col[lsub[krep_ind-1]] = ukj1;
-		/*printf("_bmod1D: jj %d, dense_col[lsub %d] %e\n",jj,lsub[krep_ind],ukj);
-		  printf("_bmod1D: jj %d, dense_col[lsub-1 %d] %e\n",jj,lsub[krep_ind-1],ukj1);*/
 		for (i = lptr + nsupc; i < xlsub_end[fsupc]; ++i) {
 		    irow = lsub[i];
 		    ++luptr; ++luptr1; ++luptr2;
                     dense_col[irow] -= (ukj * lusup[luptr]
                              + ukj1*lusup[luptr1] + ukj2*lusup[luptr2]);
-		    /*printf("_bmod1D: jj %d, dense_col[irow %d] %e\n",jj,irow,dense_col[irow]);*/
-
 #ifdef SCATTER_FOUND		
 		    if ( col_marker[irow] != jj ) {
 			col_marker[irow] = jj;
@@ -238,8 +230,8 @@ if (krep == BADCOL && jj == -1) {
 	    SGEMV( ftcs2, &nrow, &segsze, &alpha, &lusup[luptr], 
 		  &nsupr, tempv, &incx, &beta, tempv1, &incy );
 #else
-	    sgemv_( "N", &nrow, &segsze, &alpha, &lusup[luptr], 
-		   &nsupr, tempv, &incx, &beta, tempv1, &incy );
+	    sgemv_( "N", &nrow32, &segsze, &alpha, &lusup[luptr], 
+		   &nsupr32, tempv, &incx, &beta, tempv1, &incy );
 #endif /* _CRAY_PVP */
 #else
 	    slsolve ( nsupr, segsze, &lusup[luptr], tempv );
@@ -266,7 +258,7 @@ if (krep == BADCOL && jj == -1) {
 		tempv[i] = zero;
 		isub++;
 #if ( DEBUGlevel>=2 )
-		/*if (jj == -1 && krep == 3423)*/
+	if (jj == -1 && krep == 3423)
 	    printf("(%d) psgstrf_bmod1D[scatter] jj %d, dense_col[%d] %e\n",
 		   pnum, jj, irow, dense_col[irow]);
 #endif
@@ -277,8 +269,6 @@ if (krep == BADCOL && jj == -1) {
 	    for (i = 0; i < nrow; i++) {
 		irow = lsub[isub];
                 dense_col[irow] -= tempv1[i]; /* Scatter-add */
-		/*printf("(%d) psgstrf_bmod1D[scatter-2] jj %d, dense_col[%d] %e\n",
-		  pnum, jj, irow, dense_col[irow]);*/
 #ifdef SCATTER_FOUND		
 		if ( col_marker[irow] != jj ) {
 		    col_marker[irow] = jj;

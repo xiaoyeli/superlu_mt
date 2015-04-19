@@ -1,17 +1,9 @@
 
 #include "pssp_defs.h"
 
-
-#if ( MACH==CRAY_PVP )
-fortran void STRSM(_fcd, _fcd, _fcd, _fcd, int*, int*, float*,
-		   float*, int*, float*, int*);
-fortran void SGEMM(_fcd, _fcd, int*, int*, int*, float*, float*, 
-		   int*, float*, int*, float*, float*, int*);
-#endif
-
 void
 sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U, 
-       int *perm_r, int *perm_c, SuperMatrix *B, Gstat_t *Gstat, int *info)
+       int_t *perm_r, int_t *perm_c, SuperMatrix *B, Gstat_t *Gstat, int_t *info)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -44,12 +36,12 @@ sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
  *         psgstrf(). Use column-wise storage scheme, i.e., U has types:
  *         Stype = NCP, Dtype = _D, Mtype = TRU.
  *
- * perm_r  (input) int*
+ * perm_r  (input) int_t*
  *         Row permutation vector of size L->nrow, which defines the
  *         permutation matrix Pr; perm_r[i] = j means row i of A is in
  *         position j in Pr*A.
  *
- * perm_c  (int*) dimension A->ncol
+ * perm_c  (int_t*) dimension A->ncol
  *	   Column permutation vector, which defines the 
  *         permutation matrix Pc; perm_c[i] = j means column i of A is 
  *         in position j in A*Pc.
@@ -77,10 +69,11 @@ sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
     float   alpha = 1.0, beta = 1.0;
 #endif
 
-    register int j, k, jcol, iptr, luptr, ksupno, istart, irow, bptr;
-    register int fsupc, nsuper;
-    int      i, n, nsupc, nsupr, nrow, nrhs, ldb;
-    int      *supno;
+    register int_t j, k, jcol, iptr, luptr, ksupno, istart, irow, bptr;
+    register int_t fsupc, nsuper;
+    int_t      n, nsupc, nsupr, nrow, nrhs, ldb;
+    int        i;
+    int_t      *supno;
     DNformat *Bstore;
     SCPformat *Lstore;
     NCPformat *Ustore;
@@ -309,10 +302,10 @@ sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
  * Diagnostic print of the solution vector
  */
 void
-sprint_soln(int n, int nrhs, float *soln)
+sprint_soln(int_t n, int_t nrhs, float *soln)
 {
-    int i;
+    int_t i;
 
     for (i = 0; i < n; i++)
-	printf("\t%d: %.10f\n", i, soln[i]);
+	printf("\t" IFMT ": %.10f\n", i, soln[i]);
 }

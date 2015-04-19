@@ -3,18 +3,18 @@
 #include <stdlib.h>
 #include "pcsp_defs.h"
 
-void clsolve(int, int, complex*, complex*);
-void cmatvec(int, int, int, complex*, complex*, complex*);
+void clsolve(int_t, int_t, complex*, complex*);
+void cmatvec(int_t, int_t, int_t, complex*, complex*, complex*);
 
 
-int
+int_t
 pcgstrf_column_bmod(
-		    const int  pnum,   /* process number */
-		    const int  jcol,   /* current column in the panel */
-		    const int  fpanelc,/* first column in the panel */
-		    const int  nseg,   /* number of s-nodes to update jcol */
-		    int        *segrep,/* in */
-		    int        *repfnz,/* in */
+		    const int_t  pnum,   /* process number */
+		    const int_t  jcol,   /* current column in the panel */
+		    const int_t  fpanelc,/* first column in the panel */
+		    const int_t  nseg,   /* number of s-nodes to update jcol */
+		    int_t        *segrep,/* in */
+		    int_t        *repfnz,/* in */
 		    complex     *dense, /* modified */
 		    complex     *tempv, /* working array */
 		    pxgstrf_shared_t *pxgstrf_shared, /* modified */
@@ -60,21 +60,22 @@ pcgstrf_column_bmod(
      * no_zeros = no of leading zeros in a supernodal U-segment
      */
     complex	  ukj, ukj1, ukj2;
-    register int lptr, kfnz, isub, irow, i, no_zeros;
-    register int luptr, luptr1, luptr2;
-    int          fsupc, nsupc, nsupr, segsze;
-    int          nrow;	  /* No of rows in the matrix of matrix-vector */
-    int          jsupno, k, ksub, krep, krep_ind, ksupno;
-    int          ufirst, nextlu;
-    int          fst_col; /* First column within small LU update */
-    int          d_fsupc; /* Distance between the first column of the current
+    register int_t lptr, kfnz, isub, irow, i, no_zeros;
+    register int_t luptr, luptr1, luptr2;
+    int_t          fsupc, nsupc;
+    int          nsupr, segsze;
+    int          nrow; /* No of rows in the matrix of matrix-vector */
+    int_t          jsupno, k, ksub, krep, krep_ind, ksupno;
+    int_t          ufirst, nextlu;
+    int_t          fst_col; /* First column within small LU update */
+    int_t          d_fsupc; /* Distance between the first column of the current
 			     panel and the first column of the current snode.*/
-    int          *xsup, *supno;
-    int          *lsub, *xlsub, *xlsub_end;
+    int_t          *xsup, *supno;
+    int_t          *lsub, *xlsub, *xlsub_end;
     complex       *lusup;
-    int          *xlusup, *xlusup_end;
+    int_t          *xlusup, *xlusup_end;
     complex       *tempv1;
-    int          mem_error;
+    int_t          mem_error;
     register float flopcnt;
 
     complex      zero = {0.0, 0.0};
@@ -237,11 +238,11 @@ fsupc %d, nsupr %d, nsupc %d\n",
 		       &nsupr, tempv, &incx, &beta, tempv1, &incy );
 #endif
 #else
-		clsolve ( nsupr, segsze, &lusup[luptr], tempv );
+		clsolve ( (int_t) nsupr, (int_t) segsze, &lusup[luptr], tempv );
 
  		luptr += segsze;  /* Dense matrix-vector */
 		tempv1 = &tempv[segsze];
-		cmatvec (nsupr, nrow , segsze, &lusup[luptr], tempv, tempv1);
+		cmatvec ((int_t)nsupr, (int_t)nrow, (int_t)segsze, &lusup[luptr], tempv, tempv1);
 #endif
                 /* Scatter tempv[] into SPA dense[*] */
                 isub = lptr + no_zeros;

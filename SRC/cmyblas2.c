@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU routine (version 2.0) --
+ * -- SuperLU routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -14,6 +14,7 @@
  *     This is only used when the system lacks an efficient BLAS library.
  */
 #include "slu_scomplex.h"
+#include "pcsp_defs.h"
 
 
 /*
@@ -21,13 +22,13 @@
  * triangular matrix is stored in a 2D array M(1:nrow,1:ncol). 
  * The solution will be returned in the rhs vector.
  */
-void clsolve ( int ldm, int ncol, complex *M, complex *rhs )
+void clsolve ( int_t ldm, int_t ncol, complex *M, complex *rhs )
 {
-    int k;
+    int_t k;
     complex x0, x1, x2, x3, temp;
     complex *M0;
     complex *Mki0, *Mki1, *Mki2, *Mki3;
-    register int firstcol = 0;
+    register int_t firstcol = 0;
 
     M0 = &M[0];
 
@@ -99,14 +100,14 @@ void clsolve ( int ldm, int ncol, complex *M, complex *rhs )
  */
 void
 cusolve (
-int ldm,	/* in */
-int ncol,	/* in */
+int_t ldm,	/* in */
+int_t ncol,	/* in */
 complex *M,	/* in */
 complex *rhs	/* modified */
 )
 {
     complex xj, temp;
-    int jcol, j, irow;
+    int_t jcol, j, irow;
 
     jcol = ncol - 1;
 
@@ -131,9 +132,9 @@ complex *rhs	/* modified */
  * The input matrix is M(1:nrow,1:ncol); The product is returned in Mxvec[].
  */
 void cmatvec (
-int ldm,	/* in -- leading dimension of M */
-int nrow,	/* in */ 
-int ncol,	/* in */
+int_t ldm,	/* in -- leading dimension of M */
+int_t nrow,	/* in */ 
+int_t ncol,	/* in */
 complex *M,	/* in */
 complex *vec,	/* in */
 complex *Mxvec	/* in/out */
@@ -142,8 +143,8 @@ complex *Mxvec	/* in/out */
     complex vi0, vi1, vi2, vi3;
     complex *M0, temp;
     complex *Mki0, *Mki1, *Mki2, *Mki3;
-    register int firstcol = 0;
-    int k;
+    register int_t firstcol = 0;
+    int_t k;
 
     M0 = &M[0];
 

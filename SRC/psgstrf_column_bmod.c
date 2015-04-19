@@ -3,18 +3,18 @@
 #include <stdlib.h>
 #include "pssp_defs.h"
 
-void slsolve(int, int, float*, float*);
-void smatvec(int, int, int, float*, float*, float*);
+void slsolve(int_t, int_t, float*, float*);
+void smatvec(int_t, int_t, int_t, float*, float*, float*);
 
 
-int
+int_t
 psgstrf_column_bmod(
-		    const int  pnum,   /* process number */
-		    const int  jcol,   /* current column in the panel */
-		    const int  fpanelc,/* first column in the panel */
-		    const int  nseg,   /* number of s-nodes to update jcol */
-		    int        *segrep,/* in */
-		    int        *repfnz,/* in */
+		    const int_t  pnum,   /* process number */
+		    const int_t  jcol,   /* current column in the panel */
+		    const int_t  fpanelc,/* first column in the panel */
+		    const int_t  nseg,   /* number of s-nodes to update jcol */
+		    int_t        *segrep,/* in */
+		    int_t        *repfnz,/* in */
 		    float     *dense, /* modified */
 		    float     *tempv, /* working array */
 		    pxgstrf_shared_t *pxgstrf_shared, /* modified */
@@ -60,21 +60,22 @@ psgstrf_column_bmod(
      * no_zeros = no of leading zeros in a supernodal U-segment
      */
     float	  ukj, ukj1, ukj2;
-    register int lptr, kfnz, isub, irow, i, no_zeros;
-    register int luptr, luptr1, luptr2;
-    int          fsupc, nsupc, nsupr, segsze;
-    int          nrow;	  /* No of rows in the matrix of matrix-vector */
-    int          jsupno, k, ksub, krep, krep_ind, ksupno;
-    int          ufirst, nextlu;
-    int          fst_col; /* First column within small LU update */
-    int          d_fsupc; /* Distance between the first column of the current
+    register int_t lptr, kfnz, isub, irow, i, no_zeros;
+    register int_t luptr, luptr1, luptr2;
+    int_t          fsupc, nsupc;
+    int          nsupr, segsze;
+    int          nrow; /* No of rows in the matrix of matrix-vector */
+    int_t          jsupno, k, ksub, krep, krep_ind, ksupno;
+    int_t          ufirst, nextlu;
+    int_t          fst_col; /* First column within small LU update */
+    int_t          d_fsupc; /* Distance between the first column of the current
 			     panel and the first column of the current snode.*/
-    int          *xsup, *supno;
-    int          *lsub, *xlsub, *xlsub_end;
+    int_t          *xsup, *supno;
+    int_t          *lsub, *xlsub, *xlsub_end;
     float       *lusup;
-    int          *xlusup, *xlusup_end;
+    int_t          *xlusup, *xlusup_end;
     float       *tempv1;
-    int          mem_error;
+    int_t          mem_error;
     register float flopcnt;
 
     float      zero = 0.0;
@@ -101,7 +102,7 @@ psgstrf_column_bmod(
 	k--;
 	ksupno = supno[krep];
 #if ( DEBUGlvel>=2 )
-	/* if (jcol==BADCOL)*/
+if (jcol==BADCOL)
 printf("(%d) psgstrf_column_bmod[1]: %d, nseg %d, krep %d, jsupno %d, ksupno %d\n",
        pnum, jcol, nseg, krep, jsupno, ksupno);
 #endif    
@@ -128,7 +129,7 @@ printf("(%d) psgstrf_column_bmod[1]: %d, nseg %d, krep %d, jsupno %d, ksupno %d\
 	    Gstat->procstat[pnum].fcops += flopcnt;
 
 #if ( DEBUGlevel>=2 )
-	    /*if (jcol==BADCOL)	   */
+if (jcol==BADCOL)	    
 printf("(%d) psgstrf_column_bmod[2]: %d, krep %d, kfnz %d, segsze %d, d_fsupc %d,\
 fsupc %d, nsupr %d, nsupc %d\n",
        pnum, jcol, krep, kfnz, segsze, d_fsupc, fsupc, nsupr, nsupc);
@@ -147,7 +148,6 @@ fsupc %d, nsupr %d, nsupc %d\n",
 		    irow = lsub[i];
 		    dense[irow] -=  ukj*lusup[luptr];
 		    luptr++;
-		    /*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		}
 	    } else if ( segsze <= 3 ) {
 		ukj = dense[lsub[krep_ind]];
@@ -163,7 +163,6 @@ fsupc %d, nsupr %d, nsupc %d\n",
 		    	luptr1++;
 		    	dense[irow] -= ( ukj*lusup[luptr]
 					+ ukj1*lusup[luptr1] );
-			/*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		    }
 		} else { /* Case 3: 3cols-col update */
 		    ukj2 = dense[lsub[krep_ind - 2]];
@@ -179,9 +178,9 @@ fsupc %d, nsupr %d, nsupc %d\n",
 			luptr2++;
 		    	dense[irow] -= ( ukj*lusup[luptr]
 			     + ukj1*lusup[luptr1] + ukj2*lusup[luptr2] );
-			/*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		    }
 		}
+
 
 	    } else {
 	  	/*
@@ -222,11 +221,11 @@ fsupc %d, nsupr %d, nsupc %d\n",
 		       &nsupr, tempv, &incx, &beta, tempv1, &incy );
 #endif
 #else
-		slsolve ( nsupr, segsze, &lusup[luptr], tempv );
+		slsolve ( (int_t) nsupr, (int_t) segsze, &lusup[luptr], tempv );
 
  		luptr += segsze;  /* Dense matrix-vector */
 		tempv1 = &tempv[segsze];
-		smatvec (nsupr, nrow , segsze, &lusup[luptr], tempv, tempv1);
+		smatvec ((int_t)nsupr, (int_t)nrow, (int_t)segsze, &lusup[luptr], tempv, tempv1);
 #endif
                 /* Scatter tempv[] into SPA dense[*] */
                 isub = lptr + no_zeros;
@@ -235,7 +234,6 @@ fsupc %d, nsupr %d, nsupc %d\n",
                     dense[irow] = tempv[i]; /* Scatter */
                     tempv[i] = zero;
                     isub++;
-		    /*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
                 }
 
 		/* Scatter tempv1[] into SPA dense[*] */
@@ -244,7 +242,6 @@ fsupc %d, nsupr %d, nsupc %d\n",
                     dense[irow] -= tempv1[i];
 		    tempv1[i] = zero;
 		    ++isub;
-		    /*printf("_column_bmod: jcol %d, dense[irow %d] %e\n",jcol,irow,dense[irow]);*/
 		}
 	    } /* else segsze >= 4 */
 	    
@@ -270,7 +267,6 @@ fsupc %d, nsupr %d, nsupc %d\n",
   	irow = lsub[isub];
 	lusup[nextlu] = dense[irow];
 	dense[irow] = zero;
-	/*printf("_column_bmod: jcol %d, zeroed dense[irow %d]\n",jcol,irow);*/
 #ifdef DEBUG
 if (jcol == -1)
     printf("(%d) psgstrf_column_bmod[lusup] jcol %d, irow %d, lusup %.10e\n",

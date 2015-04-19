@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -16,20 +16,20 @@ main(int argc, char *argv[])
     NCformat    *Astore;
     SCPformat   *Lstore;
     NCPformat   *Ustore;
-    int         nprocs;
+    int_t         nprocs;
     fact_t      fact;
     trans_t     trans;
     yes_no_t    refact, usepr;
     equed_t     equed;
     complex      *a;
-    int         *asub, *xa;
-    int         *perm_c; /* column permutation vector */
-    int         *perm_r; /* row permutations from partial pivoting */
+    int_t         *asub, *xa;
+    int_t         *perm_c; /* column permutation vector */
+    int_t         *perm_r; /* row permutations from partial pivoting */
     void        *work;
     superlumt_options_t superlumt_options;
-    int         info, lwork, nrhs, ldx, panel_size, relax;
-    int         m, n, nnz, permc_spec;
-    int         i, firstfact;
+    int_t         info, lwork, nrhs, ldx, panel_size, relax;
+    int_t         m, n, nnz, permc_spec;
+    int_t         i, firstfact;
     complex      *rhsb, *rhsx, *xact;
     float      *R, *C;
     float      *ferr, *berr;
@@ -57,7 +57,7 @@ main(int argc, char *argv[])
 
     if ( lwork > 0 ) {
 	work = SUPERLU_MALLOC(lwork);
-	printf("Use work space of size LWORK = %d bytes\n", lwork);
+	printf("Use work space of size LWORK = " IFMT " bytes\n", lwork);
 	if ( !work ) {
 	    SUPERLU_ABORT("CLINSOLX: cannot allocate work[]");
 	}
@@ -92,7 +92,7 @@ main(int argc, char *argv[])
 
     cCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_C, SLU_GE);
     Astore = A.Store;
-    printf("Dimension %dx%d; # nonzeros %d\n", A.nrow, A.ncol, Astore->nnz);
+    printf("Dimension " IFMT "x" IFMT "; # nonzeros " IFMT "\n", A.nrow, A.ncol, Astore->nnz);
     
     if (!(rhsb = complexMalloc(m * nrhs))) SUPERLU_ABORT("Malloc fails for rhsb[].");
     if (!(rhsx = complexMalloc(m * nrhs))) SUPERLU_ABORT("Malloc fails for rhsx[].");
@@ -148,7 +148,7 @@ main(int argc, char *argv[])
 	    &equed, R, C, &L, &U, &B, &X, &rpg, &rcond,
 	    ferr, berr, &superlu_memusage, &info);
 
-    printf("pcgssvx(): info %d\n", info);
+    printf("pcgssvx(): info " IFMT "\n", info);
 
     if ( info == 0 || info == n+1 ) {
 
@@ -156,22 +156,22 @@ main(int argc, char *argv[])
 	printf("Recip. condition number = %e\n", rcond);
 	printf("%8s%16s%16s\n", "rhs", "FERR", "BERR");
 	for (i = 0; i < nrhs; ++i) {
-	    printf("%8d%16e%16e\n", i+1, ferr[i], berr[i]);
+	    printf(IFMT "%16e%16e\n", i+1, ferr[i], berr[i]);
 	}
 	       
         Lstore = (SCPformat *) L.Store;
         Ustore = (NCPformat *) U.Store;
-	printf("No of nonzeros in factor L = %d\n", Lstore->nnz);
-    	printf("No of nonzeros in factor U = %d\n", Ustore->nnz);
-    	printf("No of nonzeros in L+U = %d\n", Lstore->nnz + Ustore->nnz - n);
-	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions %d\n",
+	printf("No of nonzeros in factor L = " IFMT "\n", Lstore->nnz);
+    	printf("No of nonzeros in factor U = " IFMT "\n", Ustore->nnz);
+    	printf("No of nonzeros in L+U = " IFMT "\n", Lstore->nnz + Ustore->nnz - n);
+	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions " IFMT "\n",
 	       superlu_memusage.for_lu/1e6, superlu_memusage.total_needed/1e6,
 	       superlu_memusage.expansions);
 	     
 	fflush(stdout);
 
     } else if ( info > 0 && lwork == -1 ) {
-        printf("** Estimated memory: %d bytes\n", info - n);
+        printf("** Estimated memory: " IFMT " bytes\n", info - n);
     }
 
     SUPERLU_FREE (rhsb);
@@ -196,8 +196,8 @@ main(int argc, char *argv[])
  * Parse command line options.
  */
 void
-parse_command_line(int argc, char *argv[], int *nprocs, int *lwork, 
-		   int *w, int *relax, double *u, fact_t *fact, 
+parse_command_line(int argc, char *argv[], int_t *nprocs, int_t *lwork, 
+		   int_t *w, int_t *relax, double *u, fact_t *fact, 
 		   trans_t *trans, yes_no_t *refact, equed_t *equed)
 {
     int c;

@@ -49,6 +49,11 @@
 extern "C" {
 #endif
 
+#if defined ( _LONGINT )
+#define DLONG
+#endif
+
+
 /* ========================================================================== */
 /* === Include files ======================================================== */
 /* ========================================================================== */
@@ -147,14 +152,51 @@ extern "C" {
 
 #else
 
+#if 0    /* commented out by Sherry */
 #define SuiteSparse_long long
 #define SuiteSparse_long_max LONG_MAX
 #define SuiteSparse_long_idd "ld"
+#endif
+#define SuiteSparse_long long long int
+#define SuiteSparse_long_max LONG_MAX
+#define SuiteSparse_long_idd "lld"
 
 #endif
 #define SuiteSparse_long_id "%" SuiteSparse_long_idd
 #endif
 /**** end from SuiteSparse_config.h ********/
+
+/* ========================================================================== */
+/* === int or SuiteSparse_long ============================================== */
+/* ========================================================================== */
+
+#ifdef DLONG
+
+#define Int SuiteSparse_long
+#define ID  SuiteSparse_long_id
+#define Int_MAX SuiteSparse_long_max
+
+#define COLAMD_recommended colamd_l_recommended
+#define COLAMD_set_defaults colamd_l_set_defaults
+#define COLAMD_MAIN colamd_l
+#define SYMAMD_MAIN symamd_l
+#define COLAMD_report colamd_l_report
+#define SYMAMD_report symamd_l_report
+
+#else
+
+#define Int int
+#define ID "%d"
+#define Int_MAX INT_MAX
+
+#define COLAMD_recommended colamd_recommended
+#define COLAMD_set_defaults colamd_set_defaults
+#define COLAMD_MAIN colamd
+#define SYMAMD_MAIN symamd
+#define COLAMD_report colamd_report
+#define SYMAMD_report symamd_report
+
+#endif
 
 
 size_t colamd_recommended	/* returns recommended value of Alen, */

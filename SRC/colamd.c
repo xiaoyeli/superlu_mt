@@ -676,37 +676,6 @@
 #define NULL ((void *) 0)
 #endif
 
-/* ========================================================================== */
-/* === int or SuiteSparse_long ============================================== */
-/* ========================================================================== */
-
-#ifdef DLONG
-
-#define Int SuiteSparse_long
-#define ID  SuiteSparse_long_id
-#define Int_MAX SuiteSparse_long_max
-
-#define COLAMD_recommended colamd_l_recommended
-#define COLAMD_set_defaults colamd_l_set_defaults
-#define COLAMD_MAIN colamd_l
-#define SYMAMD_MAIN symamd_l
-#define COLAMD_report colamd_l_report
-#define SYMAMD_report symamd_l_report
-
-#else
-
-#define Int int
-#define ID "%d"
-#define Int_MAX INT_MAX
-
-#define COLAMD_recommended colamd_recommended
-#define COLAMD_set_defaults colamd_set_defaults
-#define COLAMD_MAIN colamd
-#define SYMAMD_MAIN symamd
-#define COLAMD_report colamd_report
-#define SYMAMD_report symamd_report
-
-#endif
 
 /* ========================================================================== */
 /* === Row and Column structures ============================================ */

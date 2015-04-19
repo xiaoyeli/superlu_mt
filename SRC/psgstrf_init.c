@@ -3,10 +3,10 @@
 
 
 void
-psgstrf_init(int nprocs, fact_t fact, trans_t trans, yes_no_t refact,
-             int panel_size, int relax,
+psgstrf_init(int_t nprocs, fact_t fact, trans_t trans, yes_no_t refact,
+             int_t panel_size, int_t relax,
 	     float diag_pivot_thresh, yes_no_t usepr, double drop_tol,
-	     int *perm_c, int *perm_r, void *work, int lwork,
+	     int_t *perm_c, int_t *perm_r, void *work, int_t lwork,
 	     SuperMatrix *A, SuperMatrix *AC, 
 	     superlumt_options_t *superlumt_options, Gstat_t *Gstat)
 {
@@ -30,7 +30,7 @@ psgstrf_init(int nprocs, fact_t fact, trans_t trans, yes_no_t refact,
  * Arguments
  * =========
  *
- * nprocs (input) int
+ * nprocs (input) int_t
  *        Number of processes used to perform LU factorization by psgstrf().
  *
  * fact   (input) fact_t
@@ -45,10 +45,10 @@ psgstrf_init(int nprocs, fact_t fact, trans_t trans, yes_no_t refact,
  * refact (input) yes_no_t
  *        Specifies whether we want to use perm_r from a previous factor.
  *
- * panel_size (input) int
+ * panel_size (input) int_t
  *        A panel consists of at most panel_size consecutive columns.
  *
- * relax  (input) int
+ * relax  (input) int_t
  *        To control degree of relaxing supernodes. If the number
  *        of nodes (columns) in a subtree of the elimination tree is less
  *        than relax, this subtree is considered as one supernode,
@@ -66,7 +66,7 @@ psgstrf_init(int nprocs, fact_t fact, trans_t trans, yes_no_t refact,
  *        0 <= drop_tol <= 1. The default value of drop_tol is 0, 
  *        corresponding to not dropping any entry.
  *
- * perm_c (input) int*, dimension A->ncol
+ * perm_c (input) int_t*, dimension A->ncol
  *	  Column permutation vector, which defines the 
  *        permutation matrix Pc; perm_c[i] = j means column i of A is 
  *        in position j in A*Pc.
@@ -74,7 +74,7 @@ psgstrf_init(int nprocs, fact_t fact, trans_t trans, yes_no_t refact,
  *        row subscripts of A, so that diagonal threshold pivoting
  *        can find the diagonal of A, instead of that of A*Pc.
  *
- * perm_r (input/output) int*, dimension A->nrow
+ * perm_r (input/output) int_t*, dimension A->nrow
  *        Row permutation vector which defines the permutation matrix Pr,
  *        perm_r[i] = j means row i of A is in position j in Pr*A.
  *        If usepr = NO, perm_r is output argument;
@@ -87,7 +87,7 @@ psgstrf_init(int nprocs, fact_t fact, trans_t trans, yes_no_t refact,
  *        User-supplied work space and space for the output data structures.
  *        Not referenced if lwork = 0;
  *
- * lwork  (input) int
+ * lwork  (input) int_t
  *        Specifies the length of work array.
  *        = 0:  allocate space internally by system malloc;
  *        > 0:  use user-supplied work array of length lwork in bytes,

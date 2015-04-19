@@ -13,10 +13,10 @@
 
 /* Structure for the globally shared work queue */
 
-typedef int qitem_t;
+typedef int_t qitem_t;
 
 typedef struct {
-    int       head, tail, count;
+    int_t       head, tail, count;
     qitem_t   *queue;
 } queue_t;
 
@@ -49,10 +49,10 @@ typedef struct {
 			               1 -- domain
 			               2 -- regular, non-domain */
     pipe_state_t state; /* one of the 5 states in which the panel can be */
-    int          size;  /* in the leading column, the panel size is stored;
+    int_t          size;  /* in the leading column, the panel size is stored;
 	                   in the other columns, the offset (negative)
 		           to the leading column is stored */
-    int          ukids; /* number of kids not yet finished
+    int_t          ukids; /* number of kids not yet finished
 			 * In linear pipeline --
 			 *   if ukids[firstcol] = 0 then
 			 *      the panel becomes a leaf (CANGO)
@@ -64,8 +64,8 @@ typedef struct {
 
 /* The structure to record a relaxed supernode. */
 typedef struct {
-    int fcol;    /* first column of the relaxed supernode */
-    int size;    /* size of the relaxed supernode */
+    int_t fcol;    /* first column of the relaxed supernode */
+    int_t size;    /* size of the relaxed supernode */
 } pxgstrf_relax_t;
 
 
@@ -78,7 +78,7 @@ typedef struct {
 extern "C" {
 #endif
 
-extern void await(volatile int *);
+extern int_t await(volatile int_t *);
 
 #ifdef __cplusplus
 	   }

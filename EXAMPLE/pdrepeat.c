@@ -1,11 +1,12 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
  * Last modified: 02/14/2013
+ *                04/16/2015
  *
  * Purpose 
  * =======
@@ -30,19 +31,19 @@ main(int argc, char *argv[])
     superlumt_options_t superlumt_options;
     pxgstrf_shared_t pxgstrf_shared;
     pdgstrf_threadarg_t *pdgstrf_threadarg;
-    int         nprocs;
+    int_t         nprocs;
     fact_t      fact;
     trans_t     trans;
     yes_no_t    refact, usepr;
     double      u, drop_tol;
     double      *a;
-    int         *asub, *xa;
-    int         *perm_c; /* column permutation vector */
-    int         *perm_r; /* row permutations from partial pivoting */
+    int_t         *asub, *xa;
+    int_t         *perm_c; /* column permutation vector */
+    int_t         *perm_r; /* row permutations from partial pivoting */
     void        *work;
-    int         info, lwork, nrhs, ldx; 
-    int         m, n, nnz, permc_spec, panel_size, relax;
-    int         i, firstfact;
+    int_t         info, lwork, nrhs, ldx; 
+    int_t         m, n, nnz, permc_spec, panel_size, relax;
+    int_t         i, firstfact;
     double      *rhsb, *xact;
     Gstat_t Gstat;
     flops_t     flopcnt;
@@ -173,9 +174,9 @@ main(int argc, char *argv[])
 
     Lstore = (SCPformat *) L.Store;
     Ustore = (NCPformat *) U.Store;
-    printf("No of nonzeros in factor L = %d\n", Lstore->nnz);
-    printf("No of nonzeros in factor U = %d\n", Ustore->nnz);
-    printf("No of nonzeros in L+U = %d\n", Lstore->nnz + Ustore->nnz - n);
+    printf("No of nonzeros in factor L = " IFMT "\n", Lstore->nnz);
+    printf("No of nonzeros in factor U = " IFMT "\n", Ustore->nnz);
+    printf("No of nonzeros in L+U = " IFMT "\n", Lstore->nnz + Ustore->nnz - n);
     fflush(stdout);
 
     SUPERLU_FREE (rhsb);
@@ -196,7 +197,7 @@ main(int argc, char *argv[])
  * Parse command line to get nprocs, the number of processes.
  */
 void
-parse_command_line(int argc, char *argv[], int *nprocs)
+parse_command_line(int argc, char *argv[], int_t *nprocs)
 {
     register int c;
     extern char *optarg;
@@ -205,7 +206,7 @@ parse_command_line(int argc, char *argv[], int *nprocs)
 	switch (c) {
 	  case 'h':
 	    printf("Options: (default values are in parenthesis)\n");
-	    printf("\t-p <int> - number of processes     ( %d )\n", *nprocs);
+	    printf("\t-p <int> - number of processes     ( " IFMT " )\n", *nprocs);
 	    exit(1);
 	    break;
 	  case 'p': *nprocs = atoi(optarg); 

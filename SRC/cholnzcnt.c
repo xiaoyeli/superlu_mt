@@ -88,23 +88,23 @@
    ***********************************************************************   
 */
 
-int cholnzcnt(int neqns, int *xadj, int *adjncy,
-	      int *perm, int *invp, int *etpar, 
-	      int *colcnt, int *nlnz, int *part_super_L)
+int_t cholnzcnt(int_t neqns, int_t *xadj, int_t *adjncy,
+	      int_t *perm, int_t *invp, int_t *etpar, 
+	      int_t *colcnt, int_t *nlnz, int_t *part_super_L)
 {
     /* Local variables */
-    int     temp, xsup, last1, last2, j, k, lflag, pleaf, hinbr, jstop,
-	    jstrt, ifdesc, oldnbr, parent, lownbr, lca;
+    int_t temp, xsup, last1, last2, j, k, lflag, pleaf, hinbr, jstop,
+	  jstrt, ifdesc, oldnbr, parent, lownbr, lca;
 
     /* Work arrays */
-    int *rowcnt = intMalloc(neqns);
-    int *set    = intMalloc(neqns);
-    int *prvlf  = intMalloc(neqns);
-    int *level  = intMalloc(neqns + 1);    /* length n+1 */
-    int *weight = intMalloc(neqns + 1);    /* length n+1 */
-    int *fdesc  = intMalloc(neqns + 1);    /* length n+1 */
-    int *nchild = intMalloc(neqns + 1);    /* length n+1 */
-    int *prvnbr = intMalloc(neqns);
+    int_t *rowcnt = intMalloc(neqns);
+    int_t *set    = intMalloc(neqns);
+    int_t *prvlf  = intMalloc(neqns);
+    int_t *level  = intMalloc(neqns + 1);    /* length n+1 */
+    int_t *weight = intMalloc(neqns + 1);    /* length n+1 */
+    int_t *fdesc  = intMalloc(neqns + 1);    /* length n+1 */
+    int_t *nchild = intMalloc(neqns + 1);    /* length n+1 */
+    int_t *prvnbr = intMalloc(neqns);
     
 
     /*   --------------------------------------------------   

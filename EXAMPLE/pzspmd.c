@@ -1,11 +1,12 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
  * Last modified: 02/15/2013
+ *                04/16/2015
  *
  * Purpose
  * =======
@@ -22,9 +23,9 @@
 
 /* Arguments passed to each dot product thread. */
 typedef struct {
-    int i;
-    int len;
-    int nprocs;
+    int_t i;
+    int_t len;
+    int_t nprocs;
     doublecomplex *global_dot;
     doublecomplex *x;
 } pzdot_threadarg_t;
@@ -34,7 +35,7 @@ mutex_t pzdot_lock;
 #elif ( MACH==DEC || MACH==PTHREAD )
 pthread_mutex_t pzdot_lock;
 #elif ( MACH==SGI || MACH==ORIGIN || MACH==CRAY_PVP )
-int pzdot_lock = 1;
+int_t pzdot_lock = 1;
 #endif
 
 /* Arguments passed to each SPMD program. */
@@ -57,22 +58,22 @@ main(int argc, char *argv[])
     pzgstrf_threadarg_t *pzgstrf_threadarg;
     pzdot_threadarg_t *pzdot_threadarg;
     zspmd_arg_t *zspmd_arg;
-    int         nprocs;
+    int_t         nprocs;
     fact_t      fact;
     trans_t     trans;
     yes_no_t    refact, usepr;
     double      u, drop_tol;
     doublecomplex      *a;
-    int         *asub, *xa;
-    int         *perm_c; /* column permutation vector */
-    int         *perm_r; /* row permutations from partial pivoting */
+    int_t         *asub, *xa;
+    int_t         *perm_c; /* column permutation vector */
+    int_t         *perm_r; /* row permutations from partial pivoting */
     void        *work;
-    int         info, lwork, nrhs, ldx; 
-    int         m, n, nnz, permc_spec, panel_size, relax;
-    int         i, firstfact;
+    int_t         info, lwork, nrhs, ldx; 
+    int_t         m, n, nnz, permc_spec, panel_size, relax;
+    int_t         i, firstfact;
     doublecomplex      *rhsb, *xact;
     Gstat_t Gstat;
-    int    vlength;
+    int_t    vlength;
     doublecomplex *xvector, xdot, temp;
     doublecomplex zero = {0.0, 0.0};
 #if ( MACH==SUN )
@@ -228,7 +229,7 @@ main(int argc, char *argv[])
     if ( getenv("MP_SET_NUMTHREADS") ) {
         i = atoi(getenv("MP_SET_NUMTHREADS"));
 	if ( nprocs > i ) {
-	    printf("nprocs=%d > environment allowed: MP_SET_NUMTHREADS=%d\n",
+	    printf("nprocs=" IFMT " > environment allowed: MP_SET_NUMTHREADS=" IFMT "\n",
 		   nprocs, i);
 	    exit(-1);
 	}
@@ -246,7 +247,7 @@ main(int argc, char *argv[])
     if ( getenv("NCPUS") ) {
         i = atoi(getenv("NCPUS"));
 	if ( nprocs > i ) {
-	    printf("nprocs=%d > environment allowed: NCPUS=%d\n",
+	    printf("nprocs=" IFMT " > environment allowed: NCPUS=" IFMT "\n",
 		   nprocs, i);
 	    exit(-1);
 	}
@@ -285,17 +286,17 @@ main(int argc, char *argv[])
 
     Lstore = (SCPformat *) L.Store;
     Ustore = (NCPformat *) U.Store;
-    printf("No of nonzeros in factor L = %d\n", Lstore->nnz);
-    printf("No of nonzeros in factor U = %d\n", Ustore->nnz);
-    printf("No of nonzeros in L+U = %d\n", Lstore->nnz + Ustore->nnz - n);
+    printf("No of nonzeros in factor L = " IFMT "\n", Lstore->nnz);
+    printf("No of nonzeros in factor U = " IFMT "\n", Ustore->nnz);
+    printf("No of nonzeros in L+U = " IFMT "\n", Lstore->nnz + Ustore->nnz - n);
     fflush(stdout);
 
 /* DAN FIX THIS */
 
+    printf("\n** Result of dot product **\n");
     temp.r = vlength*(vlength+1)*(2*vlength+1)/6;
     temp.i = 0;
-    printf("\n** Result of dot product **\n");
-    printf("computed %e, correct %e\n", xdot, temp);
+    printf("computed %e %e, correct %e\n", xdot.r, xdot.i, temp.r);
 
     SUPERLU_FREE (rhsb);
     SUPERLU_FREE (xact);
@@ -344,20 +345,20 @@ void
 {
 #if ( MACH==SGI || MACH==ORIGIN )
 #if ( MACH==SGI )
-    int         i = mpc_my_threadnum();
+    int_t         i = mpc_my_threadnum();
 #else
-    int         i = mp_my_threadnum();
+    int_t         i = mp_my_threadnum();
 #endif
     pzdot_threadarg_t *pzdot_arg = &((pzdot_threadarg_t *)arg)[i];
 #else
     pzdot_threadarg_t *pzdot_arg = arg;
-    int i = pzdot_arg->i;
+    int_t i = pzdot_arg->i;
 #endif
-    int len = pzdot_arg->len;
-    int nprocs = pzdot_arg->nprocs;
+    int_t len = pzdot_arg->len;
+    int_t nprocs = pzdot_arg->nprocs;
     doublecomplex *global_dot = pzdot_arg->global_dot;
     doublecomplex *x = pzdot_arg->x;
-    int chunk, start, end;
+    int_t chunk, start, end;
     doublecomplex temp;
     doublecomplex zero = {0.0, 0.0};
     doublecomplex temp_comp;
@@ -366,7 +367,7 @@ void
     start = i * chunk;
     end = start + chunk;
     if ( i == nprocs-1 ) end = len;
-    printf("(%d) nprocs %d,  chunk %d, start %d, end %d\n", 
+    printf("(" IFMT ") nprocs " IFMT ",  chunk " IFMT ", start " IFMT ", end " IFMT "\n", 
 	   i, nprocs, chunk, start, end);
 
     temp = zero;
@@ -403,7 +404,7 @@ void
  * Parse command line to get nprocs, the number of processes.
  */
 void
-parse_command_line(int argc, char *argv[], int *nprocs)
+parse_command_line(int argc, char *argv[], int_t *nprocs)
 {
     register int c;
     extern char *optarg;
@@ -412,7 +413,7 @@ parse_command_line(int argc, char *argv[], int *nprocs)
 	switch (c) {
 	  case 'h':
 	    printf("Options: (default values are in parenthesis)\n");
-	    printf("\t-p <int> - number of processes     ( %d )\n", *nprocs);
+	    printf("\t-p <int> - number of processes     ( " IFMT " )\n", *nprocs);
 	    exit(1);
 	    break;
 	  case 'p': *nprocs = atoi(optarg); 

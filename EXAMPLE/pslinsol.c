@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -13,18 +13,18 @@ main(int argc, char *argv[])
     SuperMatrix   A;
     NCformat *Astore;
     float   *a;
-    int      *asub, *xa;
-    int      *perm_r; /* row permutations from partial pivoting */
-    int      *perm_c; /* column permutation vector */
+    int_t      *asub, *xa;
+    int_t      *perm_r; /* row permutations from partial pivoting */
+    int_t      *perm_c; /* column permutation vector */
     SuperMatrix   L;       /* factor L */
     SCPformat *Lstore;
     SuperMatrix   U;       /* factor U */
     NCPformat *Ustore;
     SuperMatrix   B;
-    int      nrhs, ldx, info, m, n, nnz, b;
-    int      nprocs; /* maximum number of processors to use. */
-    int      panel_size, relax, maxsup;
-    int      permc_spec;
+    int_t      nrhs, ldx, info, m, n, nnz, b;
+    int_t      nprocs; /* maximum number of processors to use. */
+    int_t      panel_size, relax, maxsup;
+    int_t      permc_spec;
     trans_t  trans;
     float   *xact, *rhs;
     superlu_memusage_t   superlu_memusage;
@@ -69,7 +69,7 @@ main(int argc, char *argv[])
 
     sCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_S, SLU_GE);
     Astore = A.Store;
-    printf("Dimension %dx%d; # nonzeros %d\n", A.nrow, A.ncol, Astore->nnz);
+    printf("Dimension " IFMT "x" IFMT "; # nonzeros " IFMT "\n", A.nrow, A.ncol, Astore->nnz);
     
     if (!(rhs = floatMalloc(m * nrhs))) SUPERLU_ABORT("Malloc fails for rhs[].");
     sCreate_Dense_Matrix(&B, m, nrhs, rhs, m, SLU_DN, SLU_S, SLU_GE);
@@ -98,12 +98,12 @@ main(int argc, char *argv[])
 
 	Lstore = (SCPformat *) L.Store;
 	Ustore = (NCPformat *) U.Store;
-    	printf("#NZ in factor L = %d\n", Lstore->nnz);
-    	printf("#NZ in factor U = %d\n", Ustore->nnz);
-    	printf("#NZ in L+U = %d\n", Lstore->nnz + Ustore->nnz - L.ncol);
+    	printf("#NZ in factor L = " IFMT "\n", Lstore->nnz);
+    	printf("#NZ in factor U = " IFMT "\n", Ustore->nnz);
+    	printf("#NZ in L+U = " IFMT "\n", Lstore->nnz + Ustore->nnz - L.ncol);
 	
 	superlu_sQuerySpace(nprocs, &L, &U, panel_size, &superlu_memusage);
-	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions %d\n",
+	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions " IFMT "\n",
 	       superlu_memusage.for_lu/1024/1024, 
 	       superlu_memusage.total_needed/1024/1024,
 	       superlu_memusage.expansions);
@@ -125,8 +125,8 @@ main(int argc, char *argv[])
  * Parse command line to get relaxed snode size, panel size, etc.
  */
 void
-parse_command_line(int argc, char *argv[], int *procs, int *n,
-		   int *b, int *w, int *r, int *maxsup)
+parse_command_line(int argc, char *argv[], int_t *procs, int_t *n,
+		   int_t *b, int_t *w, int_t *r, int_t *maxsup)
 {
     register int c;
     extern char *optarg;
@@ -135,12 +135,12 @@ parse_command_line(int argc, char *argv[], int *procs, int *n,
 	switch (c) {
 	  case 'h':
 	    printf("Options: (default values are in parenthesis)\n");
-	    printf("\t-p <int> - number of processes     ( %d )\n", *procs);
-	    printf("\t-n <int> - dimension               ( %d )\n", *n);  
-	    printf("\t-b <int> - semi-bandwidth          ( %d )\n", *b);
-	    printf("\t-w <int> - panel size              ( %d )\n", *w);
-	    printf("\t-x <int> - relax                   ( %d )\n", *r);
-	    printf("\t-s <int> - maximum supernode size  ( %d )\n", *maxsup);
+	    printf("\t-p <int> - number of processes     ( " IFMT " )\n", *procs);
+	    printf("\t-n <int> - dimension               ( " IFMT " )\n", *n);  
+	    printf("\t-b <int> - semi-bandwidth          ( " IFMT " )\n", *b);
+	    printf("\t-w <int> - panel size              ( " IFMT " )\n", *w);
+	    printf("\t-x <int> - relax                   ( " IFMT " )\n", *r);
+	    printf("\t-s <int> - maximum supernode size  ( " IFMT " )\n", *maxsup);
 	    exit(1);
 	    break;
 	  case 'p': *procs = atoi(optarg); 

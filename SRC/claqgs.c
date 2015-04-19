@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU routine (version 2.0) --
+ * -- SuperLU routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -80,7 +80,7 @@ claqgs(SuperMatrix *A, float *r, float *c,
     /* Local variables */
     NCformat *Astore;
     complex   *Aval;
-    int i, j, irow;
+    int_t i, j, irow;
     float large, small, cj;
     extern double slamch_(char *);
     float temp;

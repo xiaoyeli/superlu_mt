@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 /* Subroutine */ int xerbla_(char *srname, int *info)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --   

@@ -59,6 +59,7 @@ sp_ienv(int ispec)
  *  ===================================================================== 
  */
     int i;
+    extern int  xerbla_ (char *, int *);
 
     switch (ispec) {
 

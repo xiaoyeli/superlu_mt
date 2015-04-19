@@ -1,6 +1,6 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -14,14 +14,14 @@
  * Generate a banded square matrix A, with dimension n and semi-bandwidth b.
  */
 void
-cband(int n, int b, int nonz, complex **nzval, int **rowind, int **colptr)
+cband(int_t n, int_t b, int_t nonz, complex **nzval, int_t **rowind, int_t **colptr)
 {
     int iseed[] = {1992,1993,1994,1995};    
-    register int i, j, ub, lb, ilow, ihigh, lasta = 0;
+    register int_t i, j, ub, lb, ilow, ihigh, lasta = 0;
     complex *a;
-    int    *asub, *xa;
+    int_t    *asub, *xa;
     complex *val;
-    int    *row;
+    int_t    *row;
     extern double dlaran_();
     
     printf("A banded matrix.");
@@ -53,20 +53,20 @@ cband(int n, int b, int nonz, complex **nzval, int **rowind, int **colptr)
  * Generate a block diagonal matrix A.
  */
 void
-cblockdiag(int nb, /* number of blocks */
-	   int bs, /* block size */
-	   int nonz, complex **nzval, int **rowind, int **colptr)
+cblockdiag(int_t nb, /* number of blocks */
+	   int_t bs, /* block size */
+	   int_t nonz, complex **nzval, int_t **rowind, int_t **colptr)
 {
     int iseed[] = {1992,1993,1994,1995};    
-    register int i, j, b, n, lasta = 0, cstart, rstart;
+    register int_t i, j, b, n, lasta = 0, cstart, rstart;
     complex *a;
-    int    *asub, *xa;
+    int_t    *asub, *xa;
     complex *val;
-    int    *row;
+    int_t    *row;
     extern double dlaran_();
     
     n = bs * nb;
-    printf("A block diagonal matrix: nb %d, bs %d, n %d\n", nb, bs, n);
+    printf("A block diagonal matrix: nb " IFMT ", bs " IFMT ", n " IFMT "\n", nb, bs, n);
     callocateA(n, nonz, nzval, rowind, colptr); /* Allocate storage */
     a    = *nzval;
     asub = *rowind;

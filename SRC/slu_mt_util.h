@@ -250,12 +250,12 @@ typedef enum {
  *
  */
 typedef struct {
-    int        nprocs;
+    int_t        nprocs;
     fact_t     fact;
     trans_t    trans;
     yes_no_t   refact;
-    int        panel_size;
-    int        relax;
+    int_t        panel_size;
+    int_t        relax;
     double     diag_pivot_thresh;
     double     drop_tol;
     colperm_t  ColPerm;
@@ -264,19 +264,19 @@ typedef struct {
     yes_no_t   PrintStat;
 
     /* The following arrays are persistent during repeated factorizations. */
-    int  *perm_c;
-    int  *perm_r;
+    int_t  *perm_c;
+    int_t  *perm_r;
     void *work;
-    int  lwork;
+    int_t  lwork;
 
     /* The following structural arrays are computed internally by 
-       dsp_colorder(), so the user does not provide them on input.
+       sp_colorder(), so the user does not provide them on input.
        These 3 arrays are computed in the first factorization, and are 
        re-used in the subsequent factors of the matrices with the same
        nonzero structure. */
-    int  *etree;
-    int  *colcnt_h;
-    int  *part_super_h;
+    int_t  *etree;
+    int_t  *colcnt_h;
+    int_t  *part_super_h;
 } superlumt_options_t;
 
 /* ----------------------------------------------
@@ -285,27 +285,27 @@ typedef struct {
 
 /* The statistics to be kept by each processor. */
 typedef struct {
-    int	    panels;    /* number of panels taken */
+    int_t	    panels;    /* number of panels taken */
     float   fcops;     /* factor floating-point operations */
     double  fctime;    /* factor time */
-    int     skedwaits; /* how many times the processor fails to get a task */
+    int_t     skedwaits; /* how many times the processor fails to get a task */
     double  skedtime;  /* time spent in the scheduler */
     double  cs_time;   /* time spent in the critical sections */
     double  spintime;  /* spin-wait time */
-    int     pruned;
-    int     unpruned;
+    int_t     pruned;
+    int_t     unpruned;
 } procstat_t;
 
 
 /* Statistics about each panel. */
 
 typedef struct {
-    int    size;      /* size of the panel */
-    int    pnum;      /* which processor grabs this panel */
+    int_t    size;      /* size of the panel */
+    int_t    pnum;      /* which processor grabs this panel */
     double starttime; /* at waht time this panel is assigned to a proc */
     double fctime;    /* factorization time */
     float  flopcnt;   /* floating-point operations */
-    int    pipewaits; /* how many times the panel waited during pipelining */
+    int_t    pipewaits; /* how many times the panel waited during pipelining */
     double spintime;  /* spin waiting time during pipelining */
 } panstat_t;
 
@@ -314,7 +314,7 @@ typedef enum {NOPIPE, DADPAN, PIPE} how_selected_t;
 
 /* Headers for 4 types of dynamatically managed memory */
 typedef struct e_node {
-    int size;      /* length of the memory that has been used */
+    int_t size;      /* length of the memory that has been used */
     void *mem;     /* pointer to the new malloc'd store */
 } ExpHeader;
 
@@ -322,25 +322,25 @@ typedef struct e_node {
 typedef struct {
     float for_lu;
     float total_needed;
-    int   expansions;
+    int_t   expansions;
 } superlu_memusage_t;
 
 typedef struct {
      flops_t flops;
-     int     nzs;
+     int_t     nzs;
      double  fctime;
 } stat_relax_t;
 
 typedef struct {
      flops_t flops;
-     int nzs;
+     int_t nzs;
      double fctime;
 } stat_col_t;
 
 typedef struct {
-     int ncols;
+     int_t ncols;
      flops_t flops;
-     int nzs;
+     int_t nzs;
      double fctime;
 } stat_snode_t;
 
@@ -359,28 +359,28 @@ typedef struct {
 		   
 /* All statistics. */
 typedef struct {
-    int     	*panel_histo;	/* Panel size distribution */
+    int_t     	*panel_histo;	/* Panel size distribution */
     double  	*utime;
     flops_t 	*ops;
     procstat_t 	*procstat;
     panstat_t	*panstat;
-    int      	num_panels;
+    int_t      	num_panels;
     float     	dom_flopcnt;
     float     	flops_last_P_panels;
     /**/
     stat_relax_t *stat_relax;
     stat_col_t *stat_col; 
     stat_snode_t *stat_snode; 
-    int *panhows;
+    int_t *panhows;
     cp_panel_t *cp_panel; /* panels on the critical path */
     desc_eft_t *desc_eft; /* all we need to know from descendants */
-    int        *cp_firstkid, *cp_nextkid; /* linked list of children */
-    int        *height;
+    int_t        *cp_firstkid, *cp_nextkid; /* linked list of children */
+    int_t        *height;
     float      *flops_by_height;
 } Gstat_t;
 
 struct Branch {
-    int root, first_desc, which_bin;
+    int_t root, first_desc, which_bin;
     struct Branch *next;
 };
 
@@ -388,26 +388,26 @@ struct Branch {
 #if 0
 
 /* Statistics for supernode and panel size */
-int 	no_panels;
+int_t 	no_panels;
 float   sum_w;          /* Sum (Wi) */
 float 	sum_np_w;       /* Sum (Npi*Wi) */
-int 	max_np;          
-int     no_sups;
+int_t 	max_np;          
+int_t     no_sups;
 float   sum_sup;        /* Sum (Supi) */
-int     max_sup;     
+int_t     max_sup;     
 flops_t reuse_flops;    /* Triangular solve and matrix vector multiply */
 float   reuse_data;     /* Doubles in updating supernode */
 
 /* Statistics for blas operations */
-int     num_blas;       /* no of BLAS2 operations, including trsv/gemv */
-int     max_blas_n;     /* max dimension n in tri-solve and mat-vec */
-int     min_blas_n;     /* min dimension n in tri-solve and mat-vec */
+int_t     num_blas;       /* no of BLAS2 operations, including trsv/gemv */
+int_t     max_blas_n;     /* max dimension n in tri-solve and mat-vec */
+int_t     min_blas_n;     /* min dimension n in tri-solve and mat-vec */
 float   sum_blas_n;     /* sum of "        "        " */
-int     max_gemv_m;     /* max dimension m in mat-vec */
-int     min_gemv_m;     /* max dimension m in mat-vec */
+int_t     max_gemv_m;     /* max dimension m in mat-vec */
+int_t     min_gemv_m;     /* max dimension m in mat-vec */
 float   sum_gemv_m;     /* sum of "        "        " */
-int     lda_blas_m;
-int     lda_blas_n;
+int_t     lda_blas_m;
+int_t     lda_blas_n;
 flops_t *gemv_ops;      /* flops distribution on (m,n) */
 flops_t *trsv_ops;      /* flops distribution on n */
 
@@ -430,8 +430,8 @@ extern void superlu_abort_and_exit(char*);
 extern void *superlu_malloc (size_t);
 extern void superlu_free (void*);
 extern void PrintStat(Gstat_t *);
-extern int  ParallelProfile(const int, const int, const int,
-			    const int procs, Gstat_t *);
+extern int_t  ParallelProfile(const int_t, const int_t, const int_t,
+			    const int_t procs, Gstat_t *);
 
 #ifdef __cplusplus
 	   }

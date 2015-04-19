@@ -1,38 +1,39 @@
 
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
  */
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "pcsp_defs.h"
 
 
 /* Eat up the rest of the current line */
-int cDumpLine(FILE *fp)
+int_t cDumpLine(FILE *fp)
 {
-    register int c;
+    register int_t c;
     while ((c = fgetc(fp)) != '\n') ;
     return 0;
 }
 
-int cParseIntFormat(char *buf, int *num, int *size)
+int_t cParseIntFormat(char *buf, int_t *num, int_t *size)
 {
     char *tmp;
 
     tmp = buf;
     while (*tmp++ != '(') ;
-    sscanf(tmp, "%d", num);
+    *num = atoi(tmp);
     while (*tmp != 'I' && *tmp != 'i') ++tmp;
     ++tmp;
-    sscanf(tmp, "%d", size);
+    *size = atoi(tmp);
     return 0;
 }
 
-int cParseFloatFormat(char *buf, int *num, int *size)
+int_t cParseFloatFormat(char *buf, int_t *num, int_t *size)
 {
     char *tmp, *period;
     
@@ -59,9 +60,9 @@ int cParseFloatFormat(char *buf, int *num, int *size)
     return 0;
 }
 
-int cReadVector(FILE *fp, int n, int *where, int perline, int persize)
+int_t cReadVector(FILE *fp, int_t n, int_t *where, int_t perline, int_t persize)
 {
-    register int i, j, item;
+    register int_t i, j, item;
     char tmp, buf[100];
     
     i = 0;
@@ -80,9 +81,9 @@ int cReadVector(FILE *fp, int n, int *where, int perline, int persize)
 }
 
 /* Read complex numbers as pairs of (real, imaginary) */
-int cReadValues(FILE *fp, int n, complex *destination, int perline, int persize)
+int_t cReadValues(FILE *fp, int_t n, complex *destination, int_t perline, int_t persize)
 {
-    register int i, j, k, s, pair;
+    register int_t i, j, k, s, pair;
     register float realpart;
     char tmp, buf[100];
     
@@ -114,8 +115,8 @@ int cReadValues(FILE *fp, int n, complex *destination, int perline, int persize)
 
 
 void
-creadhb(int *nrow, int *ncol, int *nonz,
-	complex **nzval, int **rowind, int **colptr)
+creadhb(int_t *nrow, int_t *ncol, int_t *nonz,
+	complex **nzval, int_t **rowind, int_t **colptr)
 {
 /* 
  * Purpose
@@ -184,8 +185,8 @@ creadhb(int *nrow, int *ncol, int *nonz,
  *
  */
 
-    register int i, numer_lines, rhscrd = 0;
-    int tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
+    register int_t i, numer_lines, rhscrd = 0;
+    int_t tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
     char buf[100], type[4], key[10];
     FILE *fp;
 
@@ -201,7 +202,7 @@ creadhb(int *nrow, int *ncol, int *nonz,
     /* Line 2 */
     for (i=0; i<5; i++) {
 	fscanf(fp, "%14c", buf); buf[14] = 0;
-	sscanf(buf, "%d", &tmp);
+	tmp = atoi(buf); /*sscanf(buf, "%d", &tmp);*/
 	if (i == 3) numer_lines = tmp;
 	if (i == 4 && tmp) rhscrd = tmp;
     }
@@ -211,14 +212,14 @@ creadhb(int *nrow, int *ncol, int *nonz,
     fscanf(fp, "%3c", type);
     fscanf(fp, "%11c", buf); /* pad */
     type[3] = 0;
-#ifdef DEBUG
+#if ( DEBUGlevel>=1 )
     printf("Matrix type %s\n", type);
 #endif
     
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", nrow);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", ncol);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", nonz);
-    fscanf(fp, "%14c", buf); sscanf(buf, "%d", &tmp);
+    fscanf(fp, "%14c", buf); *nrow = atoi(buf); 
+    fscanf(fp, "%14c", buf); *ncol = atoi(buf); 
+    fscanf(fp, "%14c", buf); *nonz = atoi(buf); 
+    fscanf(fp, "%14c", buf); tmp = atoi(buf);   
     
     if (tmp != 0)
 	  printf("This is not an assembled matrix!\n");
@@ -242,7 +243,7 @@ creadhb(int *nrow, int *ncol, int *nonz,
     /* Line 5: right-hand side */    
     if ( rhscrd ) cDumpLine(fp); /* skip RHSFMT */
     
-#ifdef DEBUG
+#if ( DEBUGlevel>=1 )
     printf("%d rows, %d nonzeros\n", *nrow, *nonz);
     printf("colnum %d, colsize %d\n", colnum, colsize);
     printf("rownum %d, rowsize %d\n", rownum, rowsize);

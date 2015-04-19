@@ -72,27 +72,27 @@
 #include "pzsp_defs.h"
 
 /*! \brief Eat up the rest of the current line */
-static int zDumpLine(FILE *fp)
+static int_t zDumpLine(FILE *fp)
 {
-    register int c;
+    register int_t c;
     while ((c = fgetc(fp)) != '\n') ;
     return 0;
 }
 
-static int zParseIntFormat(char *buf, int *num, int *size)
+static int_t zParseIntFormat(char *buf, int_t *num, int_t *size)
 {
     char *tmp;
 
     tmp = buf;
     while (*tmp++ != '(') ;
-    sscanf(tmp, "%d", num);
+    *num = atoi(tmp);
     while (*tmp != 'I' && *tmp != 'i') ++tmp;
     ++tmp;
-    sscanf(tmp, "%d", size);
+    *size = atoi(tmp);
     return 0;
 }
 
-static int zParseFloatFormat(char *buf, int *num, int *size)
+static int_t zParseFloatFormat(char *buf, int_t *num, int_t *size)
 {
     char *tmp, *period;
 
@@ -119,9 +119,9 @@ static int zParseFloatFormat(char *buf, int *num, int *size)
     return 0;
 }
 
-static int ReadVector(FILE *fp, int n, int *where, int perline, int persize)
+static int_t ReadVector(FILE *fp, int_t n, int_t *where, int_t perline, int_t persize)
 {
-    register int i, j, item;
+    register int_t i, j, item;
     char tmp, buf[100];
 
     i = 0;
@@ -140,9 +140,9 @@ static int ReadVector(FILE *fp, int n, int *where, int perline, int persize)
 }
 
 /*! \brief Read complex numbers as pairs of (real, imaginary) */
-static int zReadValues(FILE *fp, int n, doublecomplex *destination, int perline, int persize)
+static int_t zReadValues(FILE *fp, int_t n, doublecomplex *destination, int_t perline, int_t persize)
 {
-    register int i, j, k, s, pair;
+    register int_t i, j, k, s, pair;
     register double realpart;
     char tmp, buf[100];
     
@@ -174,12 +174,12 @@ static int zReadValues(FILE *fp, int n, doublecomplex *destination, int perline,
 
 
 void
-zreadrb(int *nrow, int *ncol, int *nonz,
-        doublecomplex **nzval, int **rowind, int **colptr)
+zreadrb(int_t *nrow, int_t *ncol, int_t *nonz,
+        doublecomplex **nzval, int_t **rowind, int_t **colptr)
 {
 
-    register int i, j, numer_lines = 0;
-    int tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
+    register int_t i, j, numer_lines = 0;
+    int_t tmp, colnum, colsize, rownum, rowsize, valnum, valsize;
     char buf[100], type[4];
     FILE *fp;
 
@@ -192,7 +192,7 @@ zreadrb(int *nrow, int *ncol, int *nonz,
     /* Line 2 */
     for (i=0; i<4; i++) {
         j = fscanf(fp, "%14c", buf); buf[14] = 0;
-        sscanf(buf, "%d", &tmp);
+        tmp = atoi(buf); /*sscanf(buf, "%d", &tmp);*/
         if (i == 3) numer_lines = tmp;
     }
     zDumpLine(fp);
@@ -205,10 +205,10 @@ zreadrb(int *nrow, int *ncol, int *nonz,
     printf("Matrix type %s\n", type);
 #endif
 
-    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", nrow);
-    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", ncol);
-    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", nonz);
-    j = fscanf(fp, "%14c", buf); sscanf(buf, "%d", &tmp);
+    fscanf(fp, "%14c", buf); *nrow = atoi(buf); 
+    fscanf(fp, "%14c", buf); *ncol = atoi(buf); 
+    fscanf(fp, "%14c", buf); *nonz = atoi(buf); 
+    fscanf(fp, "%14c", buf); tmp = atoi(buf);   
 
     if (tmp != 0)
         printf("This is not an assembled matrix!\n");
