@@ -11,7 +11,7 @@
  * History:     Modified from LAPACK routine SLAQGE
  */
 #include <math.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 
 void

@@ -7,7 +7,7 @@
  *
  */
 #include <math.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void
 zCreate_CompCol_Matrix(SuperMatrix *A, int_t m, int_t n, int_t nnz, doublecomplex *nzval,
@@ -27,6 +27,26 @@ zCreate_CompCol_Matrix(SuperMatrix *A, int_t m, int_t n, int_t nnz, doublecomple
     Astore->nzval = nzval;
     Astore->rowind = rowind;
     Astore->colptr = colptr;
+}
+
+void
+zCreate_CompRow_Matrix(SuperMatrix *A, int_t m, int_t n, int_t nnz, doublecomplex *nzval,
+		      int_t *colind, int_t *rowptr,
+		      Stype_t stype, Dtype_t dtype, Mtype_t mtype)
+{
+    NRformat *Astore;
+
+    A->Stype = stype;
+    A->Dtype = dtype;
+    A->Mtype = mtype;
+    A->nrow = m;
+    A->ncol = n;
+    A->Store = (void *) SUPERLU_MALLOC( sizeof(NRformat) );
+    Astore = (NRformat *) A->Store;
+    Astore->nnz = nnz;
+    Astore->nzval = nzval;
+    Astore->colind = colind;
+    Astore->rowptr = rowptr;
 }
 
 void

@@ -13,7 +13,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 
 void superlu_abort_and_exit(char* msg)
@@ -329,7 +329,7 @@ StatAlloc(const int_t n, const int_t nprocs, const int_t panel_size,
 
     w = SUPERLU_MAX( panel_size, relax ) + 1;
     Gstat->panel_histo = intCalloc(w);
-    Gstat->utime = (double *) doubleMalloc(NPHASES);
+    Gstat->utime = (double *) SUPERLU_MALLOC(NPHASES * sizeof(double));
     Gstat->ops   = (flops_t *) SUPERLU_MALLOC(NPHASES * sizeof(flops_t));
     
     if ( !(Gstat->procstat =

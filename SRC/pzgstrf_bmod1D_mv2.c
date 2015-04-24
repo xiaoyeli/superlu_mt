@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 
 void zlsolve(int_t, int_t, doublecomplex *, doublecomplex *);
@@ -61,7 +61,7 @@ pzgstrf_bmod1D_mv2(
 
     doublecomplex       ukj, ukj1, ukj2;
     int_t          luptr, luptr1, luptr2;
-    int		   segsze, nrow32 = nrow;
+    int		   segsze, nrow32 = nrow, nsupr32 = nsupr;
     register int_t lptr; /* start of row subscripts of the updating supernode */
     register int_t i, j, kfnz, krep_ind, isub, irow, no_zeros, twocols;
     register int_t jj;	       /* index through each column in the panel */
@@ -240,13 +240,13 @@ if (krep == BADCOL && jj == -1) {
 #ifdef USE_VENDOR_BLAS
 #if ( MACH==CRAY_PVP )
 		    CTRSV( ftcs1, ftcs2, ftcs3, &segsze, &lusup[luptr], 
-			   &nsupr, tri[j], &incx );
+			   &nsupr32, tri[j], &incx );
 #else
 		    ztrsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-			   &nsupr, tri[j], &incx );
+			   &nsupr32, tri[j], &incx );
 #endif
 #else
-		    zlsolve ( nsupr, segsze, &lusup[luptr], tri[j] );
+		    zlsolve ( nsupr, (int_t)segsze, &lusup[luptr], tri[j] );
 		    
 #endif
 
@@ -266,13 +266,13 @@ if (krep == BADCOL && jj == -1) {
 #ifdef USE_VENDOR_BLAS		    
 #if ( MACH==CRAY_PVP )
 		    CGEMV( ftcs2, &nrow32, &segsze, &alpha, &lusup[luptr], 
-			   &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
+			   &nsupr32, tri[0], &incx, &beta, matvec[0], &incy );
 #else
 		    zgemv_( "N", &nrow32, &segsze, &alpha, &lusup[luptr], 
-			   &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
+			   &nsupr32, tri[0], &incx, &beta, matvec[0], &incy );
 #endif
 #else
-		    zmatvec (nsupr, nrow32, segsze, &lusup[luptr],
+		    zmatvec (nsupr, nrow, (int_t)segsze, &lusup[luptr],
 			     tri[0], matvec[0]);
 #endif
 		    
@@ -286,10 +286,10 @@ if (krep == BADCOL && jj == -1) {
 			   &nsupr, tri[1], &incx, &beta, matvec[1], &incy );
 #else
 		    zgemv_( "N", &nrow32, &segsze, &alpha, &lusup[luptr], 
-			   &nsupr, tri[1], &incx, &beta, matvec[1], &incy );
+			   &nsupr32, tri[1], &incx, &beta, matvec[1], &incy );
 #endif
 #else
-		    zmatvec (nsupr, nrow32, segsze, &lusup[luptr],
+		    zmatvec (nsupr, nrow, (int_t)segsze, &lusup[luptr],
 			     tri[1], matvec[1]);
 #endif
 		}
@@ -392,10 +392,10 @@ if (krep == BADCOL && jj == -1) {
 #ifdef USE_VENDOR_BLAS
 #if ( MACH==CRAY_PVP )
 	CTRSV( ftcs1, ftcs2, ftcs3, &segsze, &lusup[luptr], 
-	       &nsupr, tri[0], &incx );
+	       &nsupr32, tri[0], &incx );
 #else
 	ztrsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-	       &nsupr, tri[0], &incx );
+	       &nsupr32, tri[0], &incx );
 #endif
 #else
 	zlsolve ( nsupr, segsze, &lusup[luptr], tri[0] );
@@ -409,8 +409,8 @@ if (krep == BADCOL && jj == -1) {
 	CGEMV( ftcs2, &nrow, &segsze, &alpha, &lusup[luptr], 
 	       &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
 #else
-	zgemv_( "N", &nrow, &segsze, &alpha, &lusup[luptr], 
-	       &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
+	zgemv_( "N", &nrow32, &segsze, &alpha, &lusup[luptr], 
+	       &nsupr32, tri[0], &incx, &beta, matvec[0], &incy );
 #endif
 #else
 	zmatvec (nsupr, nrow, segsze, &lusup[luptr], tri[0], matvec[0]);

@@ -1,10 +1,10 @@
 
 #include <math.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
-int psgst07(trans_t *trans, int n, int nrhs, SuperMatrix *A, float *b, 
-	    int ldb, float *x, int ldx, float *xact, 
-	    int ldxact, float *ferr, float *berr, float *reslts)
+int_t psgst07(trans_t *trans, int_t n, int_t nrhs, SuperMatrix *A, float *b, 
+	    int_t ldb, float *x, int_t ldx, float *xact, 
+	    int_t ldxact, float *ferr, float *berr, float *reslts)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -36,10 +36,10 @@ int psgst07(trans_t *trans, int n, int nrhs, SuperMatrix *A, float *b,
  *          = TRANS:   A**T * X = B  (Transpose)   
  *          = CONJ:    A**H * X = B  (Conjugate transpose = Transpose)   
  *
- *  N       (input) INT
+ *  N       (input) INT_T
  *          The number of rows of the matrices X and XACT.  N >= 0.   
  *
- *  NRHS    (input) INT   
+ *  NRHS    (input) INT_T   
  *          The number of columns of the matrices X and XACT.  NRHS >= 0. 
  *
  *  A       (input) SuperMatrix *, dimension (A->nrow, A->ncol)
@@ -49,21 +49,21 @@ int psgst07(trans_t *trans, int n, int nrhs, SuperMatrix *A, float *b,
  *          The right hand side vectors for the system of linear   
  *          equations.   
  *
- *  LDB     (input) INT   
+ *  LDB     (input) INT_T   
  *          The leading dimension of the array B.  LDB >= max(1,N).   
  *
  *  X       (input) DOUBLE PRECISION array, dimension (LDX,NRHS)   
  *          The computed solution vectors.  Each vector is stored as a   
  *          column of the matrix X.   
  *
- *  LDX     (input) INT   
+ *  LDX     (input) INT_T   
  *          The leading dimension of the array X.  LDX >= max(1,N).   
  *
  *  XACT    (input) DOUBLE PRECISION array, dimension (LDX,NRHS)   
  *          The exact solution vectors.  Each vector is stored as a   
  *          column of the matrix XACT.   
  *
- *  LDXACT  (input) INT   
+ *  LDXACT  (input) INT_T   
  *          The leading dimension of the array XACT.  LDXACT >= max(1,N). 
  *
  *
@@ -95,12 +95,13 @@ int psgst07(trans_t *trans, int n, int nrhs, SuperMatrix *A, float *b,
 
     /* Local variables */
     float diff, axbi;
-    int    imax, irow, n__1;
-    int    i, j, k;
+    int_t    imax, irow;
+    int_t    i, j, k;
+    int      n__1;
     float unfl, ovfl;
     float xnorm;
     float errbnd;
-    int    notran;
+    int_t    notran;
     float eps, tmp;
     float *rwork;
     float *Aval;

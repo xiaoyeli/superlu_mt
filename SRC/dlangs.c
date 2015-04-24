@@ -11,7 +11,7 @@
  * History:     Modified from lapack routine DLANGE
  */
 #include <math.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 
 double dlangs(char *norm, SuperMatrix *A)

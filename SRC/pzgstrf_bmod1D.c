@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void zlsolve(int_t, int_t, doublecomplex *, doublecomplex *);
 void zmatvec(int_t, int_t, int_t, doublecomplex *, doublecomplex *, doublecomplex *);
@@ -232,7 +232,7 @@ if (krep == BADCOL && jj == -1) {
 		  &nsupr, tempv, &incx );
 #else
 	    ztrsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-		   &nsupr, tempv, &incx );
+		   &nsupr32, tempv, &incx );
 #endif
 		
 	    luptr += segsze;	/* Dense matrix-vector */

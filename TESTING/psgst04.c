@@ -1,9 +1,9 @@
 
 #include <math.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
-int psgst04(int n, int nrhs, float *x, int ldx, float *xact,
-	    int ldxact, float rcond, float *resid)
+int_t psgst04(int_t n, int_t nrhs, float *x, int_t ldx, float *xact,
+	    int_t ldxact, float rcond, float *resid)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -23,24 +23,24 @@ int psgst04(int n, int nrhs, float *x, int ldx, float *xact,
  *  Arguments   
  *  =========   
  *
- *  N       (input) INT   
+ *  N       (input) INT_T   
  *          The number of rows of the matrices X and XACT.  N >= 0.   
  *
- *  NRHS    (input) INT   
+ *  NRHS    (input) INT_T   
  *          The number of columns of the matrices X and XACT.  NRHS >= 0. 
  *
  *  X       (input) DOUBLE PRECISION array, dimension (LDX,NRHS)   
  *          The computed solution vectors.  Each vector is stored as a   
  *          column of the matrix X.   
  *
- *  LDX     (input) INT   
+ *  LDX     (input) INT_T   
  *          The leading dimension of the array X.  LDX >= max(1,N).   
  *
  *  XACT    (input) DOUBLE PRECISION array, dimension( LDX, NRHS )   
  *          The exact solution vectors.  Each vector is stored as a   
  *          column of the matrix XACT.   
  *
- *  LDXACT  (input) INT   
+ *  LDXACT  (input) INT_T   
  *          The leading dimension of the array XACT.  LDXACT >= max(1,N). 
  *
  *  RCOND   (input) DOUBLE PRECISION   
@@ -60,8 +60,9 @@ int psgst04(int n, int nrhs, float *x, int ldx, float *xact,
     float d__1, d__2, d__3, d__4;
 
     /* Local variables */
-    int    i, j, n__1;
-    int    ix;
+    int_t    i, j;
+    int_t    ix;
+    int      n__1;
     float xnorm;
     float eps;
     float diffnm;

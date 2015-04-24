@@ -11,7 +11,7 @@
  * History:     Modified from lapack routine SLANGE
  */
 #include <math.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 
 float slangs(char *norm, SuperMatrix *A)

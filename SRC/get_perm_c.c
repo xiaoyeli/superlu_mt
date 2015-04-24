@@ -6,7 +6,7 @@
  *
  */
 
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 /* colamd related */
 #include "colamd.h"

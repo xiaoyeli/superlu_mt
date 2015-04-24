@@ -1,6 +1,6 @@
 
 /*  Elimination tree computation and layout routines */
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 /* 
  *  Implementation of disjoint set union routines.

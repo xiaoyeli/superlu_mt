@@ -1,5 +1,5 @@
 
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 psgstrf_threadarg_t *
 psgstrf_thread_init(SuperMatrix *A, SuperMatrix *L, SuperMatrix *U,

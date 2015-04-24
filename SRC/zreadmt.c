@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 #define TLEN	80
 

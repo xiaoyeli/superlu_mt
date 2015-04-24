@@ -1,6 +1,6 @@
 
 #include <stdlib.h> /* for getenv and atoi */
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 void
 psgstrf(superlumt_options_t *superlumt_options, SuperMatrix *A, int_t *perm_r,

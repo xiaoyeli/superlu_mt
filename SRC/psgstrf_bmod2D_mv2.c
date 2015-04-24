@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 void slsolve(int_t, int_t, float *, float *);
 void smatvec(int_t, int_t, int_t, float *, float *, float *);
@@ -31,7 +31,7 @@ psgstrf_bmod2D_mv2(
 		   )
 {
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -290,7 +290,7 @@ psgstrf_bmod2D_mv2(
 			   &nsupr, tri[1], &incx, &beta, matvec[1], &incy );
 #else
 		    sgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr], 
-			   &nsupr, tri[1], &incx, &beta, matvec[1], &incy );
+			   &nsupr32, tri[1], &incx, &beta, matvec[1], &incy );
 #endif
 #else
 		    smatvec (nsupr, block_nrow, segsze, &lusup[luptr],
@@ -343,7 +343,7 @@ psgstrf_bmod2D_mv2(
 		   &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
 #else
 	    sgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr], 
-		   &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
+		   &nsupr32, tri[0], &incx, &beta, matvec[0], &incy );
 #endif
 #else
 	    smatvec(nsupr, block_nrow, segsze, &lusup[luptr],

@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 void slsolve(int_t, int_t, float *, float *);
 void smatvec(int_t, int_t, int_t, float *, float *, float *);
@@ -218,7 +218,7 @@ if (krep == BADCOL && jj == -1) {
 		  &nsupr, tempv, &incx );
 #else
 	    strsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-		   &nsupr, tempv, &incx );
+		   &nsupr32, tempv, &incx );
 #endif
 		
 	    luptr += segsze;	/* Dense matrix-vector */

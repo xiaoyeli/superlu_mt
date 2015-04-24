@@ -1,5 +1,5 @@
 
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 
 int_t
@@ -24,7 +24,7 @@ pdgstrf_column_dfs(
 		   )
 {
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007

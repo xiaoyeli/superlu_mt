@@ -9,7 +9,7 @@
  * -- 8/29/2013: added lock to access Stack memory supplied by user
  *   
  */
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 /* ------------------
    Constants & Macros
@@ -323,7 +323,7 @@ psgstrf_MemInit(int_t n, int_t annz, superlumt_options_t *superlumt_options,
 	while ( !ucol || !lsub || !usub ) {
 	    /*SUPERLU_ABORT("Not enough core in LUMemInit()");*/
 #if (PRNTlevel==1)
-	    printf(".. psgstrf_MemInit(): #retries" IFMT "\n", ++retries);
+	    printf(".. psgstrf_MemInit(): #retries " IFMT "\n", ++retries);
 #endif
 	    if ( whichspace == SYSTEM ) {
 		SUPERLU_FREE(ucol);
@@ -408,9 +408,9 @@ psgstrf_MemInit(int_t n, int_t annz, superlumt_options_t *superlumt_options,
     ++no_expand;
 
 #if ( PRNTlevel>=1 )
-    printf(".. psgstrf_MemInit() refact" IFMT, "space?" IFMT ", nzlumax" IFMT ", nzumax " IFMT ", nzlmax " IFMT "\n",
+    printf(".. psgstrf_MemInit() refact %d, whichspace %d, nzlumax " IFMT ", nzumax " IFMT ", nzlmax " IFMT "\n",
 	refact, whichspace, nzlumax, nzumax, nzlmax);
-    printf(".. psgstrf_MemInit() FILL_LUSUP" IFMT ", FILL_UCOL" IFMT ", FILL_LSUB" IFMT "\n",
+    printf(".. psgstrf_MemInit() FILL_LUSUP " IFMT ", FILL_UCOL " IFMT ", FILL_LSUB " IFMT "\n",
 	FILL_LUSUP, FILL_UCOL, FILL_LSUB);
     fflush(stdout);
 #endif
@@ -426,7 +426,7 @@ psgstrf_MemInit(int_t n, int_t annz, superlumt_options_t *superlumt_options,
 int_t
 psgstrf_WorkInit(int_t n, int_t panel_size, int_t **iworkptr, float **dworkptr)
 {
-    size_t  isize, dsize, extra;
+    int_t  isize, dsize, extra;
     float *old_ptr;
     int_t    maxsuper = sp_ienv(3),
            rowblk   = sp_ienv(4);
@@ -445,7 +445,7 @@ psgstrf_WorkInit(int_t n, int_t panel_size, int_t **iworkptr, float **dworkptr)
     }
 
     if ( whichspace == SYSTEM )
-	*dworkptr = (float *) SUPERLU_MALLOC(dsize);
+	*dworkptr = (float *) SUPERLU_MALLOC((size_t) dsize);
     else {
 	    *dworkptr = (float *) suser_malloc(dsize, TAIL);
 	    if ( NotDoubleAlign(*dworkptr) ) {
@@ -453,7 +453,7 @@ psgstrf_WorkInit(int_t n, int_t panel_size, int_t **iworkptr, float **dworkptr)
 	        *dworkptr = (float*) DoubleAlign(*dworkptr);
 	        *dworkptr = (float*) ((double*)*dworkptr - 1);
 	        extra = (char*)old_ptr - (char*)*dworkptr;
-#ifdef CHK_EXPAND	    
+#if ( DEBUGlevel>=1 )
 	        printf("psgstrf_WorkInit: not aligned, extra" IFMT "\n", extra);
 #endif	    
 #if ( MACH==PTHREAD ) /* Use pthread ... */
@@ -471,7 +471,7 @@ psgstrf_WorkInit(int_t n, int_t panel_size, int_t **iworkptr, float **dworkptr)
 	    }
     } /* else */
     if ( ! *dworkptr ) {
-	fprintf(stderr, "malloc fails for local dworkptr[].");
+	printf("malloc fails for local dworkptr[] ... dsize " IFMT "\n", dsize);
 	return (isize + dsize + n);
     }
 	

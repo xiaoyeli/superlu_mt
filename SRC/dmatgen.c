@@ -7,7 +7,7 @@
  *
  */
 #include <stdlib.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 
 /*

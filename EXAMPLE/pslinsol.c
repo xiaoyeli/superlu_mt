@@ -6,7 +6,7 @@
  * September 10, 2007
  *
  */
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 main(int argc, char *argv[])
 {

@@ -7,7 +7,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 #define XPAND_HINT(memtype, new_next, jcol, param) {\
 fprintf(stderr, "Storage for %12s exceeded; Current column " IFMT "; Need at least " IFMT ";\n",\

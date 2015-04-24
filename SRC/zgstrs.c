@@ -1,5 +1,5 @@
 
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void
 zgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U, 
@@ -72,8 +72,7 @@ zgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
     doublecomplex   temp_comp;
     register int_t j, k, jcol, iptr, luptr, ksupno, istart, irow, bptr;
     register int_t fsupc, nsuper;
-    int_t      n, nsupc, nsupr, nrow, nrhs, ldb;
-    int        i;
+    int        i, n, nsupc, nsupr, nrow, nrhs, ldb;
     int_t      *supno;
     DNformat *Bstore;
     SCPformat *Lstore;
@@ -182,8 +181,8 @@ zgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
 #else		
 		for (j = 0, bptr = 0; j < nrhs; j++, bptr += ldb) {
 		    rhs_work = &Bmat[bptr];
-		    zlsolve (nsupr, nsupc, &Lval[luptr], &rhs_work[fsupc]);
-		    zmatvec (nsupr, nrow, nsupc, &Lval[luptr+nsupc],
+		    zlsolve ((int_t)nsupr, (int_t)nsupc, &Lval[luptr], &rhs_work[fsupc]);
+		    zmatvec ((int_t)nsupr, (int_t)nrow, (int_t)nsupc, &Lval[luptr+nsupc],
 			     &rhs_work[fsupc], &work[0] );
 
 		    iptr = istart + nsupc;

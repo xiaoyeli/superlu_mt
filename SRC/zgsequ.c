@@ -8,7 +8,7 @@
  * History:     Modified from LAPACK routine ZGEEQU
  */
 #include <math.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void
 zgsequ(SuperMatrix *A, double *r, double *c, double *rowcnd,

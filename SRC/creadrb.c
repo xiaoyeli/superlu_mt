@@ -3,7 +3,7 @@
  * \brief Read a matrix stored in Rutherford-Boeing format
  *
  * <pre>
- * -- SuperLU routine (version 4.0) --
+ * -- SuperLU routine (version 3.0) --
  * Lawrence Berkeley National Laboratory.
  * June 30, 2009
  * </pre>
@@ -69,7 +69,7 @@
  * </pre>
  */
 #include <stdio.h>
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 /*! \brief Eat up the rest of the current line */
 static int_t cDumpLine(FILE *fp)

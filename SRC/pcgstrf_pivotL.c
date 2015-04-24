@@ -1,7 +1,7 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 int_t
 pcgstrf_pivotL(

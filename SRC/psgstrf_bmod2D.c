@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 void slsolve(int_t, int_t, float *, float *);
 void smatvec(int_t, int_t, int_t, float *, float *, float *);
@@ -213,10 +213,10 @@ psgstrf_bmod2D(
 #ifdef USE_VENDOR_BLAS
 #if ( MACH==CRAY_PVP )
 	    STRSV( ftcs1, ftcs2, ftcs3, &segsze, &lusup[luptr], 
-		   &nsupr, TriTmp, &incx );
+		   &nsupr32, TriTmp, &incx );
 #else
 	    strsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-		   &nsupr, TriTmp, &incx );
+		   &nsupr32, TriTmp, &incx );
 #endif
 #else		
 	    slsolve ( nsupr, segsze, &lusup[luptr], TriTmp );
@@ -272,13 +272,13 @@ psgstrf_bmod2D(
             beta = zero;
 #if ( MACH==CRAY_PVP )
 	    SGEMV( ftcs2, &block_nrow, &segsze, &alpha, &lusup[luptr], 
-		  &nsupr, TriTmp, &incx, &beta, MatvecTmp, &incy );
+		  &nsupr32, TriTmp, &incx, &beta, MatvecTmp, &incy );
 #else
 	    sgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr1], 
-		   &nsupr, TriTmp, &incx, &beta, MatvecTmp, &incy );
+		   &nsupr32, TriTmp, &incx, &beta, MatvecTmp, &incy );
 #endif /* _CRAY_PVP */
 #else
-	    smatvec((int_t) nsupr, (int_t) block_nrow, (int_t) segsze, &lusup[luptr1],
+	    smatvec( nsupr, (int_t) block_nrow, (int_t) segsze, &lusup[luptr1],
 		    TriTmp, MatvecTmp);
 #endif
 		

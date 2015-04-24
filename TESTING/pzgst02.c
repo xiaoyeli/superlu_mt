@@ -1,8 +1,8 @@
 
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
-int pzgst02(trans_t trans, int m, int n, int nrhs, SuperMatrix *A,
-	    doublecomplex *x, int ldx, doublecomplex *b, int ldb, double *resid)
+int_t pzgst02(trans_t trans, int_t m, int_t n, int_t nrhs, SuperMatrix *A,
+	    doublecomplex *x, int_t ldx, doublecomplex *b, int_t ldb, double *resid)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -71,7 +71,7 @@ int pzgst02(trans_t trans, int m, int n, int nrhs, SuperMatrix *A,
     double d__1, d__2;
 
     /* Local variables */
-    int j;
+    int_t j;
     int n1, n2;
     double anorm, bnorm;
     double xnorm;

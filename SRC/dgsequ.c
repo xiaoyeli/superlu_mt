@@ -8,7 +8,7 @@
  * History:     Modified from LAPACK routine DGEEQU
  */
 #include <math.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 void
 dgsequ(SuperMatrix *A, double *r, double *c, double *rowcnd,

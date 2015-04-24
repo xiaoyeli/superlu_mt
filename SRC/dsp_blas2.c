@@ -11,7 +11,7 @@
  * Purpose:		Sparse BLAS 2, using some dense BLAS 2 operations.
  */
 
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 
 /* 

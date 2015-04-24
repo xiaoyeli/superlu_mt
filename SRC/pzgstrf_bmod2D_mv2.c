@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void zlsolve(int_t, int_t, doublecomplex *, doublecomplex *);
 void zmatvec(int_t, int_t, int_t, doublecomplex *, doublecomplex *, doublecomplex *);
@@ -31,7 +31,7 @@ pzgstrf_bmod2D_mv2(
 		   )
 {
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -304,7 +304,7 @@ pzgstrf_bmod2D_mv2(
 			   &nsupr, tri[1], &incx, &beta, matvec[1], &incy );
 #else
 		    zgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr], 
-			   &nsupr, tri[1], &incx, &beta, matvec[1], &incy );
+			   &nsupr32, tri[1], &incx, &beta, matvec[1], &incy );
 #endif
 #else
 		    zmatvec (nsupr, block_nrow, segsze, &lusup[luptr],
@@ -357,7 +357,7 @@ pzgstrf_bmod2D_mv2(
 		   &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
 #else
 	    zgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr], 
-		   &nsupr, tri[0], &incx, &beta, matvec[0], &incy );
+		   &nsupr32, tri[0], &incx, &beta, matvec[0], &incy );
 #endif
 #else
 	    zmatvec(nsupr, block_nrow, segsze, &lusup[luptr],

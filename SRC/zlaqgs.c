@@ -11,7 +11,7 @@
  * History:     Modified from LAPACK routine ZLAQGE
  */
 #include <math.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 
 void

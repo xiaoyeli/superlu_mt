@@ -8,7 +8,7 @@
  */
 #include <math.h>
 #include "slu_mt_Cnames.h"
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 #include "slu_mt_util.h"
 #include "slu_scomplex.h"
 

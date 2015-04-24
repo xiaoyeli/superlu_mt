@@ -8,7 +8,7 @@ echo 'Double-precision testing output' > $ofile
 
 set NVAL        = (10 19)
 set NRHS        = (2)
-set LWORK       = (0 10000000)
+set LWORK       = (0 100000000)
 set PANELSIZE   = (2)
 set RELAX       = (2)
 set NPROCS	= (1 4)

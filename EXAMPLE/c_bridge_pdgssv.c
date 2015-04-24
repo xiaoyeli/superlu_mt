@@ -7,20 +7,21 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 #include "slu_mt_util.h"
 #include "slu_mt_Cnames.h"
 
 void
-c_bridge_pdgssv_(int *nprocs, int *n, int *nnz, int *nrhs, double *values,
-		 int *rowind, int *colptr, double *b, int *ldb, int *info)
+c_bridge_pdgssv_(int_t *nprocs, int_t *n, int_t *nnz, int_t *nrhs,
+		 double *values, int_t *rowind, int_t *colptr,
+		 double *b, int_t *ldb, int_t *info)
 {
     SuperMatrix A, B, L, U;
     SCformat *Lstore;
     NCformat *Ustore;
-    int      *perm_r; /* row permutations from partial pivoting */
-    int      *perm_c; /* column permutation vector */
-    int      panel_size, permc_spec, i;
+    int_t      *perm_r; /* row permutations from partial pivoting */
+    int_t      *perm_c; /* column permutation vector */
+    int_t      panel_size, permc_spec, i;
     superlu_memusage_t superlu_memusage;
 
     /* Adjust to 0-based indexing */
@@ -52,20 +53,20 @@ c_bridge_pdgssv_(int *nprocs, int *n, int *nnz, int *nrhs, double *values,
 
 	Lstore = (SCformat *) L.Store;
 	Ustore = (NCformat *) U.Store;
-    	printf("#NZ in factor L = %d\n", Lstore->nnz);
-    	printf("#NZ in factor U = %d\n", Ustore->nnz);
-    	printf("#NZ in L+U = %d\n", Lstore->nnz + Ustore->nnz - L.ncol);
+    	printf("#NZ in factor L = " IFMT "\n", Lstore->nnz);
+    	printf("#NZ in factor U = " IFMT "\n", Ustore->nnz);
+    	printf("#NZ in L+U = " IFMT "\n", Lstore->nnz + Ustore->nnz - L.ncol);
 	
 	superlu_dQuerySpace(*nprocs, &L, &U, panel_size, &superlu_memusage);
-	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions %d\n",
+	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions " IFMT "\n",
 	       superlu_memusage.for_lu/1e6, superlu_memusage.total_needed/1e6,
 	       superlu_memusage.expansions);
 	
     } else {
-	printf("dgssv() error returns INFO= %d\n", *info);
+	printf("dgssv() error returns INFO= " IFMT "\n", *info);
 	if ( info <= n ) { /* factorization completes */
 	    superlu_dQuerySpace(*nprocs, &L, &U, panel_size, &superlu_memusage);
-	    printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions %d\n",
+	    printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions " IFMT "\n",
 		   superlu_memusage.for_lu/1e6, 
 		   superlu_memusage.total_needed/1e6,
 		   superlu_memusage.expansions);

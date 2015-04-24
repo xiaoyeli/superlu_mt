@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 #define PRINT_SPIN_TIME(where)  { \
   if ( t2 > 0.001 ) { \

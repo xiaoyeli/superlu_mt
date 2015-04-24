@@ -1,9 +1,9 @@
 
 #include <math.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
-int pzgst04(int n, int nrhs, doublecomplex *x, int ldx, doublecomplex *xact,
-	    int ldxact, double rcond, double *resid)
+int_t pzgst04(int_t n, int_t nrhs, doublecomplex *x, int_t ldx, doublecomplex *xact,
+	    int_t ldxact, double rcond, double *resid)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -23,24 +23,24 @@ int pzgst04(int n, int nrhs, doublecomplex *x, int ldx, doublecomplex *xact,
  *  Arguments   
  *  =========   
  *
- *  N       (input) INT   
+ *  N       (input) INT_T   
  *          The number of rows of the matrices X and XACT.  N >= 0.   
  *
- *  NRHS    (input) INT   
+ *  NRHS    (input) INT_T   
  *          The number of columns of the matrices X and XACT.  NRHS >= 0. 
  *
  *  X       (input) DOUBLE PRECISION array, dimension (LDX,NRHS)   
  *          The computed solution vectors.  Each vector is stored as a   
  *          column of the matrix X.   
  *
- *  LDX     (input) INT   
+ *  LDX     (input) INT_T   
  *          The leading dimension of the array X.  LDX >= max(1,N).   
  *
  *  XACT    (input) DOUBLE PRECISION array, dimension( LDX, NRHS )   
  *          The exact solution vectors.  Each vector is stored as a   
  *          column of the matrix XACT.   
  *
- *  LDXACT  (input) INT   
+ *  LDXACT  (input) INT_T   
  *          The leading dimension of the array XACT.  LDXACT >= max(1,N). 
  *
  *  RCOND   (input) DOUBLE PRECISION   
@@ -60,8 +60,9 @@ int pzgst04(int n, int nrhs, doublecomplex *x, int ldx, doublecomplex *xact,
     double d__1, d__2, d__3, d__4;
 
     /* Local variables */
-    int    i, j, n__1;
-    int    ix;
+    int_t    i, j;
+    int_t    ix;
+    int      n__1;
     double xnorm;
     double eps;
     double diffnm;

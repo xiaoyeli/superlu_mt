@@ -8,7 +8,7 @@
  */
 #include <math.h>
 #include "slu_mt_Cnames.h"
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 #include "slu_mt_util.h"
 
 int_t

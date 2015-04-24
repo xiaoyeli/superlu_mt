@@ -14,7 +14,7 @@
  *     This is only used when the system lacks an efficient BLAS library.
  */
 #include "slu_scomplex.h"
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 
 /*

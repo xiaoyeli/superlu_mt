@@ -1,14 +1,14 @@
 
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 
 void
-pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A, 
-	int *perm_c, int *perm_r, equed_t *equed, double *R, double *C,
+pzgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A, 
+	int_t *perm_c, int_t *perm_r, equed_t *equed, double *R, double *C,
 	SuperMatrix *L, SuperMatrix *U,
 	SuperMatrix *B, SuperMatrix *X, double *recip_pivot_growth, 
 	double *rcond, double *ferr, double *berr, 
-	superlu_memusage_t *superlu_memusage, int *info)
+	superlu_memusage_t *superlu_memusage, int_t *info)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -112,7 +112,7 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  * Arguments
  * =========
  *
- * nprocs (input) int
+ * nprocs (input) int_t
  *         Number of processes (or threads) to be spawned and used to perform
  *         the LU factorization by pzgstrf(). There is a single thread of
  *         control to call pzgstrf(), and all threads spawned by pzgstrf() 
@@ -151,10 +151,10 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *               elimination tree, and the symbolic information of the
  *               Householder matrix.
  *
- *         o panel_size (int)
+ *         o panel_size (int_t)
  *           A panel consists of at most panel_size consecutive columns.
  *
- *         o relax (int)
+ *         o relax (int_t)
  *           To control degree of relaxing supernodes. If the number
  *           of nodes (columns) in a subtree of the elimination tree is less
  *           than relax, this subtree is considered as one supernode,
@@ -183,7 +183,7 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *           User-supplied work space and space for the output data structures.
  *           Not referenced if lwork = 0;
  *
- *         o lwork (int)
+ *         o lwork (int_t)
  *           Specifies the length of work array.
  *           = 0:  allocate space internally by system malloc;
  *           > 0:  use user-supplied work array of length lwork in bytes,
@@ -215,7 +215,7 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *           equed = COL:  transpose(A) := transpose(A) * diag(C)
  *           equed = BOTH: transpose(A) := diag(R) * transpose(A) * diag(C).
  *
- * perm_c  (input/output) int*
+ * perm_c  (input/output) int_t*
  *	   If A->Stype = NC, Column permutation vector of size A->ncol,
  *         which defines the permutation matrix Pc; perm_c[i] = j means
  *         column i of A is in position j in A*Pc.
@@ -228,7 +228,7 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *         which describes permutation of columns of tranpose(A) 
  *         (rows of A) as described above.
  * 
- * perm_r  (input/output) int*
+ * perm_r  (input/output) int_t*
  *         If A->Stype = NC, row permutation vector of size A->nrow, 
  *         which defines the permutation matrix Pr, and is determined
  *         by partial pivoting.  perm_r[i] = j means row i of A is in 
@@ -346,10 +346,10 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *           The amount of space used in bytes for L\U data structures.
  *         - total_needed (float)
  *           The amount of space needed in bytes to perform factorization.
- *         - expansions (int)
+ *         - expansions (int_t)
  *           The number of memory expansions during the LU factorization.
  *
- * info    (output) int*
+ * info    (output) int_t*
  *         = 0: successful exit   
  *         < 0: if info = -i, the i-th argument had an illegal value   
  *         > 0: if info = i, and i is   
@@ -371,15 +371,16 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
     NCformat  *Astore;
     DNformat  *Bstore, *Xstore;
     doublecomplex    *Bmat, *Xmat;
-    int       ldb, ldx, nrhs;
+    int_t       ldb, ldx, nrhs;
     SuperMatrix *AA; /* A in NC format used by the factorization routine.*/
     SuperMatrix AC; /* Matrix postmultiplied by Pc */
-    int       colequ, equil, dofact, notran, rowequ;
+    int_t       colequ, equil, dofact, notran, rowequ;
     char      norm[1];
     trans_t   trant;
-    int       i, j, info1;
+    int_t     j, info1;
+    int i;
     double amax, anorm, bignum, smlnum, colcnd, rowcnd, rcmax, rcmin;
-    int       n, relax, panel_size;
+    int_t       n, relax, panel_size;
     Gstat_t   Gstat;
     double    t0;      /* temporary time */
     double    *utime;
@@ -440,24 +441,24 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
 	    rcmin = bignum;
 	    rcmax = 0.;
 	    for (j = 0; j < A->nrow; ++j) {
-		rcmin = MIN(rcmin, R[j]);
+		rcmin = SUPERLU_MIN(rcmin, R[j]);
 		rcmax = SUPERLU_MAX(rcmax, R[j]);
 	    }
 	    if (rcmin <= 0.) *info = -7;
 	    else if ( A->nrow > 0)
-		rowcnd = SUPERLU_MAX(rcmin,smlnum) / MIN(rcmax,bignum);
+		rowcnd = SUPERLU_MAX(rcmin,smlnum) / SUPERLU_MIN(rcmax,bignum);
 	    else rowcnd = 1.;
 	}
 	if (colequ && *info == 0) {
 	    rcmin = bignum;
 	    rcmax = 0.;
 	    for (j = 0; j < A->nrow; ++j) {
-		rcmin = MIN(rcmin, C[j]);
+		rcmin = SUPERLU_MIN(rcmin, C[j]);
 		rcmax = SUPERLU_MAX(rcmax, C[j]);
 	    }
 	    if (rcmin <= 0.) *info = -8;
 	    else if (A->nrow > 0)
-		colcnd = SUPERLU_MAX(rcmin,smlnum) / MIN(rcmax,bignum);
+		colcnd = SUPERLU_MAX(rcmin,smlnum) / SUPERLU_MIN(rcmax,bignum);
 	    else colcnd = 1.;
 	}
 	if (*info == 0) {
@@ -668,6 +669,12 @@ pzgssvx(int nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
     /* ------------------------------------------------------------
        Print timings, then deallocate statistic variables.
        ------------------------------------------------------------*/
+#ifdef PROFILE
+    {
+	SCPformat *Lstore = (SCPformat *) L->Store;
+	ParallelProfile(n, Lstore->nsuper+1, Gstat.num_panels, nprocs, &Gstat);
+    }
+#endif
     /*PrintStat(&Gstat);*/
     StatFree(&Gstat);
 }

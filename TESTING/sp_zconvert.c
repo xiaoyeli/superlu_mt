@@ -1,9 +1,9 @@
 
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
-int
-sp_zconvert(int m, int n, doublecomplex *A, int lda, int kl, int ku,
-	   doublecomplex *a, int *asub, int *xa, int *nnz)
+int_t
+sp_zconvert(int_t m, int_t n, doublecomplex *A, int_t lda, int_t kl, int_t ku,
+	   doublecomplex *a, int_t *asub, int_t *xa, int_t *nnz)
 {
 /*
  * -- SuperLU MT routine (version 1.0) --
@@ -13,9 +13,9 @@ sp_zconvert(int m, int n, doublecomplex *A, int lda, int kl, int ku,
  *
  * Convert a full matrix into a sparse matrix format. 
  */
-    int     lasta = 0;
-    int     i, j, ilow, ihigh;
-    int     *row;
+    int_t     lasta = 0;
+    int_t     i, j, ilow, ihigh;
+    int_t     *row;
     doublecomplex  *val;
 
     for (j = 0; j < n; ++j) {

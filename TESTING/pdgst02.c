@@ -1,8 +1,8 @@
 
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
-int pdgst02(trans_t trans, int m, int n, int nrhs, SuperMatrix *A,
-	    double *x, int ldx, double *b, int ldb, double *resid)
+int_t pdgst02(trans_t trans, int_t m, int_t n, int_t nrhs, SuperMatrix *A,
+	    double *x, int_t ldx, double *b, int_t ldb, double *resid)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -71,7 +71,7 @@ int pdgst02(trans_t trans, int m, int n, int nrhs, SuperMatrix *A,
     double d__1, d__2;
 
     /* Local variables */
-    int j;
+    int_t j;
     int n1, n2;
     double anorm, bnorm;
     double xnorm;

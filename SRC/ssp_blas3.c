@@ -11,7 +11,7 @@
  * Purpose:		Sparse BLAS3, using some dense BLAS3 operations.
  */
 
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 
 int_t

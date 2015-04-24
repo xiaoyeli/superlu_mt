@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 void dlsolve(int_t, int_t, double *, double *);
 void dmatvec(int_t, int_t, int_t, double *, double *, double *);
@@ -213,10 +213,10 @@ pdgstrf_bmod2D(
 #ifdef USE_VENDOR_BLAS
 #if ( MACH==CRAY_PVP )
 	    STRSV( ftcs1, ftcs2, ftcs3, &segsze, &lusup[luptr], 
-		   &nsupr, TriTmp, &incx );
+		   &nsupr32, TriTmp, &incx );
 #else
 	    dtrsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-		   &nsupr, TriTmp, &incx );
+		   &nsupr32, TriTmp, &incx );
 #endif
 #else		
 	    dlsolve ( nsupr, segsze, &lusup[luptr], TriTmp );
@@ -272,13 +272,13 @@ pdgstrf_bmod2D(
             beta = zero;
 #if ( MACH==CRAY_PVP )
 	    SGEMV( ftcs2, &block_nrow, &segsze, &alpha, &lusup[luptr], 
-		  &nsupr, TriTmp, &incx, &beta, MatvecTmp, &incy );
+		  &nsupr32, TriTmp, &incx, &beta, MatvecTmp, &incy );
 #else
 	    dgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr1], 
-		   &nsupr, TriTmp, &incx, &beta, MatvecTmp, &incy );
+		   &nsupr32, TriTmp, &incx, &beta, MatvecTmp, &incy );
 #endif /* _CRAY_PVP */
 #else
-	    dmatvec((int_t) nsupr, (int_t) block_nrow, (int_t) segsze, &lusup[luptr1],
+	    dmatvec( nsupr, (int_t) block_nrow, (int_t) segsze, &lusup[luptr1],
 		    TriTmp, MatvecTmp);
 #endif
 		

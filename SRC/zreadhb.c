@@ -9,7 +9,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 
 /* Eat up the rest of the current line */

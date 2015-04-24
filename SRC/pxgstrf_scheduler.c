@@ -1,4 +1,4 @@
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 void
 pxgstrf_scheduler(const int_t pnum, const int_t n, const int_t *etree, 

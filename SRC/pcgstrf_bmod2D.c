@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 void clsolve(int_t, int_t, complex *, complex *);
 void cmatvec(int_t, int_t, int_t, complex *, complex *, complex *);
@@ -226,10 +226,10 @@ pcgstrf_bmod2D(
 #ifdef USE_VENDOR_BLAS
 #if ( MACH==CRAY_PVP )
 	    CTRSV( ftcs1, ftcs2, ftcs3, &segsze, &lusup[luptr], 
-		   &nsupr, TriTmp, &incx );
+		   &nsupr32, TriTmp, &incx );
 #else
 	    ctrsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-		   &nsupr, TriTmp, &incx );
+		   &nsupr32, TriTmp, &incx );
 #endif
 #else		
 	    clsolve ( nsupr, segsze, &lusup[luptr], TriTmp );
@@ -285,13 +285,13 @@ pcgstrf_bmod2D(
             beta = zero;
 #if ( MACH==CRAY_PVP )
 	    CGEMV( ftcs2, &block_nrow, &segsze, &alpha, &lusup[luptr], 
-		  &nsupr, TriTmp, &incx, &beta, MatvecTmp, &incy );
+		  &nsupr32, TriTmp, &incx, &beta, MatvecTmp, &incy );
 #else
 	    cgemv_( "N", &block_nrow, &segsze, &alpha, &lusup[luptr1], 
-		   &nsupr, TriTmp, &incx, &beta, MatvecTmp, &incy );
+		   &nsupr32, TriTmp, &incx, &beta, MatvecTmp, &incy );
 #endif /* _CRAY_PVP */
 #else
-	    cmatvec((int_t) nsupr, (int_t) block_nrow, (int_t) segsze, &lusup[luptr1],
+	    cmatvec( nsupr, (int_t) block_nrow, (int_t) segsze, &lusup[luptr1],
 		    TriTmp, MatvecTmp);
 #endif
 		

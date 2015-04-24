@@ -6,7 +6,7 @@
  * September 10, 2007
  *
  */
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 
 main(int argc, char *argv[])
@@ -186,9 +186,11 @@ main(int argc, char *argv[])
     Destroy_CompCol_Matrix(&A);
     Destroy_SuperMatrix_Store(&B);
     Destroy_SuperMatrix_Store(&X);
-    if ( lwork >= 0 ) {
+    if ( lwork == 0 ) {
         Destroy_SuperNode_SCP(&L);
         Destroy_CompCol_NCP(&U);
+    } else if ( lwork > 0 ) {
+        SUPERLU_FREE(work);
     }
 }
 
@@ -241,6 +243,3 @@ parse_command_line(int argc, char *argv[], int_t *nprocs, int_t *lwork,
   	}
     }
 }
-
-
-

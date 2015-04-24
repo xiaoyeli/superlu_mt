@@ -11,7 +11,7 @@
  * History:     Modified from lapack routine ZLANGE
  */
 #include <math.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 
 double zlangs(char *norm, SuperMatrix *A)

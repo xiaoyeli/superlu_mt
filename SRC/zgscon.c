@@ -8,7 +8,7 @@
  * History:     Modified from lapack routines DGECON.
  */
 #include <math.h>
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void
 zgscon(char *norm, SuperMatrix *L, SuperMatrix *U,

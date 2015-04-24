@@ -1,5 +1,5 @@
 
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 void
 pdgstrf_thread_finalize(pdgstrf_threadarg_t *pdgstrf_threadarg, 

@@ -1,5 +1,5 @@
 
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 void
 sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U, 
@@ -71,8 +71,7 @@ sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
 
     register int_t j, k, jcol, iptr, luptr, ksupno, istart, irow, bptr;
     register int_t fsupc, nsuper;
-    int_t      n, nsupc, nsupr, nrow, nrhs, ldb;
-    int        i;
+    int        i, n, nsupc, nsupr, nrow, nrhs, ldb;
     int_t      *supno;
     DNformat *Bstore;
     SCPformat *Lstore;
@@ -179,8 +178,8 @@ sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
 #else		
 		for (j = 0, bptr = 0; j < nrhs; j++, bptr += ldb) {
 		    rhs_work = &Bmat[bptr];
-		    slsolve (nsupr, nsupc, &Lval[luptr], &rhs_work[fsupc]);
-		    smatvec (nsupr, nrow, nsupc, &Lval[luptr+nsupc],
+		    slsolve ((int_t)nsupr, (int_t)nsupc, &Lval[luptr], &rhs_work[fsupc]);
+		    smatvec ((int_t)nsupr, (int_t)nrow, (int_t)nsupc, &Lval[luptr+nsupc],
 			     &rhs_work[fsupc], &work[0] );
 
 		    iptr = istart + nsupc;

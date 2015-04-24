@@ -1,5 +1,5 @@
 
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 void
 sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,

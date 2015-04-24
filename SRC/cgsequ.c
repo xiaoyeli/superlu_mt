@@ -8,7 +8,7 @@
  * History:     Modified from LAPACK routine CGEEQU
  */
 #include <math.h>
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 void
 cgsequ(SuperMatrix *A, float *r, float *c, float *rowcnd,

@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 #define EMPTY    (-1)
 #define ROOT     (neqns)   /* dummy root of the e-tree */

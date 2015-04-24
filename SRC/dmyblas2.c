@@ -13,7 +13,7 @@
  * Note:
  *     This is only used when the system lacks an efficient BLAS library.
  */
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 /*
  * Solves a dense UNIT lower triangular system. The unit lower 

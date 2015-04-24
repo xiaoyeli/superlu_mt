@@ -1,5 +1,5 @@
 
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void
 pzgstrf_thread_finalize(pzgstrf_threadarg_t *pzgstrf_threadarg, 

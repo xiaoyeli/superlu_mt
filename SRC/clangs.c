@@ -11,7 +11,7 @@
  * History:     Modified from lapack routine CLANGE
  */
 #include <math.h>
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 
 float clangs(char *norm, SuperMatrix *A)

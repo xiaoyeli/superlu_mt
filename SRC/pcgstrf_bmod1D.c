@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pcsp_defs.h"
+#include "slu_mt_cdefs.h"
 
 void clsolve(int_t, int_t, complex *, complex *);
 void cmatvec(int_t, int_t, int_t, complex *, complex *, complex *);
@@ -231,7 +231,7 @@ if (krep == BADCOL && jj == -1) {
 		  &nsupr, tempv, &incx );
 #else
 	    ctrsv_( "L", "N", "U", &segsze, &lusup[luptr], 
-		   &nsupr, tempv, &incx );
+		   &nsupr32, tempv, &incx );
 #endif
 		
 	    luptr += segsze;	/* Dense matrix-vector */

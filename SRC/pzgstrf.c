@@ -1,6 +1,6 @@
 
 #include <stdlib.h> /* for getenv and atoi */
-#include "pzsp_defs.h"
+#include "slu_mt_zdefs.h"
 
 void
 pzgstrf(superlumt_options_t *superlumt_options, SuperMatrix *A, int_t *perm_r,

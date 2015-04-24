@@ -8,7 +8,7 @@
  * History:     Modified from LAPACK routine SGEEQU
  */
 #include <math.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 void
 sgsequ(SuperMatrix *A, float *r, float *c, float *rowcnd,

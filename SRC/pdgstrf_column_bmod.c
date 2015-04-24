@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
 void dlsolve(int_t, int_t, double*, double*);
 void dmatvec(int_t, int_t, int_t, double*, double*, double*);
@@ -22,7 +22,7 @@ pdgstrf_column_bmod(
 		    )
 {
 /*
- * -- SuperLU MT routine (version 2.0) --
+ * -- SuperLU MT routine (version 3.0) --
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
@@ -62,8 +62,8 @@ pdgstrf_column_bmod(
     double	  ukj, ukj1, ukj2;
     register int_t lptr, kfnz, isub, irow, i, no_zeros;
     register int_t luptr, luptr1, luptr2;
-    int_t          fsupc, nsupc;
-    int          nsupr, segsze;
+    int_t          fsupc;
+    int          nsupc, nsupr, segsze;
     int          nrow; /* No of rows in the matrix of matrix-vector */
     int_t          jsupno, k, ksub, krep, krep_ind, ksupno;
     int_t          ufirst, nextlu;

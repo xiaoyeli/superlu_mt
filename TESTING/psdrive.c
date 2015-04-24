@@ -1,14 +1,21 @@
 
 #include <string.h>
-#include "pssp_defs.h"
+#include "slu_mt_sdefs.h"
 
 #define NTESTS    5    /* Number of test types */
 #define NTYPES    11   /* Number of matrix types */
 #define NTRAN     2    
 #define THRESH    40.0
+
+#if defined ( _LONGINT )
+#define FMT1      "%10s:n=%lld, test(%d)=%12.5g\n"
+#define	FMT2      "%10s:fact=%d, trans=%d, refact=%d, equed=%d, n=%lld, imat=%d, test(%d)=%12.5g\n"
+#define FMT3      "%10s:info=%lld, izero=%lld, n=%lld, nrhs=%lld, imat=%d, nfail=%d\n"
+#else
 #define FMT1      "%10s:n=%d, test(%d)=%12.5g\n"
 #define	FMT2      "%10s:fact=%d, trans=%d, refact=%d, equed=%d, n=%d, imat=%d, test(%d)=%12.5g\n"
 #define FMT3      "%10s:info=%d, izero=%d, n=%d, nrhs=%d, imat=%d, nfail=%d\n"
+#endif
 
 
 main(int argc, char *argv[])
@@ -31,12 +38,12 @@ main(int argc, char *argv[])
  * =====================================================================
  */
     float         *a, *a_save;
-    int            *asub, *asub_save;
-    int            *xa, *xa_save;
+    int_t            *asub, *asub_save;
+    int_t            *xa, *xa_save;
     SuperMatrix    A, B, X, L, U;
     SuperMatrix    ASAV, AC;
-    int            *perm_r; /* row permutation from partial pivoting */
-    int            *perm_c, *pc_save; /* column permutation */
+    int_t            *perm_r; /* row permutation from partial pivoting */
+    int_t            *perm_c, *pc_save; /* column permutation */
     float  zero = 0.0;
     float         *R, *C;
     float         *ferr, *berr;
@@ -44,20 +51,22 @@ main(int argc, char *argv[])
     float	   *wwork;
     float          diag_pivot_thresh, drop_tol;
     void           *work;
-    int            info, lwork, nrhs, panel_size, relax;
-    int            nprocs, m, n, nnz;
+    int_t            info, lwork, nrhs, panel_size, relax;
+    int_t            nprocs, m, n, nnz;
+    int              n32, info32;
     float        *xact;
     float        *rhsb, *solx, *bsav;
-    int            ldb, ldx;
+    int_t            ldb, ldx;
     float          rpg, rcond;
     int            i, j, k1;
     float         rowcnd, colcnd, amax;
-    int            maxsuper, rowblk, colblk;
-    int            prefact, dofact, equil, iequed, norefact;
+    int_t            maxsuper, rowblk, colblk;
+    int_t            prefact, dofact, equil, iequed, norefact;
     int            nt, nrun, nfail, nerrs, imat, fimat, nimat;
-    int            nfact, ifact, nrefact, irefact, nusepr, iusepr, itran;
-    int            kl, ku, mode, lda;
-    int            zerot, izero, ioff;
+    int_t            nfact, ifact, nrefact, irefact, nusepr, iusepr, itran;
+    int_t            kl, ku, lda;
+    int            kl32, ku32, mode, lda32;
+    int_t            zerot, izero, ioff;
     float         anorm, cndnum;
     float         *Afull;
     float         result[NTESTS];
@@ -81,22 +90,22 @@ main(int argc, char *argv[])
     yes_no_t useprs[] = {YES, NO};
 
     /* Some function prototypes */
-    extern int psgst01(int, int, SuperMatrix *, SuperMatrix *,
-                         SuperMatrix *, int *, int *, float *);
-    extern int psgst02(trans_t, int, int, int, SuperMatrix *, float *,
-                         int, float *, int, float *resid);
-    extern int psgst04(int, int, float *, int,
-                         float *, int, float rcond, float *resid);
-    extern int psgst07(trans_t, int, int, SuperMatrix *, float *, int,
-                         float *, int, float *, int,
+    extern int_t psgst01(int_t, int_t, SuperMatrix *, SuperMatrix *,
+                         SuperMatrix *, int_t *, int_t *, float *);
+    extern int_t psgst02(trans_t, int_t, int_t, int_t, SuperMatrix *, float *,
+                         int_t, float *, int_t, float *resid);
+    extern int_t psgst04(int_t, int_t, float *, int_t,
+                         float *, int_t, float rcond, float *resid);
+    extern int_t psgst07(trans_t, int_t, int_t, SuperMatrix *, float *, int_t,
+                         float *, int_t, float *, int_t,
                          float *, float *, float *);
     extern int slatb4_(char *, int *, int *, int *, char *, int *, int *,
                        float *, int *, float *, char *);
     extern int slatms_(int *, int *, char *, int *, char *, float *d,
                        int *, float *, float *, int *, int *,
                        char *, float *, int *, float *, int *);
-    extern int sp_sconvert(int, int, float *, int, int, int,
-                           float *a, int *, int *, int *);
+    extern int_t sp_sconvert(int_t, int_t, float *, int_t, int_t, int_t,
+                           float *a, int_t *, int_t *, int_t *);
 
 
     /* Executable statements */
@@ -124,14 +133,14 @@ main(int argc, char *argv[])
     if ( lwork > 0 ) {
 	work = SUPERLU_MALLOC(lwork);
 	if ( !work ) {
-	    fprintf(stderr, "expert: cannot allocate %d bytes\n", lwork);
+	    fprintf(stderr, "expert: cannot allocate " IFMT " bytes\n", lwork);
 	    exit (-1);
 	}
 	bzero(work, lwork);
     }
 
 #if ( DEBUGlevel>=1 )
-    printf("n = %4d, nprocs = %4d, w = %4d, relax = %4d\n",
+    printf("n = " IFMT ", nprocs = " IFMT ", w = " IFMT ", relax = " IFMT "\n",
 	   n, nprocs, panel_size, relax);
 #endif
 
@@ -202,13 +211,17 @@ main(int argc, char *argv[])
 	    
 	    /* Set up parameters with SLATB4 and generate a test matrix
 	       with SLATMS.  */
-	    slatb4_(path, &imat, &n, &n, sym, &kl, &ku, &anorm, &mode,
+            n32 = n;  kl32 = kl; ku32 = ku;
+	    slatb4_(path, &imat, &n32, &n32, sym, &kl32, &ku32, &anorm, &mode,
 		    &cndnum, dist);
+	    kl = kl32; ku = ku32;
 
-	    slatms_(&n, &n, dist, iseed, sym, &rwork[0], &mode, &cndnum,
-		    &anorm, &kl, &ku, "No packing", Afull, &lda,
-		    &wwork[0], &info);
-
+            lda32 = lda;
+	    slatms_(&n32, &n32, dist, iseed, sym, &rwork[0], &mode, &cndnum,
+		    &anorm, &kl32, &ku32, "No packing", Afull, &lda32,
+		    &wwork[0], &info32);
+            info = info32;
+            
 	    if ( info ) {
 		printf(FMT3, "SLATMS", info, izero, n, nrhs, imat, nfail);
 		continue;
@@ -332,10 +345,10 @@ main(int argc, char *argv[])
 			    superlumt_options.diag_pivot_thresh=diag_pivot_thresh;
 
 			    if ( info ) { 
-			        printf("** First factor: info %d, equed %d\n",
+			        printf("** First factor: info " IFMT ", equed %d\n",
 				       info, equed);
 				if ( lwork == -1 ) {
-				  printf("** Estimated memory: %d bytes\n",
+				  printf("** Estimated memory: " IFMT " bytes\n",
 					 info - n);
 				  exit(0);
 				}
@@ -369,7 +382,7 @@ main(int argc, char *argv[])
 				       &X, &info);
 
 #if ( DEBUGlevel>=1 )
-			    printf("Test PSGSSV: info = %d\n", info);
+			    printf("Test PSGSSV: info = " IFMT "\n", info);
 #endif
 				if ( info && info != izero ) {
                                     printf(FMT3, "psgssv",
@@ -439,7 +452,7 @@ main(int argc, char *argv[])
 				    &superlu_memusage, &info);
 
 #if ( DEBUGlevel>=1 )
-			    printf("Test PSGSSVX: info %d\n", info);
+			    printf("Test PSGSSVX: info " IFMT "\n", info);
 #endif
 			    if ( info && info != izero ) {
 			        printf(FMT3, "psgssvx",
@@ -501,6 +514,8 @@ main(int argc, char *argv[])
 				    bzero(work, lwork);
 				    /*for (i = 0; i < lwork; ++i) 
 				        ((char*)work)[i] = 0;*/
+	                            Destroy_SuperMatrix_Store(&L);
+	                            Destroy_SuperMatrix_Store(&U);
 				}
 			    }
 			} /* for itran ... */
@@ -513,6 +528,8 @@ main(int argc, char *argv[])
 			        bzero(work,lwork);
 			        /*for (i = 0; i < lwork; ++i)
 				   ((char*)work)[i] = 0;*/
+	                        Destroy_SuperMatrix_Store(&L);
+	                        Destroy_SuperMatrix_Store(&U);
 			    }
 			}
 			if ( refact == YES ) {
@@ -562,8 +579,6 @@ main(int argc, char *argv[])
     Destroy_SuperMatrix_Store(&X);
     if ( lwork > 0 ) {
 	SUPERLU_FREE (work);
-	Destroy_SuperMatrix_Store(&L);
-	Destroy_SuperMatrix_Store(&U);
     }
 
     return 0;

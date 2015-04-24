@@ -658,10 +658,9 @@
 /* ========================================================================== */
 /* === Include files ======================================================== */
 /* ========================================================================== */
-
-#include "colamd.h"
 #include <limits.h>
 #include <math.h>
+#include "colamd.h"
 
 #ifdef MATLAB_MEX_FILE
 #include "mex.h"
@@ -3148,12 +3147,12 @@ PRIVATE void print_report
 
     Int i1, i2, i3 ;
 
-    SUITESPARSE_PRINTF (("\n%s version %d.%d, %s: ", method,
-            COLAMD_MAIN_VERSION, COLAMD_SUB_VERSION, COLAMD_DATE)) ;
+    SUITESPARSE_PRINTF ("\n%s version %d.%d, %s: ", method,
+            COLAMD_MAIN_VERSION, COLAMD_SUB_VERSION, COLAMD_DATE) ;
 
     if (!stats)
     {
-        SUITESPARSE_PRINTF (("No statistics available.\n")) ;
+        SUITESPARSE_PRINTF ("No statistics available.\n") ;
 	return ;
     }
 
@@ -3163,11 +3162,11 @@ PRIVATE void print_report
 
     if (stats [COLAMD_STATUS] >= 0)
     {
-        SUITESPARSE_PRINTF (("OK.  ")) ;
+        SUITESPARSE_PRINTF ("OK.  ") ;
     }
     else
     {
-        SUITESPARSE_PRINTF (("ERROR.  ")) ;
+        SUITESPARSE_PRINTF ("ERROR.  ") ;
     }
 
     switch (stats [COLAMD_STATUS])
@@ -3175,99 +3174,99 @@ PRIVATE void print_report
 
 	case COLAMD_OK_BUT_JUMBLED:
 
-            SUITESPARSE_PRINTF((
-                    "Matrix has unsorted or duplicate row indices.\n")) ;
+            SUITESPARSE_PRINTF(
+                    "Matrix has unsorted or duplicate row indices.\n") ;
 
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF(
                     "%s: number of duplicate or out-of-order row indices: %d\n",
-                    method, i3)) ;
+                    method, i3) ;
 
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF(
                     "%s: last seen duplicate or out-of-order row index:   %d\n",
-                    method, INDEX (i2))) ;
+                    method, INDEX (i2)) ;
 
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF(
                     "%s: last seen in column:                             %d",
-                    method, INDEX (i1))) ;
+                    method, INDEX (i1)) ;
 
 	    /* no break - fall through to next case instead */
 
 	case COLAMD_OK:
 
-            SUITESPARSE_PRINTF(("\n")) ;
+            SUITESPARSE_PRINTF("\n") ;
 
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF(
                     "%s: number of dense or empty rows ignored:           %d\n",
-                    method, stats [COLAMD_DENSE_ROW])) ;
+                    method, stats [COLAMD_DENSE_ROW]) ;
 
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF(
                     "%s: number of dense or empty columns ignored:        %d\n",
-                    method, stats [COLAMD_DENSE_COL])) ;
+                    method, stats [COLAMD_DENSE_COL]) ;
 
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF(
                     "%s: number of garbage collections performed:         %d\n",
-                    method, stats [COLAMD_DEFRAG_COUNT])) ;
+                    method, stats [COLAMD_DEFRAG_COUNT]) ;
 	    break ;
 
 	case COLAMD_ERROR_A_not_present:
 
-	    SUITESPARSE_PRINTF((
-                    "Array A (row indices of matrix) not present.\n")) ;
+	    SUITESPARSE_PRINTF(
+                    "Array A (row indices of matrix) not present.\n") ;
 	    break ;
 
 	case COLAMD_ERROR_p_not_present:
 
-            SUITESPARSE_PRINTF((
-                    "Array p (column pointers for matrix) not present.\n")) ;
+            SUITESPARSE_PRINTF(
+                    "Array p (column pointers for matrix) not present.\n") ;
 	    break ;
 
 	case COLAMD_ERROR_nrow_negative:
 
-            SUITESPARSE_PRINTF(("Invalid number of rows (%d).\n", i1)) ;
+            SUITESPARSE_PRINTF("Invalid number of rows (%d).\n", i1) ;
 	    break ;
 
 	case COLAMD_ERROR_ncol_negative:
 
-            SUITESPARSE_PRINTF(("Invalid number of columns (%d).\n", i1)) ;
+            SUITESPARSE_PRINTF("Invalid number of columns (%d).\n", i1) ;
 	    break ;
 
 	case COLAMD_ERROR_nnz_negative:
 
-            SUITESPARSE_PRINTF((
-                    "Invalid number of nonzero entries (%d).\n", i1)) ;
+            SUITESPARSE_PRINTF(
+                    "Invalid number of nonzero entries (%d).\n", i1) ;
 	    break ;
 
 	case COLAMD_ERROR_p0_nonzero:
 
-            SUITESPARSE_PRINTF((
-                    "Invalid column pointer, p [0] = %d, must be zero.\n", i1));
+            SUITESPARSE_PRINTF(
+                    "Invalid column pointer, p [0] = %d, must be zero.\n", i1);
 	    break ;
 
 	case COLAMD_ERROR_A_too_small:
 
-            SUITESPARSE_PRINTF(("Array A too small.\n")) ;
-            SUITESPARSE_PRINTF((
+            SUITESPARSE_PRINTF("Array A too small.\n") ;
+            SUITESPARSE_PRINTF(
                     "        Need Alen >= %d, but given only Alen = %d.\n",
-                    i1, i2)) ;
+                    i1, i2) ;
 	    break ;
 
 	case COLAMD_ERROR_col_length_negative:
 
             SUITESPARSE_PRINTF
-            (("Column %d has a negative number of nonzero entries (%d).\n",
-            INDEX (i1), i2)) ;
+            ("Column %d has a negative number of nonzero entries (%d).\n",
+            INDEX (i1), i2) ;
 	    break ;
 
 	case COLAMD_ERROR_row_index_out_of_bounds:
 
             SUITESPARSE_PRINTF
-            (("Row index (row %d) out of bounds (%d to %d) in column %d.\n",
-            INDEX (i2), INDEX (0), INDEX (i3-1), INDEX (i1))) ;
+            ("Row index (row %d) out of bounds (%d to %d) in column %d.\n",
+            INDEX (i2), INDEX (0), INDEX (i3-1), INDEX (i1)) ;
 	    break ;
 
 	case COLAMD_ERROR_out_of_memory:
 
-            SUITESPARSE_PRINTF(("Out of memory.\n")) ;
+            SUITESPARSE_PRINTF("Out of memory.\n") ;
 	    break ;
 
 	/* v2.4: internal-error case deleted */

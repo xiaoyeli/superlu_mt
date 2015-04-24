@@ -1,9 +1,9 @@
 
 #include <math.h>
-#include "pdsp_defs.h"
+#include "slu_mt_ddefs.h"
 
-int pdgst01(int m, int n, SuperMatrix *A, SuperMatrix *L, 
-	    SuperMatrix *U, int *perm_c, int *perm_r, double *resid)
+int_t pdgst01(int_t m, int_t n, SuperMatrix *A, SuperMatrix *L, 
+	    SuperMatrix *U, int_t *perm_c, int_t *perm_r, double *resid)
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
@@ -21,10 +21,10 @@ int pdgst01(int m, int n, SuperMatrix *A, SuperMatrix *L,
  *  Arguments   
  *  ==========   
  *
- *   M      (input) INT   
+ *   M      (input) INT_T   
  *          The number of rows of the matrix A.  M >= 0.  
  *
- *   N      (input) INT   
+ *   N      (input) INT_T   
  *          The number of columns of the matrix A.  N >= 0.   
  *
  *   A      (input) SuperMatrix *, dimension (A->nrow, A->ncol)
@@ -36,10 +36,10 @@ int pdgst01(int m, int n, SuperMatrix *A, SuperMatrix *L,
  *   U      (input) SuperMatrix *, dimension (U->nrow, U->ncol)
  *          The factor matrix U.
  *
- *   perm_c (input) INT array, dimension (N)
+ *   perm_c (input) INT_T array, dimension (N)
  *          The column permutation from DGSTRF.   
  *
- *   perm_r (input) INT array, dimension (M)
+ *   perm_r (input) INT_T array, dimension (M)
  *          The pivot indices from DGSTRF.
  *
  *   RESID  (output) DOUBLE*
@@ -49,7 +49,7 @@ int pdgst01(int m, int n, SuperMatrix *A, SuperMatrix *L,
  */
     /* Local variables */
     double      zero = 0.0;
-    int i, j, k, arow, lptr,isub,  urow, superno, fsupc, u_part;
+    int_t i, j, k, arow, lptr,isub,  urow, superno, fsupc, u_part;
     double utemp, comp_temp;
     double anorm, tnorm, cnorm;
     double eps;
@@ -58,7 +58,7 @@ int pdgst01(int m, int n, SuperMatrix *A, SuperMatrix *L,
     SCPformat *Lstore;
     NCPformat *Ustore;
     double *Aval, *Lval, *Uval;
-    int *colbeg, *colend;
+    int_t *colbeg, *colend;
 
     /* Function prototypes */
     extern double dlangs(char *, SuperMatrix *);
