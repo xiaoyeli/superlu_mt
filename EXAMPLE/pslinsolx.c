@@ -28,8 +28,7 @@ main(int argc, char *argv[])
     void        *work;
     superlumt_options_t superlumt_options;
     int_t         info, lwork, nrhs, ldx, panel_size, relax;
-    int_t         m, n, nnz, permc_spec;
-    int_t         i, firstfact;
+    int_t         m, n, nnz, permc_spec, i;
     float      *rhsb, *rhsx, *xact;
     float      *R, *C;
     float      *ferr, *berr;
@@ -88,8 +87,6 @@ main(int argc, char *argv[])
     sreadmt(&m, &n, &nnz, &a, &asub, &xa);
 #endif
 
-    firstfact = (fact == FACTORED || refact == YES);
-
     sCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_S, SLU_GE);
     Astore = A.Store;
     printf("Dimension " IFMT "x" IFMT "; # nonzeros " IFMT "\n", A.nrow, A.ncol, Astore->nnz);
@@ -139,6 +136,12 @@ main(int argc, char *argv[])
     superlumt_options.perm_r = perm_r;
     superlumt_options.work = work;
     superlumt_options.lwork = lwork;
+    if ( !(superlumt_options.etree = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for etree[].");
+    if ( !(superlumt_options.colcnt_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+    if ( !(superlumt_options.part_super_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
     
     /* 
      * Solve the system and compute the condition number
@@ -186,6 +189,9 @@ main(int argc, char *argv[])
     Destroy_CompCol_Matrix(&A);
     Destroy_SuperMatrix_Store(&B);
     Destroy_SuperMatrix_Store(&X);
+    SUPERLU_FREE (superlumt_options.etree);
+    SUPERLU_FREE (superlumt_options.colcnt_h);
+    SUPERLU_FREE (superlumt_options.part_super_h);
     if ( lwork == 0 ) {
         Destroy_SuperNode_SCP(&L);
         Destroy_CompCol_NCP(&U);

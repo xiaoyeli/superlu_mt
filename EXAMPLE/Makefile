@@ -14,21 +14,25 @@ include ../make.inc
 #       pslinsol	
 #	pslinsolx
 #	pslinsolx1
+#	pslinsolx2
 #	psrepeat
 #	psspmd
 #       pdlinsol
 #       pdlinsolx
 #       pdlinsolx1
+#       pdlinsolx2
 #       pdrepeat
 #       pdspmd
 #       pclinsol
 #       pclinsolx
 #       pclinsolx1
+#       pclinsolx2
 #       pcrepeat
 #       pcspmd
 #       pzlinsol
 #       pzlinsolx
 #       pzlinsolx1
+#       pzlinsolx2
 #       pzrepeat
 #       pzspmd
 #
@@ -41,10 +45,10 @@ HEADER = ../SRC
 
 all:    single double complex complex16
 
-single:    pslinsol pslinsolx pslinsolx1 psrepeat psspmd
-double:    pdlinsol pdlinsolx pdlinsolx1 pdrepeat pdspmd
-complex:   pclinsol pclinsolx pclinsolx1 pcrepeat pcspmd
-complex16: pzlinsol pzlinsolx pzlinsolx1 pzrepeat pzspmd
+single:    pslinsol pslinsolx pslinsolx1 pslinsolx2 psrepeat psspmd
+double:    pdlinsol pdlinsolx pdlinsolx1 pdlinsolx2 pdrepeat pdspmd
+complex:   pclinsol pclinsolx pclinsolx1 pclinsolx2 pcrepeat pcspmd
+complex16: pzlinsol pzlinsolx pzlinsolx1 pzlinsolx2 pzrepeat pzspmd
 
 SLINOBJS 	= pslinsol.o
 SLINXOBJS 	= pslinsolx.o pslinsolx1.o
@@ -78,6 +82,10 @@ pslinsolx1: pslinsolx1.o ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) pslinsolx1.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
+pslinsolx2: pslinsolx2.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pslinsolx2.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
 psrepeat: $(SREPOBJS) ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) $(SREPOBJS) \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
@@ -96,6 +104,10 @@ pdlinsolx: pdlinsolx.o ../lib/$(SUPERLULIB)
 
 pdlinsolx1: pdlinsolx1.o ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) pdlinsolx1.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
+pdlinsolx2: pdlinsolx2.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pdlinsolx2.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
 pdrepeat: $(DREPOBJS) ../lib/$(SUPERLULIB)
@@ -118,6 +130,10 @@ pclinsolx1: pclinsolx1.o ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) pclinsolx1.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
+pclinsolx2: pclinsolx2.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pclinsolx2.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
 pcrepeat: $(CREPOBJS) ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) $(CREPOBJS) \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
@@ -136,6 +152,10 @@ pzlinsolx: pzlinsolx.o ../lib/$(SUPERLULIB)
 
 pzlinsolx1: pzlinsolx1.o ../lib/$(SUPERLULIB)
 	$(LOADER) $(LOADOPTS) pzlinsolx1.o \
+	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
+
+pzlinsolx2: pzlinsolx2.o ../lib/$(SUPERLULIB)
+	$(LOADER) $(LOADOPTS) pzlinsolx2.o \
 	../lib/$(SUPERLULIB) $(BLASLIB) $(MATHLIB) $(MPLIB) -o $@ $(VERBOSE)
 
 pzrepeat: $(ZREPOBJS) ../lib/$(SUPERLULIB)
@@ -159,5 +179,5 @@ f77exm: $(F77EXM) ../lib/$(SUPERLULIB)
 	$(FORTRAN) $(FFLAGS) -c $< $(VERBOSE)
 
 clean:	
-	rm -f *.o core p*linsol p*linsolx p*linsolx1 p*repeat p*spmd f77exm
+	rm -f *.o core p*linsol p*linsolx p*linsolx1 p*linsolx2 p*repeat p*spmd f77exm
 

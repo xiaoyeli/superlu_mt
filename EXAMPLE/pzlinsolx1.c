@@ -7,19 +7,21 @@
  *
  * Purpose:
  * ========
- * This example illustrates how to use the symmetric mode by setting:
- *    permc_spec = 2;
- *    superlumt_options.SymmetricMode = YES;
- *    superlumt_options.diag_pivot_thresh = 0.0;
- * 
+ *
+ * This example illustrates how to use PZGSSVX to solve systems repeatedly
+ * with the same sparsity pattern of matrix A.
+ * In this case, the column permutation vector perm_c is computed once.
+ * The following data structures will be reused in the subsequent call to
+ * PZGSSVX: perm_c, etree, colcnt_h, part_super_h.
+ *
  */
 #include "slu_mt_zdefs.h"
 
 
 main(int argc, char *argv[])
 {
-    SuperMatrix A, L, U;
-    SuperMatrix B, X;
+    SuperMatrix A, A1, L, U;
+    SuperMatrix B, B1, X;
     NCformat    *Astore;
     SCPformat   *Lstore;
     NCPformat   *Ustore;
@@ -28,15 +30,14 @@ main(int argc, char *argv[])
     trans_t     trans;
     yes_no_t    refact, usepr;
     equed_t     equed;
-    doublecomplex      *a;
-    int_t         *asub, *xa;
+    doublecomplex      *a, *a1;
+    int_t         *asub, *xa, *asub1, *xa1;
     int_t         *perm_c; /* column permutation vector */
     int_t         *perm_r; /* row permutations from partial pivoting */
     void        *work;
     superlumt_options_t superlumt_options;
     int_t         info, lwork, nrhs, ldx, panel_size, relax;
-    int_t         m, n, nnz, permc_spec;
-    int_t         i, firstfact;
+    int_t         m, n, nnz, permc_spec, i;
     doublecomplex      *rhsb, *rhsx, *xact;
     double      *R, *C;
     double      *ferr, *berr;
@@ -95,7 +96,14 @@ main(int argc, char *argv[])
     zreadmt(&m, &n, &nnz, &a, &asub, &xa);
 #endif
 
-    firstfact = (fact == FACTORED || refact == YES);
+    if ( !(a1 = doublecomplexMalloc(nnz)) ) SUPERLU_ABORT("Malloc fails for a1[].");
+    if ( !(asub1 = intMalloc(nnz)) ) SUPERLU_ABORT("Malloc fails for asub1[].");
+    if ( !(xa1 = intMalloc(n+1)) ) SUPERLU_ABORT("Malloc fails for xa1[].");
+    for (i = 0; i < nnz; ++i) {
+        a1[i] = a[i];
+	asub1[i] = asub[i];
+    }
+    for (i = 0; i < n+1; ++i) xa1[i] = xa[i];
 
     zCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_Z, SLU_GE);
     Astore = A.Store;
@@ -128,11 +136,8 @@ main(int argc, char *argv[])
      *   permc_spec = 2: minimum degree ordering on structure of A'+A
      *   permc_spec = 3: approximate minimum degree for unsymmetric matrices
      */    	
-    permc_spec = 2;
+    permc_spec = 1;
     get_perm_c(permc_spec, &A, perm_c);
-
-    superlumt_options.SymmetricMode = YES;
-    superlumt_options.diag_pivot_thresh = 0.0;
 
     superlumt_options.nprocs = nprocs;
     superlumt_options.fact = fact;
@@ -142,25 +147,26 @@ main(int argc, char *argv[])
     superlumt_options.relax = relax;
     superlumt_options.usepr = usepr;
     superlumt_options.drop_tol = drop_tol;
+    superlumt_options.diag_pivot_thresh = u;
+    superlumt_options.SymmetricMode = NO;
     superlumt_options.PrintStat = NO;
     superlumt_options.perm_c = perm_c;
     superlumt_options.perm_r = perm_r;
     superlumt_options.work = work;
     superlumt_options.lwork = lwork;
+    if ( !(superlumt_options.etree = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for etree[].");
+    if ( !(superlumt_options.colcnt_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+    if ( !(superlumt_options.part_super_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
     
-    printf("sym_mode %d\tdiag_pivot_thresh %.4e\n", 
-	   superlumt_options.SymmetricMode,
-	   superlumt_options.diag_pivot_thresh);
-
-    /* 
-     * Solve the system and compute the condition number
-     * and error bounds using pdgssvx.
-     */
+    /* ------------------------------------------------------------
+       WE SOLVE THE LINEAR SYSTEM FOR THE FIRST TIME: AX = B
+       ------------------------------------------------------------*/
     pzgssvx(nprocs, &superlumt_options, &A, perm_c, perm_r,
 	    &equed, R, C, &L, &U, &B, &X, &rpg, &rcond,
 	    ferr, berr, &superlu_memusage, &info);
-
-    printf("pzgssvx(): info " IFMT "\n", info);
 
     if ( info == 0 || info == n+1 ) {
 
@@ -186,6 +192,49 @@ main(int argc, char *argv[])
         printf("** Estimated memory: " IFMT " bytes\n", info - n);
     }
 
+    printf("First system: pzgssvx(): info " IFMT "\n----\n", info);
+
+    Destroy_CompCol_Matrix(&A);
+    Destroy_SuperMatrix_Store(&B);
+
+    /* ------------------------------------------------------------
+       NOW WE SOLVE ANOTHER LINEAR SYSTEM: A1*X = B1
+       ONLY THE SPARSITY PATTERN OF A1 IS THE SAME AS THAT OF A.
+       ------------------------------------------------------------*/
+    superlumt_options.refact = YES;
+    zCreate_CompCol_Matrix(&A1, m, n, nnz, a1, asub1, xa1, SLU_NC, SLU_Z, SLU_GE);
+    zCreate_Dense_Matrix(&B1, m, nrhs, rhsb, m, SLU_DN, SLU_Z, SLU_GE);
+
+    pzgssvx(nprocs, &superlumt_options, &A1, perm_c, perm_r,
+	    &equed, R, C, &L, &U, &B1, &X, &rpg, &rcond,
+	    ferr, berr, &superlu_memusage, &info);
+
+    if ( info == 0 || info == n+1 ) {
+
+	printf("Recip. pivot growth = %e\n", rpg);
+	printf("Recip. condition number = %e\n", rcond);
+	printf("%8s%16s%16s\n", "rhs", "FERR", "BERR");
+	for (i = 0; i < nrhs; ++i) {
+	    printf(IFMT "%16e%16e\n", i+1, ferr[i], berr[i]);
+	}
+	       
+        Lstore = (SCPformat *) L.Store;
+        Ustore = (NCPformat *) U.Store;
+	printf("No of nonzeros in factor L = " IFMT "\n", Lstore->nnz);
+    	printf("No of nonzeros in factor U = " IFMT "\n", Ustore->nnz);
+    	printf("No of nonzeros in L+U = " IFMT "\n", Lstore->nnz + Ustore->nnz - n);
+	printf("L\\U MB %.3f\ttotal MB needed %.3f\texpansions " IFMT "\n",
+	       superlu_memusage.for_lu/1e6, superlu_memusage.total_needed/1e6,
+	       superlu_memusage.expansions);
+	     
+	fflush(stdout);
+
+    } else if ( info > 0 && lwork == -1 ) {
+        printf("** Estimated memory: " IFMT " bytes\n", info - n);
+    }
+
+    printf("Second system: pzgssvx(): info " IFMT "\n", info);
+
     SUPERLU_FREE (rhsb);
     SUPERLU_FREE (rhsx);
     SUPERLU_FREE (xact);
@@ -195,16 +244,18 @@ main(int argc, char *argv[])
     SUPERLU_FREE (C);
     SUPERLU_FREE (ferr);
     SUPERLU_FREE (berr);
-    Destroy_CompCol_Matrix(&A);
-    Destroy_SuperMatrix_Store(&B);
+    Destroy_CompCol_Matrix(&A1);
+    Destroy_SuperMatrix_Store(&B1);
     Destroy_SuperMatrix_Store(&X);
+    SUPERLU_FREE (superlumt_options.etree);
+    SUPERLU_FREE (superlumt_options.colcnt_h);
+    SUPERLU_FREE (superlumt_options.part_super_h);
     if ( lwork == 0 ) {
         Destroy_SuperNode_SCP(&L);
         Destroy_CompCol_NCP(&U);
     } else if ( lwork > 0 ) {
         SUPERLU_FREE(work);
     }
-
 }
 
 /*  
@@ -256,6 +307,3 @@ parse_command_line(int argc, char *argv[], int_t *nprocs, int_t *lwork,
   	}
     }
 }
-
-
-

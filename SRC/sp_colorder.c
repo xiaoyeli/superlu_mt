@@ -21,13 +21,13 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
  *    1. Apply column permutation perm_c[] to A's column pointers to form AC;
  *
  *    2. If options->refact = NO, then
- *       (1) Allocate etree[], and compute column etree etree[] of AC'AC;
+ *       (1) Compute column etree etree[] of AC'AC;
  *       (2) Post order etree[] to get a postordered elimination tree etree[],
  *           and a postorder permutation post[];
  *       (3) Apply post[] permutation to columns of AC;
  *       (4) Overwrite perm_c[] with the product perm_c * post.
- *       (5) Allocate storage, and compute the column count (colcnt_h) and the
- *           supernode partition (part_super_h) for the Householder matrix H.
+ *       (5) Compute the column count (colcnt_h) and the supernode 
+ *           partition (part_super_h) for the Householder matrix H.
  *
  * Arguments
  * =========
@@ -59,9 +59,6 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
     NCPformat *ACstore;
     int_t i, n, nnz, nlnz;
     yes_no_t  refact = options->refact;
-    int_t *etree;
-    int_t *colcnt_h;
-    int_t *part_super_h;
     int_t *iwork, *post, *iperm;
     int_t *invp;
     int_t *part_super_ata;
@@ -102,10 +99,6 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
     if ( refact == NO ) {
 	int_t *b_colptr, *b_rowind, bnz, j;
 	
-	options->etree = etree = intMalloc(n);
-	options->colcnt_h = colcnt_h = intMalloc(n);
-	options->part_super_h = part_super_h = intMalloc(n);
-	
 	if ( options->SymmetricMode ) {
 	    /* Compute the etree of C = Pc*(A'+A)*Pc'. */
 	    int_t *c_colbeg, *c_colend;
@@ -131,7 +124,8 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 	    }
 
 	    /* Compute etree of C. */
-	    sp_symetree(c_colbeg, c_colend, b_rowind, n, etree);
+	    sp_symetree( c_colbeg, c_colend, b_rowind, n, 
+			 options->etree );
 
 	    /* Restore B to be A+A', without column permutation */
 	    for (i = 0; i < bnz; ++i)
@@ -142,16 +136,16 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 	    
 	} else {
 	    /* Compute the column elimination tree. */
-	    sp_coletree(ACstore->colbeg, ACstore->colend, ACstore->rowind,
-			A->nrow, A->ncol, etree);
+	    sp_coletree( ACstore->colbeg, ACstore->colend, ACstore->rowind,
+			 A->nrow, A->ncol, options->etree );
 	}
 
 #ifdef CHK_COLORDER	
-	print_int_vec("etree:", n, etree);
+	print_int_vec("etree:", n, otpions->etree);
 #endif	
 
 	/* Post order etree. */
-	post = (int_t *) TreePostorder(n, etree);
+	post = (int_t *) TreePostorder(n, options->etree);
 	invp  = intMalloc(n);
 	for (i = 0; i < n; ++i) invp[post[i]] = i;
 
@@ -161,11 +155,11 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 #endif	
 
 	/* Renumber etree in postorder. */
-	for (i = 0; i < n; ++i) iwork[post[i]] = post[etree[i]];
-	for (i = 0; i < n; ++i) etree[i] = iwork[i];
+	for (i = 0; i < n; ++i) iwork[post[i]] = post[options->etree[i]];
+	for (i = 0; i < n; ++i) options->etree[i] = iwork[i];
 
 #ifdef CHK_COLORDER	
-	print_int_vec("postorder etree:", n, etree);
+	print_int_vec("postorder etree:", n, options->etree);
 #endif
 
 	/* Postmultiply A*Pc by post[]. */
@@ -206,10 +200,12 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 	    /* Determine column count in the Cholesky factor of B = A+A' */
 #if 0
 	    cholnzcnt(n, Astore->colptr, Astore->rowind,
-		      invp, perm_c, etree, colcnt_h, &nlnz, part_super_h);
+		      invp, perm_c, options->etree, 
+		      options->colcnt_h, &nlnz, options->part_super_h);
 #else
-	    cholnzcnt(n, b_colptr, b_rowind,
-		      invp, perm_c, etree, colcnt_h, &nlnz, part_super_h);
+	    cholnzcnt(n, b_colptr, b_rowind, invp, perm_c,
+		      options->etree, options->colcnt_h, &nlnz,
+		      options->part_super_h);
 #endif
 #if ( PRNTlevel>=1 ) 
 	    printf(".. bnz %d\n", bnz);
@@ -221,15 +217,15 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 	} else {
 	    /* Determine the row and column counts in the QR factor. */
 	    qrnzcnt(n, nnz, Astore->colptr, Astore->rowind, iperm,
-		    invp, perm_c, etree, colcnt_h, &nlnz,
-		    part_super_ata, part_super_h);
+		    invp, perm_c, options->etree, options->colcnt_h, &nlnz,
+		    part_super_ata, options->part_super_h);
 	}
 
 #if ( PRNTlevel>=2 )
 	dCheckZeroDiagonal(n, ACstore->rowind, ACstore->colbeg,
 			   ACstore->colend, perm_c);
-	print_int_vec("colcnt", n, colcnt_h);
-	dPrintSuperPart("Hpart", n, part_super_h);
+	print_int_vec("colcnt", n, options->colcnt_h);
+	dPrintSuperPart("Hpart", n, options->part_super_h);
 	print_int_vec("iperm", n, iperm);
 #endif	
 	

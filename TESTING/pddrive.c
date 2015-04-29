@@ -443,6 +443,14 @@ main(int argc, char *argv[])
 			    superlumt_options.trans = trans;
 			    superlumt_options.refact = refact;
 			    superlumt_options.usepr = usepr;
+			    if ( !prefact ) {
+			       if ( !(superlumt_options.etree = intMalloc(n)) )
+			       	  SUPERLU_ABORT("Malloc fails for etree[].");
+			       if ( !(superlumt_options.colcnt_h = intMalloc(n)) )
+				  SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+			       if ( !(superlumt_options.part_super_h = intMalloc(n)) )
+				  SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+			    }
 
 			    /* Solve the system and compute the condition 
 			       number and error bounds using pdgssvx.   */
@@ -532,11 +540,9 @@ main(int argc, char *argv[])
 	                        Destroy_SuperMatrix_Store(&U);
 			    }
 			}
-			if ( refact == YES ) {
-			    SUPERLU_FREE(superlumt_options.etree);
-			    SUPERLU_FREE(superlumt_options.colcnt_h);
-			    SUPERLU_FREE(superlumt_options.part_super_h);
-			}
+			SUPERLU_FREE(superlumt_options.etree);
+			SUPERLU_FREE(superlumt_options.colcnt_h);
+			SUPERLU_FREE(superlumt_options.part_super_h);
 		    } /* for iusepr ... */
 		} /* for irefact ... */
 	    } /* for ifact ... */

@@ -1,6 +1,7 @@
 
 #include "slu_mt_sdefs.h"
 
+
 void
 psgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A, 
 	int_t *perm_c, int_t *perm_r, equed_t *equed, float *R, float *C,
@@ -126,14 +127,14 @@ psgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *           Specifies whether or not the factored form of the matrix
  *           A is supplied on entry, and if not, whether the matrix A should
  *           be equilibrated before it is factored.
- *           = FACTORED: On entry, L, U, perm_r and perm_c contain the 
- *             factored form of A. If equed is not NOEQUIL, the matrix A has
- *             been equilibrated with scaling factors R and C.
- *             A, L, U, perm_r are not modified.
  *           = DOFACT: The matrix A will be factored, and the factors will be
  *             stored in L and U.
  *           = EQUILIBRATE: The matrix A will be equilibrated if necessary,
  *             then factored into L and U.
+ *           = FACTORED: On entry, L, U, perm_r and perm_c contain the 
+ *             factored form of A. If equed is not NOEQUIL, the matrix A has
+ *             been equilibrated with scaling factors R and C.
+ *             A, L, U, perm_r are not modified.
  *
  *         o trans (trans_t)
  *           Specifies the form of the system of equations:
@@ -190,6 +191,20 @@ psgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *           = -1: the routine guesses the amount of space needed without
  *                 performing the factorization, and returns it in
  *                 superlu_memusage->total_needed; no other side effects.
+ *
+ *    -------------------------------------------------------------------------
+ *    ** The following 3 arrays must be allocated before calling this routine.
+ *    -------------------------------------------------------------------------
+ *         o etree  (int*)
+ *           Elimination tree of A'*A, dimension A->ncol.
+ *
+ *         o colcnt_h (int*)
+ *           Column colunts of the Householder matrix.
+ *
+ *         o part_super_h (int*)
+ *           Partition of the supernodes in the Householder matrix.
+ *	     part_super_h[k] = size of the supernode beginning at column k;
+ * 	                     = 0, elsewhere.
  *
  * A       (input/output) SuperMatrix*
  *         Matrix A in A*X=B, of dimension (A->nrow, A->ncol), where
@@ -652,11 +667,6 @@ psgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
     /* ------------------------------------------------------------
        Deallocate storage after factorization.
        ------------------------------------------------------------*/
-    if ( superlumt_options->refact == NO ) {
-        SUPERLU_FREE(superlumt_options->etree);
-        SUPERLU_FREE(superlumt_options->colcnt_h);
-	SUPERLU_FREE(superlumt_options->part_super_h);
-    }
     if ( dofact || equil ) {
         Destroy_CompCol_Permuted(&AC);
     }

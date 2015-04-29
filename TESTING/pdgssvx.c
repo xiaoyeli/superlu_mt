@@ -192,6 +192,20 @@ pdgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *                 performing the factorization, and returns it in
  *                 superlu_memusage->total_needed; no other side effects.
  *
+ *    -------------------------------------------------------------------------
+ *    ** The following 3 arrays must be allocated before calling this routine.
+ *    -------------------------------------------------------------------------
+ *         o etree  (int*)
+ *           Elimination tree of A'*A, dimension A->ncol.
+ *
+ *         o colcnt_h (int*)
+ *           Column colunts of the Householder matrix.
+ *
+ *         o part_super_h (int*)
+ *           Partition of the supernodes in the Householder matrix.
+ *	     part_super_h[k] = size of the supernode beginning at column k;
+ * 	                     = 0, elsewhere.
+ *
  * A       (input/output) SuperMatrix*
  *         Matrix A in A*X=B, of dimension (A->nrow, A->ncol), where
  *         A->nrow = A->ncol. Currently, the type of A can be:
@@ -653,11 +667,6 @@ pdgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
     /* ------------------------------------------------------------
        Deallocate storage after factorization.
        ------------------------------------------------------------*/
-    if ( superlumt_options->refact == NO ) {
-        SUPERLU_FREE(superlumt_options->etree);
-        SUPERLU_FREE(superlumt_options->colcnt_h);
-	SUPERLU_FREE(superlumt_options->part_super_h);
-    }
     if ( dofact || equil ) {
         Destroy_CompCol_Permuted(&AC);
     }

@@ -134,6 +134,13 @@ pzgstrf_init(int_t nprocs, fact_t fact, trans_t trans, yes_no_t refact,
     superlumt_options->perm_r = perm_r;
     superlumt_options->work = work;
     superlumt_options->lwork = lwork;
+    if ( !(superlumt_options->etree = intMalloc(A->ncol)) )
+	SUPERLU_ABORT("Malloc fails for etree[].");
+    if ( !(superlumt_options->colcnt_h = intMalloc(A->ncol)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+    if ( !(superlumt_options->part_super_h = intMalloc(A->ncol)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+    
 
     t = SuperLU_timer_();
     sp_colorder(A, perm_c, superlumt_options, AC);

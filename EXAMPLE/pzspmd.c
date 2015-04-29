@@ -116,6 +116,13 @@ main(int argc, char *argv[])
     
     if (!(perm_r = intMalloc(m))) SUPERLU_ABORT("Malloc fails for perm_r[].");
     if (!(perm_c = intMalloc(n))) SUPERLU_ABORT("Malloc fails for perm_c[].");
+    if ( !(superlumt_options.etree = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for etree[].");
+    if ( !(superlumt_options.colcnt_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+    if ( !(superlumt_options.part_super_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+
 
     /* ------------------------------------------------------------
        Get column permutation vector perm_c[], according to permc_spec:
@@ -302,6 +309,9 @@ main(int argc, char *argv[])
     SUPERLU_FREE (xact);
     SUPERLU_FREE (perm_r);
     SUPERLU_FREE (perm_c);
+    SUPERLU_FREE (superlumt_options.etree);
+    SUPERLU_FREE (superlumt_options.colcnt_h);
+    SUPERLU_FREE (superlumt_options.part_super_h);
     Destroy_CompCol_Matrix(&A);
     Destroy_SuperMatrix_Store(&B);
     if ( lwork == 0 ) {
