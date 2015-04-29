@@ -309,9 +309,6 @@ main(int argc, char *argv[])
     SUPERLU_FREE (xact);
     SUPERLU_FREE (perm_r);
     SUPERLU_FREE (perm_c);
-    SUPERLU_FREE (superlumt_options.etree);
-    SUPERLU_FREE (superlumt_options.colcnt_h);
-    SUPERLU_FREE (superlumt_options.part_super_h);
     Destroy_CompCol_Matrix(&A);
     Destroy_SuperMatrix_Store(&B);
     if ( lwork == 0 ) {

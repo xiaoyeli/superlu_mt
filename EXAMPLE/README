@@ -16,26 +16,33 @@ command line, the programs will run on a single processor.
 	% pclinsolx -p [nprocs] < cmat
 	% pzlinsolx -p [nprocs] < cmat
 
-3. To run example that performs repeated factorizations for the matrix
+3. To run example calling expert driver xGSSVX to solve systems repeatedly
+   with the same sparsity pattern:
+	% pslinsolx1 -p [nprocs] < big.rua
+	% pdlinsolx1 -p [nprocs] < big.rua
+	% pclinsolx1 -p [nprocs] < cmat
+	% pzlinsolx1 -p [nprocs] < cmat
+
+4. To run example that uses the symmetric mode:
+	% pslinsolx2 -p [nprocs] < big.rua
+	% pdlinsolx2 -p [nprocs] < big.rua
+	% pclinsolx2 -p [nprocs] < cmat
+	% pzlinsolx2 -p [nprocs] < cmat
+
+5. To run example that performs repeated factorizations for the matrix
    with the same sparsity pattern:
 	% psrepeat -p [nprocs] < big.rua
 	% pdrepeat -p [nprocs] < big.rua
 	% pcrepeat -p [nprocs] < cmat
 	% pzrepeat -p [nprocs] < cmat
 
-4. To run example that uses the symmetric mode:
-	% pslinsolx1 -p [nprocs] < big.rua
-	% pdlinsolx1 -p [nprocs] < big.rua
-	% pclinsolx1 -p [nprocs] < cmat
-	% pzlinsolx1 -p [nprocs] < cmat
-
-5. To run example that integrates with other multithreaded application,
+6. To run example that integrates with other multithreaded application,
    but threads are created only once:
 	% psspmd -p [nprocs] < big.rua
 	% pdspmd -p [nprocs] < big.rua
 	% pcspmd -p [nprocs] < cmat
 	% pzspmd -p [nprocs] < cmat
 
-6. To use Fortran interface, do the following:
+7. To use Fortran interface, do the following:
         1) make f77exm
     	2) f77exm -p [nprocs] < g10

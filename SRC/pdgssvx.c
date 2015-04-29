@@ -492,7 +492,8 @@ pdgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
 	return;
     }
     
-    
+    printf("colcnt_h[0] %lld\n", superlumt_options->colcnt_h[0]);
+
     /* ------------------------------------------------------------
        Allocate storage and initialize statistics variables. 
        ------------------------------------------------------------*/

@@ -38,7 +38,7 @@ RANLIB       	= ranlib
 ############################################################################
 #
 # Definitions used by CPP:
-PREDEFS      	= -D__PTHREAD -D_LONGINT -DDEBUGlevel=0 #-DPRINTLevel=1
+PREDEFS      	= -D__PTHREAD -D_LONGINT -DDEBUGlevel=0 -DPRNTlevel=0
 #
 CC           	= gcc
 CFLAGS       	= $(PREDEFS) -g #-O3

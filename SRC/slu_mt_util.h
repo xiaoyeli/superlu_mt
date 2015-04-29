@@ -270,7 +270,7 @@ typedef struct {
     int_t  lwork;
 
     /* The following structural arrays are computed internally by 
-       sp_colorder(), so the user does not provide them on input.
+       sp_colorder(). The user needs to allocate space on input.
        These 3 arrays are computed in the first factorization, and are 
        re-used in the subsequent factors of the matrices with the same
        nonzero structure. */

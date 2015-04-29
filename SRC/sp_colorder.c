@@ -67,9 +67,7 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 			  int_t *, int_t **, int_t **, int_t);
 
     n     = A->ncol;
-    iwork = intMalloc(n+1);
-    part_super_ata = intMalloc(n);
-    
+
     /* Apply column permutation perm_c to A's column pointers so to
        obtain NCP format in AC = A*Pc.  */
     AC->Stype       = SLU_NCP;
@@ -99,6 +97,9 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
     if ( refact == NO ) {
 	int_t *b_colptr, *b_rowind, bnz, j;
 	
+	iwork = intMalloc(n+1);
+	part_super_ata = intMalloc(n);
+    
 	if ( options->SymmetricMode ) {
 	    /* Compute the etree of C = Pc*(A'+A)*Pc'. */
 	    int_t *c_colbeg, *c_colend;
@@ -236,11 +237,11 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 
 	SUPERLU_FREE (post);
 	SUPERLU_FREE (invp);
+	SUPERLU_FREE (iwork);
+	SUPERLU_FREE (part_super_ata);
 
     } /* if refact == NO */
 
-    SUPERLU_FREE (iwork);
-    SUPERLU_FREE (part_super_ata);
 }
 
 int_t
