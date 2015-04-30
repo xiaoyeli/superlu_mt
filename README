@@ -1,4 +1,4 @@
-		SuperLU_MT (version 2.2)
+		SuperLU_MT (version 3.0)
 		========================
 
 Copyright (c) 2003, The Regents of the University of California, through
@@ -80,12 +80,10 @@ on your system setup:
         --------        -------------	---------
         make.pthread    -D__PTHREAD	POSIX threads
         make.openmp     -D__OPENMP 	OpenMP
-        make.alpha      -D__DEC		DEC Alpha Servers
-        make.altix    	-D__PTHREAD	SGI Altix
+	make.xe6                        OpenMP or POSIX threads
         make.cray       -D__CRAY	Cray C90/J90
         make.ibm        -D__PTHREAD	IBM Power series
         make.origin     -D__ORIGIN	SGI/Cray Origin2000
-        make.sgi        -D__SGI		SGI Power Challenge
         make.sun        -D__SOLARIS	Sun Ultra Enterprise servers
 
    In each case, the CFLAGS should include a CPP definition to choose the
@@ -95,15 +93,26 @@ on your system setup:
    
    When you have selected the machine to which you wish to install SuperLU_MT,
    copy the appropriate sample include file (if one is present) into 
-   make.inc. For example, if you wish to run SuperLU_MT on a Sun SMP system,
+   make.inc. For example, if you wish to run SuperLU_MT on a XE6 system,
    you can do
 
-        cp MAKE_INC/make.sun make.inc
+        cp MAKE_INC/make.xe6 make.inc
    
    For the systems other than listed above, some porting effort is needed
    for parallel factorization routines. Please refer to the Users' Guide 
    for detailed instructions on porting.
    
+   The other CPP definitions can be set in CFLAGS as follows:
+      o -D_LONGINT
+        use 64-bit integers for indexing sparse matrices. (default is 32-bit)
+
+      o -DPRNTlevel=[0,1,2,...]
+        printing level to show solver's execution details. (default is 0)
+
+      o -DDEBUGlevel=[0,1,2,...]
+        diagnostic printing level for debugging purpose. (default is 0)
+      
+
 2. The BLAS library.
 
    *********************************************************

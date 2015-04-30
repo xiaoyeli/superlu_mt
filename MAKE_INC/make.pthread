@@ -22,7 +22,8 @@ PLAT = _PTHREAD
 TMGLIB       	= libtmglib$(PLAT).a
 SUPERLULIB   	= libsuperlu_mt$(PLAT).a
 BLASDEF	        = -DUSE_VENDOR_BLAS
-BLASLIB		= -lblas
+BLASLIB		= -L/usr/lib -lf77blas -latlas
+#BLASLIB = ../lib/libblas$(PLAT).a
 MATHLIB		= -lm 
 MPLIB		= -lpthread
 
@@ -37,10 +38,13 @@ RANLIB       	= ranlib
 ############################################################################
 #
 # Definitions used by CPP:
-PREDEFS      	= -D__PTHREAD
+PREDEFS      	= -D__PTHREAD  ## -DDEBUGlevel=0 -DPRNTlevel=0
 #
 CC           	= gcc
-CFLAGS       	= $(PREDEFS) -O3
+CFLAGS       	= $(PREDEFS) -g #-O3
+# Uncomment the following to use 64-bit integer
+CFLAGS          += -D_LONGINT
+
 #
 # There are a few files that should NOT be optimized, which appear in the
 # end of SRC/Makefile, taking the flag $(NOOPTS)
@@ -51,13 +55,13 @@ BLASOPTS	=
 
 ############################################################################
 
-FORTRAN		= f77
-FFLAGS		= -O
+FORTRAN		= gfortran
+FFLAGS		= -O -fdefault-integer-8
 
 ############################################################################
 
 LOADER       	= gcc
-LOADOPTS     	= -O -pthread
+LOADOPTS     	= -O #-pthread
 
 ############################################################################
 #

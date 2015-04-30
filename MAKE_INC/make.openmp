@@ -46,7 +46,9 @@ RANLIB       = ranlib
 PREDEFS      	= -D__OPENMP -qsmp=omp
 #
 CC           = xlc_r
-CFLAGS       = -qarch=pwr3 -qalias=allptrs $(PREDEFS) -O3
+CFLAGS	     = -qarch=pwr3 -qalias=allptrs $(PREDEFS) -O3
+# Uncomment the following to use 64-bit integer
+# CFLAGS	    += -D_LONGINT
 
 # There are a few files that should NOT be optimized, which appear in the
 # end of SRC/Makefile, taking the flag $(NOOPTS)
