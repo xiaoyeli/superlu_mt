@@ -48,7 +48,9 @@ PREDEFS      	= -D__OPENMP -openmp
 #
 CC           = cc
 CFLAGS       = $(PREDEFS) -fast -no-ipo -std=c99 -m64 -DDEBUGlevel=0 -DPRNTlevel=0
-#
+# Uncomment the following to use 64-bit integer
+# CFLAGS          += -D_LONGINT
+
 # There are a few files that should NOT be optimized, which appear in the
 # end of SRC/Makefile, taking the flag $(NOOPTS)
 # NOOPTS should be defined to explicitly turn off any optimization.
