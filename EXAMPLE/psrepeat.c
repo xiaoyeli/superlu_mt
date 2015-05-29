@@ -80,6 +80,12 @@ main(int argc, char *argv[])
     
     if (!(perm_r = intMalloc(m))) SUPERLU_ABORT("Malloc fails for perm_r[].");
     if (!(perm_c = intMalloc(n))) SUPERLU_ABORT("Malloc fails for perm_c[].");
+    if ( !(superlumt_options.etree = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for etree[].");
+    if ( !(superlumt_options.colcnt_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
+    if ( !(superlumt_options.part_super_h = intMalloc(n)) )
+	SUPERLU_ABORT("Malloc fails for colcnt_h[].");
 
     /********************************
      * THE FIRST TIME FACTORIZATION *

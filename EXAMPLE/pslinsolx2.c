@@ -72,6 +72,7 @@ main(int argc, char *argv[])
 
 #if ( PRNTlevel==1 )
     cpp_defs();
+    printf("int_t %d bytes\n", sizeof(int_t));
 #endif
 
 #define HB
@@ -92,7 +93,7 @@ main(int argc, char *argv[])
 #elif defined( HB )
     sreadhb(&m, &n, &nnz, &a, &asub, &xa);
 #else    
-    sreadmt(&m, &n, &nnz, &a, &asub, &xa);
+    sreadtriple(&m, &n, &nnz, &a, &asub, &xa);
 #endif
 
     firstfact = (fact == FACTORED || refact == YES);
@@ -112,7 +113,7 @@ main(int argc, char *argv[])
     
     if (!(perm_r = intMalloc(m))) SUPERLU_ABORT("Malloc fails for perm_r[].");
     if (!(perm_c = intMalloc(n))) SUPERLU_ABORT("Malloc fails for perm_c[].");
-    if (!(R = (float *) SUPERLU_MALLOC(A.nrow * sizeof(float)))) 
+    if ( !(R = (float *) SUPERLU_MALLOC(A.nrow * sizeof(float))) ) 
         SUPERLU_ABORT("SUPERLU_MALLOC fails for R[].");
     if ( !(C = (float *) SUPERLU_MALLOC(A.ncol * sizeof(float))) )
         SUPERLU_ABORT("SUPERLU_MALLOC fails for C[].");

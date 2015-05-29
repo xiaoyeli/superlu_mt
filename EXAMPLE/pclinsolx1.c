@@ -73,6 +73,7 @@ main(int argc, char *argv[])
 
 #if ( PRNTlevel==1 )
     cpp_defs();
+    printf("int_t %d bytes\n", sizeof(int_t));
 #endif
 
 #define HB
@@ -93,7 +94,7 @@ main(int argc, char *argv[])
 #elif defined( HB )
     creadhb(&m, &n, &nnz, &a, &asub, &xa);
 #else    
-    creadmt(&m, &n, &nnz, &a, &asub, &xa);
+    creadtriple(&m, &n, &nnz, &a, &asub, &xa);
 #endif
 
     if ( !(a1 = complexMalloc(nnz)) ) SUPERLU_ABORT("Malloc fails for a1[].");

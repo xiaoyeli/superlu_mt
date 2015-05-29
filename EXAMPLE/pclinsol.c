@@ -44,6 +44,7 @@ main(int argc, char *argv[])
 
 #if ( PRNTlevel>=1 || DEBUGlevel>=1 )
     cpp_defs();
+    printf("int_t %d bytes\n", sizeof(int_t));
 #endif
 
 #define HB
