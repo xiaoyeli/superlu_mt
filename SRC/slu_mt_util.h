@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "slu_mt_machines.h"
 
 /* Macros */
 #ifndef USER_ABORT
