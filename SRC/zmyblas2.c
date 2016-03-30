@@ -184,3 +184,85 @@ doublecomplex *Mxvec	/* in/out */
 	
 }
 
+/*
+ * Performs dense matrix-vector multiply with 2 vectors:
+ *        y0 = y0 + A * x0
+ *        y1 = y1 + A * x1
+ */
+void zmatvec2 (
+               int_t lda,     /* leading dimension of A */
+               int_t m,
+               int_t n,
+               doublecomplex *A,   /* in - size m-by-n */
+               doublecomplex *x0,  /* in - size n-by-1 */
+               doublecomplex *x1,  /* in - size n-by-1 */
+               doublecomplex *y0,  /* out - size n-by-1 */
+               doublecomplex *y1   /* out - size n-by-1 */
+               )
+{
+    doublecomplex v00, v10, v20, v30, v01, v11, v21, v31;
+    doublecomplex *M0, temp, t0, t1, t2, t3;
+    doublecomplex *Mki0, *Mki1, *Mki2, *Mki3;
+    register int_t firstcol = 0;
+    int_t k;
+
+    M0 = &A[0];
+
+    while ( firstcol < n - 3 ) {	/* Do 4 columns */
+	Mki0 = M0;
+	Mki1 = Mki0 + lda;
+	Mki2 = Mki1 + lda;
+	Mki3 = Mki2 + lda;
+
+        v00 = x0[firstcol];   v01 = x1[firstcol++];
+        v10 = x0[firstcol];   v11 = x1[firstcol++];
+        v20 = x0[firstcol];   v21 = x1[firstcol++];
+        v30 = x0[firstcol];   v31 = x1[firstcol++];
+
+	for (k = 0; k < m; k++) {
+	    t0 = Mki0[k];
+	    t1 = Mki1[k];
+	    t2 = Mki2[k];
+	    t3 = Mki3[k];
+	    
+	    zz_mult(&temp, &v00, &t0);
+	    z_add(&y0[k], &y0[k], &temp);
+	    zz_mult(&temp, &v01, &t0);
+	    z_add(&y1[k], &y1[k], &temp);
+
+	    zz_mult(&temp, &v10, &t1);
+	    z_add(&y0[k], &y0[k], &temp);
+	    zz_mult(&temp, &v11, &t1);
+	    z_add(&y1[k], &y1[k], &temp);
+
+	    zz_mult(&temp, &v20, &t2);
+	    z_add(&y0[k], &y0[k], &temp);
+	    zz_mult(&temp, &v21, &t2);
+	    z_add(&y1[k], &y1[k], &temp);
+
+	    zz_mult(&temp, &v30, &t3);
+	    z_add(&y0[k], &y0[k], &temp);
+	    zz_mult(&temp, &v31, &t3);
+	    z_add(&y1[k], &y1[k], &temp);
+	}
+
+	M0 += 4 * lda;
+    }
+
+    while ( firstcol < n ) {		/* Do 1 column */
+ 	Mki0 = M0;
+        v00 = x0[firstcol];   v01 = x1[firstcol++];
+
+	for (k = 0; k < m; k++) {
+	    t0 = Mki0[k];
+	    
+	    zz_mult(&temp, &v00, &t0);
+	    z_add(&y0[k], &y0[k], &temp);
+	    zz_mult(&temp, &v01, &t0);
+	    z_add(&y1[k], &y1[k], &temp);
+	}
+	M0 += lda;
+    }
+	
+}
+
