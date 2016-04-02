@@ -1,3 +1,13 @@
+/*! \file
+Copyright (c) 2003, The Regents of the University of California, through
+Lawrence Berkeley National Laboratory (subject to receipt of any required 
+approvals from U.S. Dept. of Energy) 
+
+All rights reserved. 
+
+The source code is distributed under BSD license, see the file License.txt
+at the top-level directory.
+*/
 
 /*
  * -- SuperLU MT routine (version 3.0) --
@@ -217,9 +227,6 @@ sreadhb(int_t *nrow, int_t *ncol, int_t *nonz,
 	printf("Matrix is not square.\n");
     sDumpLine(fp);
 
-    /* Allocate storage for the three arrays ( nzval, rowind, colptr ) */
-    sallocateA(*ncol, *nonz, nzval, rowind, colptr);
-
     /* Line 4: format statement */
     fscanf(fp, "%16c", buf);
     sParseIntFormat(buf, &colnum, &colsize);
@@ -240,6 +247,9 @@ sreadhb(int_t *nrow, int_t *ncol, int_t *nonz,
     printf("valnum %d, valsize %d\n", valnum, valsize);
 #endif
     
+    /* Allocate storage for the three arrays ( nzval, rowind, colptr ) */
+    sallocateA(*ncol, *nonz, nzval, rowind, colptr);
+
     sReadVector(fp, *ncol+1, *colptr, colnum, colsize);
     sReadVector(fp, *nonz, *rowind, rownum, rowsize);
     if ( numer_lines ) {
