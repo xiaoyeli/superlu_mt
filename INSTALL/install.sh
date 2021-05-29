@@ -1,6 +1,6 @@
-#!/bin/csh
+#!/bin/bash
 
-set ofile = install.out			# output file
+export ofile=install.out			# output file
 
 echo '---- SINGLE PRECISION' >! $ofile
 ./testslamch >> $ofile

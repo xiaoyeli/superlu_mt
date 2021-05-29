@@ -1,65 +1,71 @@
-#!/bin/csh
+#!/bin/bash
 
-set ofile = pdtest.out			# output file
-if ( -e $ofile ) then
+export ofile=pdtest.out			# output file
+if [ -f $ofile ]; then
     rm -f $ofile
-endif
+fi
 echo 'Double-precision testing output' > $ofile
 
-set NVAL        = (10 19)
-set NRHS        = (2)
-set LWORK       = (0 100000000)
-set PANELSIZE   = (2)
-set RELAX       = (2)
-set NPROCS	= (1 4)
+export NVAL=(10 19)
+export NRHS=(2)
+export LWORK=(0 100000000)
+export PANELSIZE=(2)
+export RELAX=(2)
+export NPROCS=(1 4)
 
-setenv OMP_NUM_THREADS 4
+export OMP_NUM_THREADS=4
 
 #
 # Loop through all matrices ...
 #
-foreach m (LAPACK g10)
+for m in LAPACK g10; do
 echo $m
     #--------------------------------------------
     # Test matrix types generated in LAPACK-style
     #--------------------------------------------
-    if ($m == 'LAPACK') then
+    if [ $m = LAPACK ]; then
       	echo '' >> $ofile
       	echo '** LAPACK test matrices' >> $ofile
-      	foreach n ($NVAL)
-            foreach s ($NRHS)
-              	foreach l ($LWORK)
-		    foreach p ($NPROCS)
+      	for n in $NVAL
+	do
+	    for s in $NRHS
+	    do
+              	for l in $LWORK
+		do
+		    for p in $NPROCS
+		    do
 	    	      	echo '' >> $ofile
             	      	echo 'n='$n 'nrhs='$s 'lwork='$l 'nprocs='$p >> $ofile
             	      	./pdtest -t "LA" -l $l -n $n -s $s -p $p >> $ofile
-		    end
-              	end
-            end
-        end
+		    done
+              	done
+            done
+        done
     #--------------------------------------------
     # Test a specified sparse matrix
     #--------------------------------------------
     else
       	echo '' >> $ofile
       	echo '** sparse matrix:' $m >> $ofile
-      	foreach  w ($PANELSIZE)
-            foreach r ($RELAX)
-                foreach s ($NRHS)
-                    foreach l ($LWORK)
-			foreach p ($NPROCS)
+      	for w in $PANELSIZE
+	do
+            for r in $RELAX
+	    do
+                for s in $NRHS
+		do
+                    for l in $LWORK
+		    do
+			for p in $NPROCS
+			do
 	                    echo '' >> $ofile
                       	    echo 'w='$w 'relax='$r 'nrhs='$s 'lwork='$l \
 					'nprocs='$p >> $ofile
             	      	    ./pdtest -t "SP" -w $w -r $r -s $s -l $l \
                              		< ../EXAMPLE/$m >> $ofile
-	   		end
-        	  end
-      	      end
-    	  end
-      end
-  endif
-
-end
-
-
+	   		done
+        	    done
+		 done
+	     done
+	done
+    fi
+done

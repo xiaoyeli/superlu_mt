@@ -75,21 +75,21 @@ complex: pctest pctest.out
 
 complex16: pztest pztest.out
 
-pstest.out: pstest pstest.csh
+pstest.out: pstest pstest.sh
 	@echo Testing SINGLE PRECISION linear equation routines 
-	csh pstest.csh
+	bash pstest.sh
 
-pdtest.out: pdtest pdtest.csh
+pdtest.out: pdtest pdtest.sh
 	@echo Testing DOUBLE PRECISION linear equation routines
-	csh pdtest.csh
+	bash pdtest.sh
 
-pctest.out: pctest pctest.csh
+pctest.out: pctest pctest.sh
 	@echo Testing SINGLE COMPLEX PRECISION linear equation routines
-	csh pctest.csh
+	bash pctest.sh
 
-pztest.out: pztest pztest.csh
+pztest.out: pztest pztest.sh
 	@echo Testing DOUBLE COMPLEX PRECISION linear equation routines
-	csh pztest.csh
+	bash pztest.sh
 
 .c.o:
 	$(CC) $(CFLAGS) $(CDEFS) -I$(HEADER) -c $< $(VERBOSE)

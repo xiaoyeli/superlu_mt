@@ -1,0 +1,450 @@
+( cd INSTALL; make )
+make[1]: Entering directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/INSTALL'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/INSTALL'
+( cd SRC; make )
+make[1]: Entering directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/SRC'
+gcc -D__PTHREAD   -g  -DAdd_  -c sreadhb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c sreadrb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c smatgen.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgssv.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgssvx.c 
+psgssvx.c: In function ‘psgssvx’:
+psgssvx.c:580:2: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘ssp_colorder’? [-Wimplicit-function-declaration]
+  580 |  sp_colorder(AA, perm_c, superlumt_options, &AC);
+      |  ^~~~~~~~~~~
+      |  ssp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c sgstrs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c sgsrfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c sgscon.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c slacon.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c slangs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c sgsequ.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c slaqgs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c spivotgrowth.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psmemory.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psutil.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c smyblas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_init.c 
+psgstrf_init.c: In function ‘psgstrf_init’:
+psgstrf_init.c:158:5: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘ssp_colorder’? [-Wimplicit-function-declaration]
+  158 |     sp_colorder(A, perm_c, superlumt_options, AC);
+      |     ^~~~~~~~~~~
+      |     ssp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_thread.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_thread_init.c 
+psgstrf_thread_init.c: In function ‘psgstrf_thread_init’:
+psgstrf_thread_init.c:136:5: warning: implicit declaration of function ‘pxgstrf_relax_snode’; did you mean ‘psgstrf_relax_snode’? [-Wimplicit-function-declaration]
+  136 |     pxgstrf_relax_snode(n, options, pxgstrf_relax);
+      |     ^~~~~~~~~~~~~~~~~~~
+      |     psgstrf_relax_snode
+psgstrf_thread_init.c:139:5: warning: implicit declaration of function ‘ParallelInit’; did you mean ‘sParallelInit’? [-Wimplicit-function-declaration]
+  139 |     ParallelInit(n, pxgstrf_relax, options, pxgstrf_shared);
+      |     ^~~~~~~~~~~~
+      |     sParallelInit
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_thread_finalize.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_factor_snode.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_snode_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_snode_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_panel_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_panel_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_copy_to_ucol.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_pivotL.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_column_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_column_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_bmod1D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_bmod2D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_bmod1D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c psgstrf_bmod2D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c ssp_blas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c ssp_blas3.c 
+gcc -c -D__PTHREAD   -O0 superlu_timer.c
+gcc -c -D__PTHREAD   -O0 dclock.c
+gcc -D__PTHREAD   -g  -DAdd_  -c sp_ienv.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c lsame.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c xerbla.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c util.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pmemory.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c qrnzcnt.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cholnzcnt.c 
+gcc -c -O0 await.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c get_perm_c.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c mmd.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c colamd.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c sp_coletree.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_scheduler.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c sp_colorder.c 
+sp_colorder.c: In function ‘sp_colorder’:
+sp_colorder.c:138:6: warning: implicit declaration of function ‘sp_symetree’; did you mean ‘sp_coletree’? [-Wimplicit-function-declaration]
+  138 |      sp_symetree( c_colbeg, c_colend, b_rowind, n,
+      |      ^~~~~~~~~~~
+      |      sp_coletree
+sp_colorder.c:217:6: warning: implicit declaration of function ‘cholnzcnt’ [-Wimplicit-function-declaration]
+  217 |      cholnzcnt(n, b_colptr, b_rowind, invp, perm_c,
+      |      ^~~~~~~~~
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_mark_busy_descends.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_pruneL.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_super_bnd_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_relax_snode.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c heap_relax_snode.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_synch.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pxgstrf_finalize.c 
+gcc -c -O0 slamch.c
+/usr/bin/ar cr ../lib/libsuperlu_mt_PTHREAD.a sreadhb.o sreadrb.o smatgen.o psgssv.o psgssvx.o sgstrs.o sgsrfs.o sgscon.o slacon.o slangs.o sgsequ.o slaqgs.o spivotgrowth.o psmemory.o psutil.o smyblas2.o psgstrf.o psgstrf_init.o psgstrf_thread.o psgstrf_thread_init.o psgstrf_thread_finalize.o psgstrf_factor_snode.o psgstrf_snode_dfs.o psgstrf_snode_bmod.o psgstrf_panel_dfs.o psgstrf_panel_bmod.o psgstrf_copy_to_ucol.o psgstrf_pivotL.o psgstrf_column_dfs.o psgstrf_column_bmod.o psgstrf_bmod1D.o psgstrf_bmod2D.o psgstrf_bmod1D_mv2.o psgstrf_bmod2D_mv2.o ssp_blas2.o ssp_blas3.o superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o util.o pmemory.o qrnzcnt.o cholnzcnt.o await.o get_perm_c.o mmd.o colamd.o sp_coletree.o pxgstrf_scheduler.o sp_colorder.o pxgstrf_mark_busy_descends.o pxgstrf_pruneL.o pxgstrf_super_bnd_dfs.o pxgstrf_relax_snode.o heap_relax_snode.o pxgstrf_synch.o pxgstrf_finalize.o slamch.o
+/usr/bin/ranlib ../lib/libsuperlu_mt_PTHREAD.a
+gcc -D__PTHREAD   -g  -DAdd_  -c dreadhb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dreadrb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dmatgen.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgssv.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgssvx.c 
+pdgssvx.c: In function ‘pdgssvx’:
+pdgssvx.c:580:2: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘dsp_colorder’? [-Wimplicit-function-declaration]
+  580 |  sp_colorder(AA, perm_c, superlumt_options, &AC);
+      |  ^~~~~~~~~~~
+      |  dsp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c dgstrs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dgsrfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dgscon.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dlacon.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dlangs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dgsequ.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dlaqgs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dpivotgrowth.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdmemory.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdutil.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dmyblas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_init.c 
+pdgstrf_init.c: In function ‘pdgstrf_init’:
+pdgstrf_init.c:158:5: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘dsp_colorder’? [-Wimplicit-function-declaration]
+  158 |     sp_colorder(A, perm_c, superlumt_options, AC);
+      |     ^~~~~~~~~~~
+      |     dsp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_thread.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_thread_init.c 
+pdgstrf_thread_init.c: In function ‘pdgstrf_thread_init’:
+pdgstrf_thread_init.c:136:5: warning: implicit declaration of function ‘pxgstrf_relax_snode’; did you mean ‘pdgstrf_relax_snode’? [-Wimplicit-function-declaration]
+  136 |     pxgstrf_relax_snode(n, options, pxgstrf_relax);
+      |     ^~~~~~~~~~~~~~~~~~~
+      |     pdgstrf_relax_snode
+pdgstrf_thread_init.c:139:5: warning: implicit declaration of function ‘ParallelInit’; did you mean ‘dParallelInit’? [-Wimplicit-function-declaration]
+  139 |     ParallelInit(n, pxgstrf_relax, options, pxgstrf_shared);
+      |     ^~~~~~~~~~~~
+      |     dParallelInit
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_thread_finalize.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_factor_snode.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_snode_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_snode_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_panel_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_panel_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_copy_to_ucol.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_pivotL.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_column_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_column_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_bmod1D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_bmod2D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_bmod1D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pdgstrf_bmod2D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dsp_blas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dsp_blas3.c 
+gcc -c -O0 dlamch.c
+/usr/bin/ar cr ../lib/libsuperlu_mt_PTHREAD.a dreadhb.o dreadrb.o dmatgen.o pdgssv.o pdgssvx.o dgstrs.o dgsrfs.o dgscon.o dlacon.o dlangs.o dgsequ.o dlaqgs.o dpivotgrowth.o pdmemory.o pdutil.o dmyblas2.o pdgstrf.o pdgstrf_init.o pdgstrf_thread.o pdgstrf_thread_init.o pdgstrf_thread_finalize.o pdgstrf_factor_snode.o pdgstrf_snode_dfs.o pdgstrf_snode_bmod.o pdgstrf_panel_dfs.o pdgstrf_panel_bmod.o pdgstrf_copy_to_ucol.o pdgstrf_pivotL.o pdgstrf_column_dfs.o pdgstrf_column_bmod.o pdgstrf_bmod1D.o pdgstrf_bmod2D.o pdgstrf_bmod1D_mv2.o pdgstrf_bmod2D_mv2.o dsp_blas2.o dsp_blas3.o  superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o util.o pmemory.o qrnzcnt.o cholnzcnt.o await.o get_perm_c.o mmd.o colamd.o sp_coletree.o pxgstrf_scheduler.o sp_colorder.o pxgstrf_mark_busy_descends.o pxgstrf_pruneL.o pxgstrf_super_bnd_dfs.o pxgstrf_relax_snode.o heap_relax_snode.o pxgstrf_synch.o pxgstrf_finalize.o dlamch.o
+/usr/bin/ranlib ../lib/libsuperlu_mt_PTHREAD.a
+gcc -D__PTHREAD   -g  -DAdd_  -c scomplex.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c creadhb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c creadrb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cmatgen.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c scsum1.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c icmax1.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgssv.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgssvx.c 
+pcgssvx.c: In function ‘pcgssvx’:
+pcgssvx.c:580:2: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘csp_colorder’? [-Wimplicit-function-declaration]
+  580 |  sp_colorder(AA, perm_c, superlumt_options, &AC);
+      |  ^~~~~~~~~~~
+      |  csp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c cgstrs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cgsrfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cgscon.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c clacon.c 
+clacon.c: In function ‘clacon_’:
+clacon.c:159:5: warning: implicit declaration of function ‘ccopy_’; did you mean ‘bcopy’? [-Wimplicit-function-declaration]
+  159 |     ccopy_(&ni, &x[0], &c__1, &v[0], &c__1);
+      |     ^~~~~~
+      |     bcopy
+gcc -D__PTHREAD   -g  -DAdd_  -c clangs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cgsequ.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c claqgs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cpivotgrowth.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcmemory.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcutil.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c cmyblas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_init.c 
+pcgstrf_init.c: In function ‘pcgstrf_init’:
+pcgstrf_init.c:158:5: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘csp_colorder’? [-Wimplicit-function-declaration]
+  158 |     sp_colorder(A, perm_c, superlumt_options, AC);
+      |     ^~~~~~~~~~~
+      |     csp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_thread.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_thread_init.c 
+pcgstrf_thread_init.c: In function ‘pcgstrf_thread_init’:
+pcgstrf_thread_init.c:136:5: warning: implicit declaration of function ‘pxgstrf_relax_snode’; did you mean ‘pcgstrf_relax_snode’? [-Wimplicit-function-declaration]
+  136 |     pxgstrf_relax_snode(n, options, pxgstrf_relax);
+      |     ^~~~~~~~~~~~~~~~~~~
+      |     pcgstrf_relax_snode
+pcgstrf_thread_init.c:139:5: warning: implicit declaration of function ‘ParallelInit’; did you mean ‘cParallelInit’? [-Wimplicit-function-declaration]
+  139 |     ParallelInit(n, pxgstrf_relax, options, pxgstrf_shared);
+      |     ^~~~~~~~~~~~
+      |     cParallelInit
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_thread_finalize.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_factor_snode.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_snode_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_snode_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_panel_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_panel_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_copy_to_ucol.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_pivotL.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_column_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_column_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_bmod1D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_bmod2D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_bmod1D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pcgstrf_bmod2D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c csp_blas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c csp_blas3.c 
+/usr/bin/ar cr ../lib/libsuperlu_mt_PTHREAD.a scomplex.o creadhb.o creadrb.o cmatgen.o scsum1.o icmax1.o pcgssv.o pcgssvx.o cgstrs.o cgsrfs.o cgscon.o clacon.o clangs.o cgsequ.o claqgs.o cpivotgrowth.o pcmemory.o pcutil.o cmyblas2.o pcgstrf.o pcgstrf_init.o pcgstrf_thread.o pcgstrf_thread_init.o pcgstrf_thread_finalize.o pcgstrf_factor_snode.o pcgstrf_snode_dfs.o pcgstrf_snode_bmod.o pcgstrf_panel_dfs.o pcgstrf_panel_bmod.o pcgstrf_copy_to_ucol.o pcgstrf_pivotL.o pcgstrf_column_dfs.o pcgstrf_column_bmod.o pcgstrf_bmod1D.o pcgstrf_bmod2D.o pcgstrf_bmod1D_mv2.o pcgstrf_bmod2D_mv2.o csp_blas2.o csp_blas3.o superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o util.o pmemory.o qrnzcnt.o cholnzcnt.o await.o get_perm_c.o mmd.o colamd.o sp_coletree.o pxgstrf_scheduler.o sp_colorder.o pxgstrf_mark_busy_descends.o pxgstrf_pruneL.o pxgstrf_super_bnd_dfs.o pxgstrf_relax_snode.o heap_relax_snode.o pxgstrf_synch.o pxgstrf_finalize.o slamch.o
+/usr/bin/ranlib ../lib/libsuperlu_mt_PTHREAD.a
+gcc -D__PTHREAD   -g  -DAdd_  -c dcomplex.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zreadhb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zreadrb.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zmatgen.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c dzsum1.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c izmax1.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgssv.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgssvx.c 
+pzgssvx.c: In function ‘pzgssvx’:
+pzgssvx.c:580:2: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘zsp_colorder’? [-Wimplicit-function-declaration]
+  580 |  sp_colorder(AA, perm_c, superlumt_options, &AC);
+      |  ^~~~~~~~~~~
+      |  zsp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c zgstrs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zgsrfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zgscon.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zlacon.c 
+zlacon.c: In function ‘zlacon_’:
+zlacon.c:159:5: warning: implicit declaration of function ‘zcopy_’; did you mean ‘bcopy’? [-Wimplicit-function-declaration]
+  159 |     zcopy_(&ni, &x[0], &c__1, &v[0], &c__1);
+      |     ^~~~~~
+      |     bcopy
+gcc -D__PTHREAD   -g  -DAdd_  -c zlangs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zgsequ.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zlaqgs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zpivotgrowth.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzmemory.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzutil.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zmyblas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_init.c 
+pzgstrf_init.c: In function ‘pzgstrf_init’:
+pzgstrf_init.c:158:5: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘zsp_colorder’? [-Wimplicit-function-declaration]
+  158 |     sp_colorder(A, perm_c, superlumt_options, AC);
+      |     ^~~~~~~~~~~
+      |     zsp_colorder
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_thread.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_thread_init.c 
+pzgstrf_thread_init.c: In function ‘pzgstrf_thread_init’:
+pzgstrf_thread_init.c:136:5: warning: implicit declaration of function ‘pxgstrf_relax_snode’; did you mean ‘pzgstrf_relax_snode’? [-Wimplicit-function-declaration]
+  136 |     pxgstrf_relax_snode(n, options, pxgstrf_relax);
+      |     ^~~~~~~~~~~~~~~~~~~
+      |     pzgstrf_relax_snode
+pzgstrf_thread_init.c:139:5: warning: implicit declaration of function ‘ParallelInit’; did you mean ‘zParallelInit’? [-Wimplicit-function-declaration]
+  139 |     ParallelInit(n, pxgstrf_relax, options, pxgstrf_shared);
+      |     ^~~~~~~~~~~~
+      |     zParallelInit
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_thread_finalize.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_factor_snode.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_snode_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_snode_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_panel_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_panel_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_copy_to_ucol.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_pivotL.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_column_dfs.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_column_bmod.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_bmod1D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_bmod2D.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_bmod1D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c pzgstrf_bmod2D_mv2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zsp_blas2.c 
+gcc -D__PTHREAD   -g  -DAdd_  -c zsp_blas3.c 
+/usr/bin/ar cr ../lib/libsuperlu_mt_PTHREAD.a dcomplex.o zreadhb.o zreadrb.o zmatgen.o dzsum1.o izmax1.o pzgssv.o pzgssvx.o zgstrs.o zgsrfs.o zgscon.o zlacon.o zlangs.o zgsequ.o zlaqgs.o zpivotgrowth.o pzmemory.o pzutil.o zmyblas2.o pzgstrf.o pzgstrf_init.o pzgstrf_thread.o pzgstrf_thread_init.o pzgstrf_thread_finalize.o pzgstrf_factor_snode.o pzgstrf_snode_dfs.o pzgstrf_snode_bmod.o pzgstrf_panel_dfs.o pzgstrf_panel_bmod.o pzgstrf_copy_to_ucol.o pzgstrf_pivotL.o pzgstrf_column_dfs.o pzgstrf_column_bmod.o pzgstrf_bmod1D.o pzgstrf_bmod2D.o pzgstrf_bmod1D_mv2.o pzgstrf_bmod2D_mv2.o zsp_blas2.o zsp_blas3.o  superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o util.o pmemory.o qrnzcnt.o cholnzcnt.o await.o get_perm_c.o mmd.o colamd.o sp_coletree.o pxgstrf_scheduler.o sp_colorder.o pxgstrf_mark_busy_descends.o pxgstrf_pruneL.o pxgstrf_super_bnd_dfs.o pxgstrf_relax_snode.o heap_relax_snode.o pxgstrf_synch.o pxgstrf_finalize.o dlamch.o
+/usr/bin/ranlib ../lib/libsuperlu_mt_PTHREAD.a
+make[1]: Leaving directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/SRC'
+( cd TESTING/MATGEN; make )
+make[1]: Entering directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/TESTING/MATGEN'
+gcc -D__PTHREAD   -g  -DAdd_ -c slatms.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slagge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slagsy.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slarge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slaror.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slarot.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slatm2.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slatm3.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slatme.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slatmr.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slatm1.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slaran.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slarnd.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slaruv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slabad.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slarnv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slatb4.c
+slatb4.c: In function ‘slatb4_’:
+slatb4.c:115:5: warning: implicit declaration of function ‘strncpy’ [-Wimplicit-function-declaration]
+  115 |     strncpy(c2, path + 1, 2);
+      |     ^~~~~~~
+slatb4.c:115:5: warning: incompatible implicit declaration of built-in function ‘strncpy’
+slatb4.c:7:1: note: include ‘<string.h>’ or provide a declaration of ‘strncpy’
+    6 | #include "f2c.h"
+  +++ |+#include <string.h>
+    7 | 
+gcc -D__PTHREAD   -g  -DAdd_ -c slaset.c
+gcc -D__PTHREAD   -g  -DAdd_ -c slartg.c
+gcc -D__PTHREAD   -g  -DAdd_ -c r_lg10.c
+gcc -D__PTHREAD   -g  -DAdd_ -c r_sign.c
+gcc -D__PTHREAD   -g  -DAdd_ -c pow_dd.c
+gcc -D__PTHREAD   -g  -DAdd_ -c lsamen.c
+/usr/bin/ar cr ../libtmglib_PTHREAD.a slatms.o slagge.o slagsy.o slarge.o slaror.o slarot.o slatm2.o slatm3.o slatme.o slatmr.o slatm1.o slaran.o slarnd.o slaruv.o slabad.o slarnv.o \
+        slatb4.o slaset.o slartg.o r_lg10.o r_sign.o pow_dd.o lsamen.o
+/usr/bin/ranlib ../libtmglib_PTHREAD.a
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatms.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlagge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlagsy.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlarge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlaror.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlarot.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatm2.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatm3.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatme.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatmr.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatm1.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlaran.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlarnd.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlaruv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlabad.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlarnv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlatb4.c
+dlatb4.c: In function ‘dlatb4_’:
+dlatb4.c:113:5: warning: implicit declaration of function ‘strncpy’ [-Wimplicit-function-declaration]
+  113 |     strncpy(c2, path + 1, 2);
+      |     ^~~~~~~
+dlatb4.c:113:5: warning: incompatible implicit declaration of built-in function ‘strncpy’
+dlatb4.c:7:1: note: include ‘<string.h>’ or provide a declaration of ‘strncpy’
+    6 | #include "f2c.h"
+  +++ |+#include <string.h>
+    7 | 
+gcc -D__PTHREAD   -g  -DAdd_ -c dlaset.c
+gcc -D__PTHREAD   -g  -DAdd_ -c dlartg.c
+gcc -D__PTHREAD   -g  -DAdd_ -c d_lg10.c
+gcc -D__PTHREAD   -g  -DAdd_ -c d_sign.c
+/usr/bin/ar cr ../libtmglib_PTHREAD.a dlatms.o dlagge.o dlagsy.o dlarge.o dlaror.o dlarot.o dlatm2.o dlatm3.o dlatme.o dlatmr.o dlatm1.o dlaran.o dlarnd.o dlaruv.o dlabad.o dlarnv.o \
+        dlatb4.o dlaset.o dlartg.o d_lg10.o d_sign.o pow_dd.o lsamen.o
+/usr/bin/ranlib ../libtmglib_PTHREAD.a
+gcc -D__PTHREAD   -g  -DAdd_ -c clatms.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clagge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clagsy.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clarge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c claror.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clarot.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clatm2.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clatm3.c
+gcc -D__PTHREAD   -g  -DAdd_ -c claghe.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clarnd.c
+gcc -D__PTHREAD   -g  -DAdd_ -c cdotc.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clatb4.c
+clatb4.c: In function ‘clatb4_’:
+clatb4.c:116:5: warning: implicit declaration of function ‘strncpy’ [-Wimplicit-function-declaration]
+  116 |     strncpy(c2, path + 1, 2);
+      |     ^~~~~~~
+clatb4.c:116:5: warning: incompatible implicit declaration of built-in function ‘strncpy’
+clatb4.c:7:1: note: include ‘<string.h>’ or provide a declaration of ‘strncpy’
+    6 | #include "f2c.h"
+  +++ |+#include <string.h>
+    7 | 
+gcc -D__PTHREAD   -g  -DAdd_ -c claset.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clartg.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clarnv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c clacgv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c csymv.c
+/usr/bin/ar cr ../libtmglib_PTHREAD.a clatms.o clagge.o clagsy.o clarge.o claror.o clarot.o clatm2.o clatm3.o claghe.o clarnd.o cdotc.o slatm1.o slaran.o slarnd.o slaruv.o slabad.o slarnv.o \
+        clatb4.o claset.o clartg.o clarnv.o clacgv.o csymv.o r_lg10.o r_sign.o pow_dd.o lsamen.o
+/usr/bin/ranlib ../libtmglib_PTHREAD.a
+gcc -D__PTHREAD   -g  -DAdd_ -c zlatms.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlagge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlagsy.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlarge.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlaror.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlarot.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlatm2.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlatm3.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlaghe.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlarnd.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zdotc.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlatb4.c
+zlatb4.c: In function ‘zlatb4_’:
+zlatb4.c:117:5: warning: implicit declaration of function ‘strncpy’ [-Wimplicit-function-declaration]
+  117 |     strncpy(c2, path + 1, 2);
+      |     ^~~~~~~
+zlatb4.c:117:5: warning: incompatible implicit declaration of built-in function ‘strncpy’
+zlatb4.c:7:1: note: include ‘<string.h>’ or provide a declaration of ‘strncpy’
+    6 | #include "f2c.h"
+  +++ |+#include <string.h>
+    7 | 
+gcc -D__PTHREAD   -g  -DAdd_ -c zlaset.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlartg.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlarnv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zlacgv.c
+gcc -D__PTHREAD   -g  -DAdd_ -c zsymv.c
+/usr/bin/ar cr ../libtmglib_PTHREAD.a zlatms.o zlagge.o zlagsy.o zlarge.o zlaror.o zlarot.o zlatm2.o zlatm3.o zlaghe.o zlarnd.o zdotc.o dlatm1.o dlaran.o dlarnd.o dlaruv.o dlabad.o dlarnv.o \
+        zlatb4.o zlaset.o zlartg.o zlarnv.o zlacgv.o zsymv.o d_lg10.o d_sign.o pow_dd.o lsamen.o
+/usr/bin/ranlib ../libtmglib_PTHREAD.a
+make[1]: Leaving directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/TESTING/MATGEN'
+( cd TESTING ; make )
+make[1]: Entering directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/TESTING'
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psdrive.c 
+psdrive.c:31:1: warning: return type defaults to ‘int’ [-Wimplicit-int]
+   31 | main(int argc, char *argv[])
+      | ^~~~
+psdrive.c: In function ‘parse_command_line’:
+psdrive.c:614:18: warning: implicit declaration of function ‘getopt’; did you mean ‘getsubopt’? [-Wimplicit-function-declaration]
+  614 |     while ( (c = getopt(argc, argv, "ht:n:p:w:r:s:m:b:c:l:")) != EOF ) {
+      |                  ^~~~~~
+      |                  getsubopt
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c sp_sconvert.c 
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psgst01.c 
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psgst02.c 
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psgst04.c 
+psgst04.c: In function ‘psgst04’:
+psgst04.c:104:7: warning: implicit declaration of function ‘idamax_’; did you mean ‘isamax_’? [-Wimplicit-function-declaration]
+  104 |  ix = idamax_(&n__1, &xact[j*ldxact], &c__1);
+      |       ^~~~~~~
+      |       isamax_
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psgst07.c 
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psgssv.c 
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c psgssvx.c 
+psgssvx.c: In function ‘psgssvx’:
+psgssvx.c:580:2: warning: implicit declaration of function ‘sp_colorder’; did you mean ‘ssp_colorder’? [-Wimplicit-function-declaration]
+  580 |  sp_colorder(AA, perm_c, superlumt_options, &AC);
+      |  ^~~~~~~~~~~
+      |  ssp_colorder
+gcc -D__PTHREAD   -g  -DAdd_ -I../SRC -c sp_ienv.c 
+gcc -O  psdrive.o sp_sconvert.o psgst01.o psgst02.o psgst04.o psgst07.o psgssv.o psgssvx.o sp_ienv.o \
+libtmglib_PTHREAD.a ../lib/libsuperlu_mt_PTHREAD.a ../lib/libblas_PTHREAD.a -lm -lpthread -o pstest
+Testing SINGLE PRECISION linear equation routines
+csh pstest.csh
+make[1]: csh: Command not found
+make[1]: *** [Makefile:80: pstest.out] Error 127
+make[1]: Leaving directory '/home/xiaoye/Dropbox/Codes/SuperLU/superlu_mt.git/TESTING'
+make: *** [Makefile:39: testing] Error 2

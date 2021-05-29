@@ -13,7 +13,7 @@ testtimer: superlu_timer.o timertst.o
 
 install.out:
 	@echo Testing machines parameters and timer
-	csh install.csh
+	bash install.sh
 
 slamch.o: slamch.c ; $(CC) $(NOOPTS) -c $<
 dlamch.o: dlamch.c ; $(CC) $(NOOPTS) -c $<
