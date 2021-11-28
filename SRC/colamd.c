@@ -1187,7 +1187,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_ncol_negative ;
 	stats [COLAMD_INFO1] = n ;
-	DEBUG0 (("symamd: n negative %d\n", n)) ;
+	DEBUG0 (("symamd: n negative " ID "\n", n)) ;
     	return (FALSE) ;
     }
 
@@ -1196,7 +1196,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_nnz_negative ;
 	stats [COLAMD_INFO1] = nnz ;
-	DEBUG0 (("symamd: number of entries negative %d\n", nnz)) ;
+	DEBUG0 (("symamd: number of entries negative " ID "\n", nnz)) ;
 	return (FALSE) ;
     }
 
@@ -1204,7 +1204,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_p0_nonzero ;
 	stats [COLAMD_INFO1] = p [0] ;
-	DEBUG0 (("symamd: p[0] not zero %d\n", p [0])) ;
+	DEBUG0 (("symamd: p[0] not zero " ID "\n", p [0])) ;
 	return (FALSE) ;
     }
 
@@ -1222,7 +1222,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
     if (!count)
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_out_of_memory ;
-	DEBUG0 (("symamd: allocate count (size %d) failed\n", n+1)) ;
+	DEBUG0 (("symamd: allocate count (size " ID ") failed\n", n+1)) ;
 	return (FALSE) ;
     }
 
@@ -1231,7 +1231,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_out_of_memory ;
 	(*release) ((void *) count) ;
-	DEBUG0 (("symamd: allocate mark (size %d) failed\n", n+1)) ;
+	DEBUG0 (("symamd: allocate mark (size " ID ") failed\n", n+1)) ;
 	return (FALSE) ;
     }
 
@@ -1257,7 +1257,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
 	    stats [COLAMD_INFO2] = length ;
 	    (*release) ((void *) count) ;
 	    (*release) ((void *) mark) ;
-	    DEBUG0 (("symamd: col %d negative length %d\n", j, length)) ;
+	    DEBUG0 (("symamd: col " ID " negative length " ID "\n", j, length)) ;
 	    return (FALSE) ;
 	}
 
@@ -1273,7 +1273,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
 		stats [COLAMD_INFO3] = n ;
 		(*release) ((void *) count) ;
 		(*release) ((void *) mark) ;
-		DEBUG0 (("symamd: row %d col %d out of bounds\n", i, j)) ;
+		DEBUG0 (("symamd: row " ID " col " ID " out of bounds\n", i, j)) ;
 		return (FALSE) ;
 	    }
 
@@ -1285,7 +1285,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
 		stats [COLAMD_INFO1] = j ;
 		stats [COLAMD_INFO2] = i ;
 		(stats [COLAMD_INFO3]) ++ ;
-		DEBUG1 (("symamd: row %d col %d unsorted/duplicate\n", i, j)) ;
+		DEBUG1 (("symamd: row " ID " col " ID " unsorted/duplicate\n", i, j)) ;
 	    }
 
 	    if (i > j && mark [i] != j)
@@ -1323,7 +1323,7 @@ PUBLIC Int SYMAMD_MAIN			/* return TRUE if OK, FALSE otherwise */
     n_row = mnz / 2 ;
     Mlen = COLAMD_recommended (mnz, n_row, n) ;
     M = (Int *) ((*allocate) (Mlen, sizeof (Int))) ;
-    DEBUG0 (("symamd: M is %d-by-%d with %d entries, Mlen = %g\n",
+    DEBUG0 (("symamd: M is " ID "-by-" ID " with " ID " entries, Mlen = %g\n",
     	n_row, n, mnz, (double) Mlen)) ;
 
     if (!M)
@@ -1500,7 +1500,7 @@ PUBLIC Int COLAMD_MAIN		/* returns TRUE if successful, FALSE otherwise*/
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_nrow_negative ;
 	stats [COLAMD_INFO1] = n_row ;
-	DEBUG0 (("colamd: nrow negative %d\n", n_row)) ;
+	DEBUG0 (("colamd: nrow negative " ID "\n", n_row)) ;
     	return (FALSE) ;
     }
 
@@ -1508,7 +1508,7 @@ PUBLIC Int COLAMD_MAIN		/* returns TRUE if successful, FALSE otherwise*/
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_ncol_negative ;
 	stats [COLAMD_INFO1] = n_col ;
-	DEBUG0 (("colamd: ncol negative %d\n", n_col)) ;
+	DEBUG0 (("colamd: ncol negative " ID "\n", n_col)) ;
     	return (FALSE) ;
     }
 
@@ -1517,7 +1517,7 @@ PUBLIC Int COLAMD_MAIN		/* returns TRUE if successful, FALSE otherwise*/
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_nnz_negative ;
 	stats [COLAMD_INFO1] = nnz ;
-	DEBUG0 (("colamd: number of entries negative %d\n", nnz)) ;
+	DEBUG0 (("colamd: number of entries negative " ID "\n", nnz)) ;
 	return (FALSE) ;
     }
 
@@ -1525,7 +1525,7 @@ PUBLIC Int COLAMD_MAIN		/* returns TRUE if successful, FALSE otherwise*/
     {
 	stats [COLAMD_STATUS] = COLAMD_ERROR_p0_nonzero	;
 	stats [COLAMD_INFO1] = p [0] ;
-	DEBUG0 (("colamd: p[0] not zero %d\n", p [0])) ;
+	DEBUG0 (("colamd: p[0] not zero " ID "\n", p [0])) ;
 	return (FALSE) ;
     }
 
@@ -1557,7 +1557,7 @@ PUBLIC Int COLAMD_MAIN		/* returns TRUE if successful, FALSE otherwise*/
 	stats [COLAMD_STATUS] = COLAMD_ERROR_A_too_small ;
 	stats [COLAMD_INFO1] = need ;
 	stats [COLAMD_INFO2] = Alen ;
-	DEBUG0 (("colamd: Need Alen >= %d, given only Alen = %d\n", need,Alen));
+	DEBUG0 (("colamd: Need Alen >= " ID ", given only Alen = " ID "\n", need,Alen));
 	return (FALSE) ;
     }
 
@@ -1682,7 +1682,7 @@ PRIVATE Int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
 	    stats [COLAMD_STATUS] = COLAMD_ERROR_col_length_negative ;
 	    stats [COLAMD_INFO1] = col ;
 	    stats [COLAMD_INFO2] = Col [col].length ;
-	    DEBUG0 (("colamd: col %d length %d < 0\n", col, Col [col].length)) ;
+	    DEBUG0 (("colamd: col " ID " length " ID " < 0\n", col, Col [col].length)) ;
 	    return (FALSE) ;
 	}
 
@@ -1722,7 +1722,7 @@ PRIVATE Int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
 		stats [COLAMD_INFO1] = col ;
 		stats [COLAMD_INFO2] = row ;
 		stats [COLAMD_INFO3] = n_row ;
-		DEBUG0 (("colamd: row %d col %d out of bounds\n", row, col)) ;
+		DEBUG0 (("colamd: row " ID " col " ID " out of bounds\n", row, col)) ;
 		return (FALSE) ;
 	    }
 
@@ -1734,7 +1734,7 @@ PRIVATE Int init_rows_cols	/* returns TRUE if OK, or FALSE otherwise */
 		stats [COLAMD_INFO1] = col ;
 		stats [COLAMD_INFO2] = row ;
 		(stats [COLAMD_INFO3]) ++ ;
-		DEBUG1 (("colamd: row %d col %d unsorted/duplicate\n",row,col));
+		DEBUG1 (("colamd: row " ID " col " ID " unsorted/duplicate\n",row,col));
 	    }
 
 	    if (Row [row].shared2.mark != col)
@@ -1944,7 +1944,7 @@ PRIVATE void init_scoring
 	    DENSE_DEGREE (knobs [COLAMD_DENSE_COL], MIN (n_row, n_col)) ;
     }
 
-    DEBUG1 (("colamd: densecount: %d %d\n", dense_row_count, dense_col_count)) ;
+    DEBUG1 (("colamd: densecount: " ID " " ID "\n", dense_row_count, dense_col_count)) ;
     max_deg = 0 ;
     n_col2 = n_col ;
     n_row2 = n_row ;
@@ -1963,7 +1963,7 @@ PRIVATE void init_scoring
 	    KILL_PRINCIPAL_COL (c) ;
 	}
     }
-    DEBUG1 (("colamd: null columns killed: %d\n", n_col - n_col2)) ;
+    DEBUG1 (("colamd: null columns killed: " ID "\n", n_col - n_col2)) ;
 
     /* === Kill dense columns =============================================== */
 
@@ -1990,7 +1990,7 @@ PRIVATE void init_scoring
 	    KILL_PRINCIPAL_COL (c) ;
 	}
     }
-    DEBUG1 (("colamd: Dense and null columns killed: %d\n", n_col - n_col2)) ;
+    DEBUG1 (("colamd: Dense and null columns killed: " ID "\n", n_col - n_col2)) ;
 
     /* === Kill dense and empty rows ======================================== */
 
@@ -2010,7 +2010,7 @@ PRIVATE void init_scoring
 	    max_deg = MAX (max_deg, deg) ;
 	}
     }
-    DEBUG1 (("colamd: Dense and null rows killed: %d\n", n_row - n_row2)) ;
+    DEBUG1 (("colamd: Dense and null rows killed: " ID "\n", n_row - n_row2)) ;
 
     /* === Compute initial column scores ==================================== */
 
@@ -2053,7 +2053,7 @@ PRIVATE void init_scoring
 	{
 	    /* a newly-made null column (all rows in this col are "dense" */
 	    /* and have already been killed) */
-	    DEBUG2 (("Newly null killed: %d\n", c)) ;
+	    DEBUG2 (("Newly null killed: " ID "\n", c)) ;
 	    Col [c].shared2.order = --n_col2 ;
 	    KILL_PRINCIPAL_COL (c) ;
 	}
@@ -2066,7 +2066,7 @@ PRIVATE void init_scoring
 	    Col [c].shared2.score = score ;
 	}
     }
-    DEBUG1 (("colamd: Dense, null, and newly-null columns killed: %d\n",
+    DEBUG1 (("colamd: Dense, null, and newly-null columns killed: " ID "\n",
     	n_col-n_col2)) ;
 
     /* At this point, all empty rows and columns are dead.  All live columns */
@@ -2097,7 +2097,7 @@ PRIVATE void init_scoring
 	/* only add principal columns to degree lists */
 	if (COL_IS_ALIVE (c))
 	{
-	    DEBUG4 (("place %d score %d minscore %d ncol %d\n",
+	    DEBUG4 (("place " ID " score " ID " minscore " ID " ncol " ID "\n",
 		c, Col [c].shared2.score, min_score, n_col)) ;
 
 	    /* === Add columns score to DList =============================== */
@@ -2134,7 +2134,7 @@ PRIVATE void init_scoring
     }
 
 #ifndef NDEBUG
-    DEBUG1 (("colamd: Live cols %d out of %d, non-princ: %d\n",
+    DEBUG1 (("colamd: Live cols " ID " out of " ID ", non-princ: " ID "\n",
 	debug_count, n_col, n_col-debug_count)) ;
     ASSERT (debug_count == n_col2) ;
     debug_deg_lists (n_row, n_col, Row, Col, head, min_score, n_col2, max_deg) ;
@@ -2220,7 +2220,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
     tag_mark = clear_mark (0, max_mark, n_row, Row) ;
     min_score = 0 ;
     ngarbage = 0 ;
-    DEBUG1 (("colamd: Ordering, n_col2=%d\n", n_col2)) ;
+    DEBUG1 (("colamd: Ordering, n_col2=" ID "\n", n_col2)) ;
 
     /* === Order the columns ================================================ */
 
@@ -2230,11 +2230,11 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 #ifndef NDEBUG
 	if (debug_step % 100 == 0)
 	{
-	    DEBUG2 (("\n...       Step k: %d out of n_col2: %d\n", k, n_col2)) ;
+	    DEBUG2 (("\n...       Step k: " ID " out of n_col2: " ID "\n", k, n_col2)) ;
 	}
 	else
 	{
-	    DEBUG3 (("\n----------Step k: %d out of n_col2: %d\n", k, n_col2)) ;
+	    DEBUG3 (("\n----------Step k: " ID " out of n_col2: " ID "\n", k, n_col2)) ;
 	}
 	debug_step++ ;
 	debug_deg_lists (n_row, n_col, Row, Col, head,
@@ -2282,7 +2282,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	pivot_col_thickness = Col [pivot_col].shared1.thickness ;
 	k += pivot_col_thickness ;
 	ASSERT (pivot_col_thickness > 0) ;
-	DEBUG3 (("Pivot col: %d thick %d\n", pivot_col, pivot_col_thickness)) ;
+	DEBUG3 (("Pivot col: " ID " thick " ID "\n", pivot_col, pivot_col_thickness)) ;
 
 	/* === Garbage_collection, if necessary ============================= */
 
@@ -2320,7 +2320,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	{
 	    /* get a row */
 	    row = *cp++ ;
-	    DEBUG4 (("Pivot col pattern %d %d\n", ROW_IS_ALIVE (row), row)) ;
+	    DEBUG4 (("Pivot col pattern " ID " " ID "\n", ROW_IS_ALIVE (row), row)) ;
 	    /* skip if row is dead */
 	    if (ROW_IS_ALIVE (row))
 	    {
@@ -2363,7 +2363,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	{
 	    /* may be killing an already dead row */
 	    row = *cp++ ;
-	    DEBUG3 (("Kill row in pivot col: %d\n", row)) ;
+	    DEBUG3 (("Kill row in pivot col: " ID "\n", row)) ;
 	    KILL_ROW (row) ;
 	}
 
@@ -2374,7 +2374,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	{
 	    /* pick the "pivot" row arbitrarily (first row in col) */
 	    pivot_row = A [Col [pivot_col].start] ;
-	    DEBUG3 (("Pivotal row is %d\n", pivot_row)) ;
+	    DEBUG3 (("Pivotal row is " ID "\n", pivot_row)) ;
 	}
 	else
 	{
@@ -2417,7 +2417,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	{
 	    col = *rp++ ;
 	    ASSERT (COL_IS_ALIVE (col) && col != pivot_col) ;
-	    DEBUG3 (("Col: %d\n", col)) ;
+	    DEBUG3 (("Col: " ID "\n", col)) ;
 
 	    /* clear tags used to construct pivot row pattern */
 	    col_thickness = -Col [col].shared1.thickness ;
@@ -2473,7 +2473,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 		/* absorb this row if the set difference becomes zero */
 		if (set_difference == 0 && aggressive)
 		{
-		    DEBUG3 (("aggressive absorption. Row: %d\n", row)) ;
+		    DEBUG3 (("aggressive absorption. Row: " ID "\n", row)) ;
 		    KILL_ROW (row) ;
 		}
 		else
@@ -2508,7 +2508,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	    new_cp = cp ;
 	    cp_end = cp + Col [col].length ;
 
-	    DEBUG4 (("Adding set diffs for Col: %d.\n", col)) ;
+	    DEBUG4 (("Adding set diffs for Col: " ID ".\n", col)) ;
 
 	    while (cp < cp_end)
 	    {
@@ -2519,10 +2519,10 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 		/* skip if dead */
 		if (ROW_IS_MARKED_DEAD (row_mark))
 		{
-		    DEBUG4 ((" Row %d, dead\n", row)) ;
+		    DEBUG4 ((" Row " ID ", dead\n", row)) ;
 		    continue ;
 		}
-		DEBUG4 ((" Row %d, set diff %d\n", row, row_mark-tag_mark));
+		DEBUG4 ((" Row " ID ", set diff " ID "\n", row, row_mark-tag_mark));
 		ASSERT (row_mark >= tag_mark) ;
 		/* compact the column */
 		*new_cp++ = row ;
@@ -2541,7 +2541,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 
 	    if (Col [col].length == 0)
 	    {
-		DEBUG4 (("further mass elimination. Col: %d\n", col)) ;
+		DEBUG4 (("further mass elimination. Col: " ID "\n", col)) ;
 		/* nothing left but the pivot row in this column */
 		KILL_PRINCIPAL_COL (col) ;
 		pivot_row_degree -= Col [col].shared1.thickness ;
@@ -2555,7 +2555,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	    {
 		/* === Prepare for supercolumn detection ==================== */
 
-		DEBUG4 (("Preparing supercol detection for Col: %d.\n", col)) ;
+		DEBUG4 (("Preparing supercol detection for Col: " ID ".\n", col)) ;
 
 		/* save score so far */
 		Col [col].shared2.score = cur_score ;
@@ -2563,7 +2563,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 		/* add column to hash table, for supercolumn detection */
 		hash %= n_col + 1 ;
 
-		DEBUG4 ((" Hash = %d, n_col = %d.\n", hash, n_col)) ;
+		DEBUG4 ((" Hash = " ID ", n_col = " ID ".\n", hash, n_col)) ;
 		ASSERT (((Int) hash) <= n_col) ;
 
 		head_column = head [hash] ;
@@ -2695,7 +2695,7 @@ PRIVATE Int find_ordering	/* return the number of garbage collections */
 	    Row [pivot_row].shared2.mark = 0 ;
 	    /* pivot row is no longer dead */
 
-	    DEBUG1 (("Resurrect Pivot_row %d deg: %d\n",
+	    DEBUG1 (("Resurrect Pivot_row " ID " deg: " ID "\n",
 			pivot_row, pivot_row_degree)) ;
 	}
     }
@@ -3157,7 +3157,7 @@ PRIVATE void print_report
 
     Int i1, i2, i3 ;
 
-    SUITESPARSE_PRINTF ("\n%s version %d.%d, %s: ", method,
+    SUITESPARSE_PRINTF ("\n%s version " ID "." ID ", %s: ", method,
             COLAMD_MAIN_VERSION, COLAMD_SUB_VERSION, COLAMD_DATE) ;
 
     if (!stats)
@@ -3188,15 +3188,15 @@ PRIVATE void print_report
                     "Matrix has unsorted or duplicate row indices.\n") ;
 
             SUITESPARSE_PRINTF(
-                    "%s: number of duplicate or out-of-order row indices: %d\n",
+                    "%s: number of duplicate or out-of-order row indices: " ID "\n",
                     method, i3) ;
 
             SUITESPARSE_PRINTF(
-                    "%s: last seen duplicate or out-of-order row index:   %d\n",
+                    "%s: last seen duplicate or out-of-order row index:   " ID "\n",
                     method, INDEX (i2)) ;
 
             SUITESPARSE_PRINTF(
-                    "%s: last seen in column:                             %d",
+                    "%s: last seen in column:                             " ID,
                     method, INDEX (i1)) ;
 
 	    /* no break - fall through to next case instead */
@@ -3206,15 +3206,15 @@ PRIVATE void print_report
             SUITESPARSE_PRINTF("\n") ;
 
             SUITESPARSE_PRINTF(
-                    "%s: number of dense or empty rows ignored:           %d\n",
+                    "%s: number of dense or empty rows ignored:           " ID "\n",
                     method, stats [COLAMD_DENSE_ROW]) ;
 
             SUITESPARSE_PRINTF(
-                    "%s: number of dense or empty columns ignored:        %d\n",
+                    "%s: number of dense or empty columns ignored:        " ID "\n",
                     method, stats [COLAMD_DENSE_COL]) ;
 
             SUITESPARSE_PRINTF(
-                    "%s: number of garbage collections performed:         %d\n",
+                    "%s: number of garbage collections performed:         " ID "\n",
                     method, stats [COLAMD_DEFRAG_COUNT]) ;
 	    break ;
 
@@ -3232,45 +3232,45 @@ PRIVATE void print_report
 
 	case COLAMD_ERROR_nrow_negative:
 
-            SUITESPARSE_PRINTF("Invalid number of rows (%d).\n", i1) ;
+            SUITESPARSE_PRINTF("Invalid number of rows (" ID ").\n", i1) ;
 	    break ;
 
 	case COLAMD_ERROR_ncol_negative:
 
-            SUITESPARSE_PRINTF("Invalid number of columns (%d).\n", i1) ;
+            SUITESPARSE_PRINTF("Invalid number of columns (" ID ").\n", i1) ;
 	    break ;
 
 	case COLAMD_ERROR_nnz_negative:
 
             SUITESPARSE_PRINTF(
-                    "Invalid number of nonzero entries (%d).\n", i1) ;
+                    "Invalid number of nonzero entries (" ID ").\n", i1) ;
 	    break ;
 
 	case COLAMD_ERROR_p0_nonzero:
 
             SUITESPARSE_PRINTF(
-                    "Invalid column pointer, p [0] = %d, must be zero.\n", i1);
+                    "Invalid column pointer, p [0] = " ID ", must be zero.\n", i1);
 	    break ;
 
 	case COLAMD_ERROR_A_too_small:
 
             SUITESPARSE_PRINTF("Array A too small.\n") ;
             SUITESPARSE_PRINTF(
-                    "        Need Alen >= %d, but given only Alen = %d.\n",
+                    "        Need Alen >= " ID ", but given only Alen = " ID ".\n",
                     i1, i2) ;
 	    break ;
 
 	case COLAMD_ERROR_col_length_negative:
 
             SUITESPARSE_PRINTF
-            ("Column %d has a negative number of nonzero entries (%d).\n",
+            ("Column " ID " has a negative number of nonzero entries (" ID ").\n",
             INDEX (i1), i2) ;
 	    break ;
 
 	case COLAMD_ERROR_row_index_out_of_bounds:
 
             SUITESPARSE_PRINTF
-            ("Row index (row %d) out of bounds (%d to %d) in column %d.\n",
+            ("Row index (row " ID ") out of bounds (" ID " to " ID ") in column " ID ".\n",
             INDEX (i2), INDEX (0), INDEX (i3-1), INDEX (i1)) ;
 	    break ;
 
@@ -3339,7 +3339,7 @@ PRIVATE void debug_structures
 	{
 	    len = Col [c].length ;
 	    score = Col [c].shared2.score ;
-	    DEBUG4 (("initial live col %5d %5d %5d\n", c, len, score)) ;
+	    DEBUG4 (("initial live col " ID " " ID " " ID "\n", c, len, score)) ;
 	    ASSERT (len > 0) ;
 	    ASSERT (score >= 0) ;
 	    ASSERT (Col [c].shared1.thickness == 1) ;
@@ -3421,7 +3421,7 @@ PRIVATE void debug_deg_lists
 	return ;
     }
     have = 0 ;
-    DEBUG4 (("Degree lists: %d\n", min_score)) ;
+    DEBUG4 (("Degree lists: " ID "\n", min_score)) ;
     for (deg = 0 ; deg <= n_col ; deg++)
     {
 	col = head [deg] ;
@@ -3429,17 +3429,17 @@ PRIVATE void debug_deg_lists
 	{
 	    continue ;
 	}
-	DEBUG4 (("%d:", deg)) ;
+	DEBUG4 (("" ID ":", deg)) ;
 	while (col != EMPTY)
 	{
-	    DEBUG4 ((" %d", col)) ;
+	    DEBUG4 ((" " ID "", col)) ;
 	    have += Col [col].shared1.thickness ;
 	    ASSERT (COL_IS_ALIVE (col)) ;
 	    col = Col [col].shared4.degree_next ;
 	}
 	DEBUG4 (("\n")) ;
     }
-    DEBUG4 (("should %d have %d\n", should, have)) ;
+    DEBUG4 (("should " ID " have " ID "\n", should, have)) ;
     ASSERT (should == have) ;
 
     /* === Check the row degrees ============================================ */
@@ -3532,30 +3532,30 @@ PRIVATE void debug_matrix
     DEBUG3 (("DUMP MATRIX:\n")) ;
     for (r = 0 ; r < n_row ; r++)
     {
-	DEBUG3 (("Row %d alive? %d\n", r, ROW_IS_ALIVE (r))) ;
+	DEBUG3 (("Row " ID " alive? " ID "\n", r, ROW_IS_ALIVE (r))) ;
 	if (ROW_IS_DEAD (r))
 	{
 	    continue ;
 	}
-	DEBUG3 (("start %d length %d degree %d\n",
+	DEBUG3 (("start " ID " length " ID " degree " ID "\n",
 		Row [r].start, Row [r].length, Row [r].shared1.degree)) ;
 	rp = &A [Row [r].start] ;
 	rp_end = rp + Row [r].length ;
 	while (rp < rp_end)
 	{
 	    c = *rp++ ;
-	    DEBUG4 (("	%d col %d\n", COL_IS_ALIVE (c), c)) ;
+	    DEBUG4 (("	" ID " col " ID "\n", COL_IS_ALIVE (c), c)) ;
 	}
     }
 
     for (c = 0 ; c < n_col ; c++)
     {
-	DEBUG3 (("Col %d alive? %d\n", c, COL_IS_ALIVE (c))) ;
+	DEBUG3 (("Col " ID " alive? " ID "\n", c, COL_IS_ALIVE (c))) ;
 	if (COL_IS_DEAD (c))
 	{
 	    continue ;
 	}
-	DEBUG3 (("start %d length %d shared1 %d shared2 %d\n",
+	DEBUG3 (("start " ID " length " ID " shared1 " ID " shared2 " ID "\n",
 		Col [c].start, Col [c].length,
 		Col [c].shared1.thickness, Col [c].shared2.score)) ;
 	cp = &A [Col [c].start] ;
@@ -3563,7 +3563,7 @@ PRIVATE void debug_matrix
 	while (cp < cp_end)
 	{
 	    r = *cp++ ;
-	    DEBUG4 (("	%d row %d\n", ROW_IS_ALIVE (r), r)) ;
+	    DEBUG4 (("	" ID " row " ID "\n", ROW_IS_ALIVE (r), r)) ;
 	}
     }
 }
@@ -3582,10 +3582,10 @@ PRIVATE void colamd_get_debug
     }
     else
     {
-	fscanf (f, "%d", &colamd_debug) ;
+	fscanf (f, "" ID "", &colamd_debug) ;
 	fclose (f) ;
     }
-    DEBUG0 (("%s: debug version, D = %d (THIS WILL BE SLOW!)\n",
+    DEBUG0 (("%s: debug version, D = " ID " (THIS WILL BE SLOW!)\n",
     	method, colamd_debug)) ;
 }
 
