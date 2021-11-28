@@ -327,7 +327,7 @@ extern void StatAlloc (const int_t, const int_t, const int_t, const int_t, Gstat
 extern void StatInit  (const int_t, const int_t, Gstat_t*);
 extern void StatFree  (Gstat_t*);
 extern void get_perm_c(int_t, SuperMatrix *, int_t *);
-extern void ssp_colorder (SuperMatrix *, int_t *, superlumt_options_t *,
+extern void sp_colorder (SuperMatrix *, int_t *, superlumt_options_t *,
 			 SuperMatrix *);
 extern int_t  sp_coletree (int_t *, int_t *, int_t *, int_t, int_t, int_t *);
 extern int_t  sPresetMap (const int_t, SuperMatrix *, pxgstrf_relax_t *, 
