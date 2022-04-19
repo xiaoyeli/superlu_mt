@@ -252,6 +252,10 @@ pdgssvx(int_t, superlumt_options_t *, SuperMatrix *, int_t *, int_t *,
 	SuperMatrix *, SuperMatrix *, 
 	double *, double *, double *, double *, superlu_memusage_t *, 
 	int_t *);
+extern void
+c_bridge_pdgssv_(int_t *nprocs, int_t *n, int_t *nnz, int_t *nrhs,
+		 double *values, int_t *rowind, int_t *colptr,
+		 double *b, int_t *ldb, int_t *info);
 
 /* ---------------
    Driver related 
