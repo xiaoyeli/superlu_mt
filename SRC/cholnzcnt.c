@@ -240,7 +240,7 @@ int_t cholnzcnt(int_t neqns, int_t *xadj, int_t *adjncy,
 	colcnt[k] = temp;
 	*nlnz += temp;
 	parent = etpar[k];
-	if (parent != 0) {
+	if ((parent != 0) && (parent < neqns)) { /* 'parent' is not the added root */
 	    colcnt[parent] += temp;
 	}
     }

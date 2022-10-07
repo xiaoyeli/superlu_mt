@@ -344,6 +344,7 @@ extern void pdgstrf (superlumt_options_t *, SuperMatrix *, int_t *,
 extern void pdgstrf_init (int_t, fact_t, trans_t, yes_no_t, int_t, int_t, double, yes_no_t, double,
 			  int_t *, int_t *, void *, int_t, SuperMatrix *,
 			  SuperMatrix *, superlumt_options_t *, Gstat_t *);
+extern void pdgstrf_thread(void *);
 extern pdgstrf_threadarg_t*
 pdgstrf_thread_init (SuperMatrix *, SuperMatrix *, SuperMatrix *,
 		     superlumt_options_t*, pxgstrf_shared_t*, Gstat_t*, int_t*);

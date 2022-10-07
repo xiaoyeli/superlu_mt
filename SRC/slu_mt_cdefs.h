@@ -341,6 +341,7 @@ extern void pcgstrf (superlumt_options_t *, SuperMatrix *, int_t *,
 extern void pcgstrf_init (int_t, fact_t, trans_t, yes_no_t, int_t, int_t, float, yes_no_t, double,
 			  int_t *, int_t *, void *, int_t, SuperMatrix *,
 			  SuperMatrix *, superlumt_options_t *, Gstat_t *);
+extern void pcgstrf_thread(void *);
 extern pcgstrf_threadarg_t*
 pcgstrf_thread_init (SuperMatrix *, SuperMatrix *, SuperMatrix *,
 		     superlumt_options_t*, pxgstrf_shared_t*, Gstat_t*, int_t*);

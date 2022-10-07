@@ -341,6 +341,7 @@ extern void pzgstrf (superlumt_options_t *, SuperMatrix *, int_t *,
 extern void pzgstrf_init (int_t, fact_t, trans_t, yes_no_t, int_t, int_t, double, yes_no_t, double,
 			  int_t *, int_t *, void *, int_t, SuperMatrix *,
 			  SuperMatrix *, superlumt_options_t *, Gstat_t *);
+extern void pzgstrf_thread(void *);
 extern pzgstrf_threadarg_t*
 pzgstrf_thread_init (SuperMatrix *, SuperMatrix *, SuperMatrix *,
 		     superlumt_options_t*, pxgstrf_shared_t*, Gstat_t*, int_t*);
