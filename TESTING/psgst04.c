@@ -101,7 +101,7 @@ int_t psgst04(int_t n, int_t nrhs, float *x, int_t ldx, float *xact,
     *resid = 0.;
     for (j = 0; j < nrhs; ++j) {
 	n__1 = n;
-	ix = idamax_(&n__1, &xact[j*ldxact], &c__1);
+	ix = isamax_(&n__1, &xact[j*ldxact], &c__1);
         xnorm = (d__1 = xact[ix-1 + j*ldxact], fabs(d__1));
 
 	diffnm = 0.;

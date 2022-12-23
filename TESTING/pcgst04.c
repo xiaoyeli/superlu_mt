@@ -101,7 +101,7 @@ int_t pcgst04(int_t n, int_t nrhs, complex *x, int_t ldx, complex *xact,
     *resid = 0.;
     for (j = 0; j < nrhs; ++j) {
 	n__1 = n;
-	ix = idamax_(&n__1, &xact[j*ldxact], &c__1);
+	ix = icamax_(&n__1, &xact[j*ldxact], &c__1);
         xnorm = (d__1 = xact[ix-1 + j*ldxact].r, fabs(d__1)) +
                 (d__2 = xact[ix-1 + j*ldxact].i, fabs(d__2));
 

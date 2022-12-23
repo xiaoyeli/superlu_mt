@@ -22,7 +22,7 @@ at the top-level directory.
 
 #define SPLIT_TOP
 
-int_t
+int
 ParallelInit(int_t n, pxgstrf_relax_t *pxgstrf_relax, 
 	     superlumt_options_t *superlumt_options, 
 	     pxgstrf_shared_t *pxgstrf_shared)

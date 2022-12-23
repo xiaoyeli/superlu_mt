@@ -1,3 +1,4 @@
+
 ############################################################################
 #
 #  Program:         SuperLU_MT
@@ -44,7 +45,7 @@ RANLIB       = /usr/bin/ranlib
 PREDEFS      	= -D__PTHREAD  ## -DDEBUGlevel=0 -DPRNTlevel=0
 #
 CC           	= gcc
-CFLAGS       	= $(PREDEFS) -g -std=c99 #-O3
+CFLAGS       	= $(PREDEFS) -g -std=c99 -O3
 # Uncomment the following to use 64-bit integer
 # CFLAGS          += -D_LONGINT
 

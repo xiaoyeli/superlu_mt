@@ -4,6 +4,7 @@
 
 	- From The Shogakukan DICTIONARY OF NEW ENGLISH (Second edition) */
 
+#include <string.h>
 #include "slu_mt_Cnames.h"
 
 #ifndef F2C_INCLUDE

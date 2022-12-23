@@ -93,6 +93,7 @@ zlacon_(int_t *n, doublecomplex *v, doublecomplex *x, double *est, int_t *kase)
     extern double dlamch_(char *);
     extern int izmax1_(int *, doublecomplex *, int *);
     extern double dzsum1_(int *, doublecomplex *, int *);
+    extern int zcopy_(int *, doublecomplex *, int *, doublecomplex *, int *);
 
     safmin = dlamch_("Safe minimum");
     if ( *kase == 0 ) {

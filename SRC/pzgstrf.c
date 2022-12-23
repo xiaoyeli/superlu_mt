@@ -22,6 +22,9 @@ pzgstrf(superlumt_options_t *superlumt_options, SuperMatrix *A, int_t *perm_r,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
  *
+ * Last update:
+ * 	December 23, 2022
+ *
  * Purpose
  * =======
  *
@@ -155,8 +158,6 @@ pzgstrf(superlumt_options_t *superlumt_options, SuperMatrix *A, int_t *perm_r,
     pthread_t *thread_id;
     void      *status;
 #endif
-    void      *pzgstrf_thread(void *);
-
 
     /* --------------------------------------------------------------
        Initializes the parallel data structures for pzgstrf_thread().
@@ -277,10 +278,10 @@ pzgstrf(superlumt_options_t *superlumt_options, SuperMatrix *A, int_t *perm_r,
     thread_id = (pthread_t *) SUPERLU_MALLOC(nprocs * sizeof(pthread_t));
     
     for (i = 0; i < nprocs; ++i) {
-	if ( iinfo = pthread_create(&thread_id[i],
+	if ( (iinfo = pthread_create(&thread_id[i],
 				    NULL,
 				    pzgstrf_thread, 
-				    &(pzgstrf_threadarg[i])) ) {
+				    &(pzgstrf_threadarg[i])) ) ) {
 	    fprintf(stderr, "pthread_create: " IFMT "\n", iinfo);
 	    SUPERLU_ABORT("pthread_create()");
 	}

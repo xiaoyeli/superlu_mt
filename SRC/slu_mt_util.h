@@ -435,7 +435,18 @@ flops_t *trsv_ops;      /* flops distribution on n */
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+    
+extern void sp_colorder(SuperMatrix *, int_t *, superlumt_options_t *, SuperMatrix *);
+extern int sp_coletree(
+	    int_t *acolst, int_t *acolend, /* column start and end past 1 */
+	    int_t *arow,                 /* row indices of A */
+	    int_t nr, int_t nc,            /* dimension of A */
+	    int_t *parent	               /* parent in elim tree */
+		       );
+extern int sp_symetree(int_t *, int_t *, int_t *, int_t, int_t *);
+extern int cholnzcnt(int_t neqns, int_t *xadj, int_t *adjncy,
+		     int_t *perm, int_t *invp, int_t *etpar, 
+		     int_t *colcnt, int_t *nlnz, int_t *part_super_L);
 extern int  cpp_defs();
 extern int  xerbla_ (char *, int *);
 extern void superlu_abort_and_exit(char*);

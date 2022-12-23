@@ -93,6 +93,7 @@ clacon_(int_t *n, complex *v, complex *x, float *est, int_t *kase)
     extern double slamch_(char *);
     extern int icmax1_(int *, complex *, int *);
     extern double scsum1_(int *, complex *, int *);
+    extern int ccopy_(int *, complex *, int *, complex *, int *);
 
     safmin = slamch_("Safe minimum");
     if ( *kase == 0 ) {

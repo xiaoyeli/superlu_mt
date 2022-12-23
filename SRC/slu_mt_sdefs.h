@@ -1,3 +1,4 @@
+
 /*! \file
 Copyright (c) 2003, The Regents of the University of California, through
 Lawrence Berkeley National Laboratory (subject to receipt of any required 
@@ -14,7 +15,10 @@ at the top-level directory.
  * Lawrence Berkeley National Lab, Univ. of California Berkeley,
  * and Xerox Palo Alto Research Center.
  * September 10, 2007
- * April 20, 2015
+ *
+ * Last update:
+ * 	April 20, 2015
+ * 	December 23, 2022
  *
  * Sparse matrix types and function prototypes.
  *
@@ -252,6 +256,10 @@ psgssvx(int_t, superlumt_options_t *, SuperMatrix *, int_t *, int_t *,
 	SuperMatrix *, SuperMatrix *, 
 	float *, float *, float *, float *, superlu_memusage_t *, 
 	int_t *);
+extern void
+c_bridge_psgssv_(int_t *nprocs, int_t *n, int_t *nnz, int_t *nrhs,
+		 float *values, int_t *rowind, int_t *colptr,
+		 float *b, int_t *ldb, int_t *info);
 
 /* ---------------
    Driver related 
@@ -279,7 +287,7 @@ extern int_t  sp_sgemm (char *, int_t, int_t, int_t, float, SuperMatrix *,
    ----------------------*/
 extern void pxgstrf_scheduler (const int_t, const int_t, const int_t *,
 			       int_t *, int_t *, pxgstrf_shared_t *);
-extern int_t  sParallelInit (int_t, pxgstrf_relax_t *, superlumt_options_t *,
+extern int  ParallelInit (int_t, pxgstrf_relax_t *, superlumt_options_t *,
 			  pxgstrf_shared_t *);
 extern int_t  ParallelFinalize ();
 extern void psgstrf_StackFree ();
@@ -327,9 +335,6 @@ extern void StatAlloc (const int_t, const int_t, const int_t, const int_t, Gstat
 extern void StatInit  (const int_t, const int_t, Gstat_t*);
 extern void StatFree  (Gstat_t*);
 extern void get_perm_c(int_t, SuperMatrix *, int_t *);
-extern void ssp_colorder (SuperMatrix *, int_t *, superlumt_options_t *,
-			 SuperMatrix *);
-extern int_t  sp_coletree (int_t *, int_t *, int_t *, int_t, int_t, int_t *);
 extern int_t  sPresetMap (const int_t, SuperMatrix *, pxgstrf_relax_t *, 
 		       superlumt_options_t *, GlobalLU_t *);
 extern int_t  qrnzcnt (int_t, int_t, int_t *, int_t *, int_t *, int_t *, int_t *, int_t *,
@@ -340,7 +345,7 @@ extern void psgstrf (superlumt_options_t *, SuperMatrix *, int_t *,
 extern void psgstrf_init (int_t, fact_t, trans_t, yes_no_t, int_t, int_t, float, yes_no_t, double,
 			  int_t *, int_t *, void *, int_t, SuperMatrix *,
 			  SuperMatrix *, superlumt_options_t *, Gstat_t *);
-extern void psgstrf_thread(void *);
+extern void *psgstrf_thread(void *);
 extern psgstrf_threadarg_t*
 psgstrf_thread_init (SuperMatrix *, SuperMatrix *, SuperMatrix *,
 		     superlumt_options_t*, pxgstrf_shared_t*, Gstat_t*, int_t*);
@@ -349,7 +354,7 @@ psgstrf_thread_finalize (psgstrf_threadarg_t *, pxgstrf_shared_t *,
 			 SuperMatrix *, int_t *, SuperMatrix *, SuperMatrix *);
 extern void psgstrf_finalize(superlumt_options_t *, SuperMatrix *);
 extern void pxgstrf_finalize(superlumt_options_t *, SuperMatrix *);
-extern void psgstrf_relax_snode (const int_t, superlumt_options_t *,
+extern void pxgstrf_relax_snode (const int_t, superlumt_options_t *,
 				 pxgstrf_relax_t *);
 extern int_t
 psgstrf_factor_snode (const int_t, const int_t, SuperMatrix *, const float,
@@ -408,7 +413,6 @@ extern void pxgstrf_resetrep_col (const int_t, const int_t *, int_t *);
 extern void countnz (const int_t, int_t*, int_t *, int_t *, GlobalLU_t *);
 extern void fixupL (const int_t, const int_t *, GlobalLU_t *);
 extern void compressSUP (const int_t, GlobalLU_t *);
-extern int_t  spcoletree (int_t *, int_t *, int_t *, int_t, int_t, int_t *);
 extern int_t  *TreePostorder (int_t, int_t *);
 extern void sreadmt (int_t *, int_t *, int_t *, float **, int_t **, int_t **);
 extern void sreadhb (int_t *, int_t *, int_t *, float **, int_t **, int_t **);

@@ -141,7 +141,7 @@ void finalize_disjoint_sets (
 /*
  * Nonsymmetric elimination tree
  */
-int_t
+int
 sp_coletree(
 	    int_t *acolst, int_t *acolend, /* column start and end past 1 */
 	    int_t *arow,                 /* row indices of A */
@@ -365,7 +365,7 @@ int_t *TreePostorder(
 /*
  * Symmetric elimination tree
  */
-int_t
+int
 sp_symetree(
 	    int_t *acolst, int_t *acolend, /* column starts and ends past 1 */
 	    int_t *arow,            /* row indices of A */

@@ -98,7 +98,7 @@ at the top-level directory.
    ***********************************************************************   
 */
 
-int_t cholnzcnt(int_t neqns, int_t *xadj, int_t *adjncy,
+int cholnzcnt(int_t neqns, int_t *xadj, int_t *adjncy,
 	      int_t *perm, int_t *invp, int_t *etpar, 
 	      int_t *colcnt, int_t *nlnz, int_t *part_super_L)
 {
