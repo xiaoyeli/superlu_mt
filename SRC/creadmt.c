@@ -75,7 +75,7 @@ creadmt(int *m, int *n, int *nonz, complex **nzval, int **rowind, int **colptr)
     }
     if ( *nonz < lasta ) {
 	fprintf(stderr, "nnz inconsistent: *nonz %d, lasta %d\n",*nonz,lasta);
-	EXIT;
+	exit(-1);
     }
     
     xa[*n] = lasta--;

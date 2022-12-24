@@ -43,7 +43,7 @@ ALLAUX = superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o \
 SZAUX  = slamch.o
 DZAUX  = dlamch.o
 
-SLUSRC = sreadhb.o sreadrb.o smatgen.o \
+SLUSRC = sreadhb.o sreadrb.o sreadmt.o smatgen.o \
 	psgssv.o psgssvx.o sgstrs.o sgsrfs.o \
 	sgscon.o slacon.o slangs.o sgsequ.o slaqgs.o spivotgrowth.o \
 	psmemory.o psutil.o smyblas2.o \
@@ -57,7 +57,7 @@ SLUSRC = sreadhb.o sreadrb.o smatgen.o \
 	psgstrf_bmod1D_mv2.o psgstrf_bmod2D_mv2.o \
 	ssp_blas2.o ssp_blas3.o
 
-DLUSRC = dreadhb.o dreadrb.o dmatgen.o \
+DLUSRC = dreadhb.o dreadrb.o dreadmt.o dmatgen.o \
 	pdgssv.o pdgssvx.o dgstrs.o dgsrfs.o \
 	dgscon.o dlacon.o dlangs.o dgsequ.o dlaqgs.o dpivotgrowth.o \
 	pdmemory.o pdutil.o dmyblas2.o \
@@ -71,7 +71,7 @@ DLUSRC = dreadhb.o dreadrb.o dmatgen.o \
 	pdgstrf_bmod1D_mv2.o pdgstrf_bmod2D_mv2.o \
 	dsp_blas2.o dsp_blas3.o 
 
-CLUSRC = scomplex.o creadhb.o creadrb.o cmatgen.o scsum1.o icmax1.o \
+CLUSRC = scomplex.o creadhb.o creadrb.o creadmt.o cmatgen.o scsum1.o icmax1.o \
 	pcgssv.o pcgssvx.o cgstrs.o cgsrfs.o \
 	cgscon.o clacon.o clangs.o cgsequ.o claqgs.o cpivotgrowth.o \
 	pcmemory.o pcutil.o cmyblas2.o \
@@ -85,7 +85,7 @@ CLUSRC = scomplex.o creadhb.o creadrb.o cmatgen.o scsum1.o icmax1.o \
 	pcgstrf_bmod1D_mv2.o pcgstrf_bmod2D_mv2.o \
 	csp_blas2.o csp_blas3.o
 
-ZLUSRC = dcomplex.o zreadhb.o zreadrb.o zmatgen.o dzsum1.o izmax1.o \
+ZLUSRC = dcomplex.o zreadhb.o zreadrb.o zreadmt.o zmatgen.o dzsum1.o izmax1.o \
 	pzgssv.o pzgssvx.o zgstrs.o zgsrfs.o \
 	zgscon.o zlacon.o zlangs.o zgsequ.o zlaqgs.o zpivotgrowth.o \
 	pzmemory.o pzutil.o zmyblas2.o \
