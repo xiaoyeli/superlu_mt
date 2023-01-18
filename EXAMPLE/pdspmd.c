@@ -28,6 +28,7 @@ at the top-level directory.
  * 
  */
 #include <stdlib.h> /* for getenv and atoi */
+#include <unistd.h>
 #include "slu_mt_ddefs.h"
 
 
@@ -57,6 +58,7 @@ typedef struct {
 void *dspmd(void *);
 void *pddot_thread(void *);
 
+int
 main(int argc, char *argv[])
 {
     SuperMatrix A, AC, L, U, B;
