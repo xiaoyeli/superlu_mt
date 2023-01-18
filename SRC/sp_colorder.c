@@ -74,7 +74,7 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
     int_t *part_super_ata;
 
     extern void at_plus_a(const int_t, const int_t, int_t *, int_t *,
-			  int_t *, int_t **, int_t **, int_t);
+			  int_t *, int_t **, int_t **);
 
     n     = A->ncol;
 
@@ -116,7 +116,7 @@ sp_colorder(SuperMatrix *A, int_t *perm_c, superlumt_options_t *options,
 
 	    /* Form B = A + A'. */
 	    at_plus_a(n, Astore->nnz, Astore->colptr, Astore->rowind,
-		      &bnz, &b_colptr, &b_rowind, 1);
+		      &bnz, &b_colptr, &b_rowind);
 	    
 	    /* Form C = Pc*B*Pc'. */
 	    c_colbeg = (int_t*) intMalloc(n);
