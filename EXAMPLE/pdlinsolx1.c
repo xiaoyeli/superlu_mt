@@ -27,7 +27,9 @@ at the top-level directory.
  */
 #include "slu_mt_ddefs.h"
 
+#include <unistd.h>
 
+int
 main(int argc, char *argv[])
 {
     SuperMatrix A, A1, L, U;
