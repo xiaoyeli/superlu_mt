@@ -31,7 +31,7 @@ include ../make.inc
 #
 #######################################################################
 
-ALLAUX = superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o \
+ALLAUX = superlu_timer.o dclock.o sp_ienv.o lsame.o xerbla.o dlaran.o \
 	util.o pmemory.o qrnzcnt.o cholnzcnt.o await.o \
 	get_perm_c.o mmd.o colamd.o sp_coletree.o \
 	pxgstrf_scheduler.o sp_colorder.o \
