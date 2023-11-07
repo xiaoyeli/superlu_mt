@@ -10,6 +10,7 @@ at the top-level directory.
 */
 
 #include "slu_mt_ddefs.h"
+#include "slu_mt_util.h"
 
 
 void
