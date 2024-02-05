@@ -27,6 +27,8 @@ install:
 #	  cp dlamch.c ../SRC/; cp slamch.c ../SRC/ )
 
 blaslib:
+	 ## built blas lib routes to "lib"...error thrown if directory does NOT exist
+	mkdir -p lib
 	( cd CBLAS; $(MAKE) )
 
 superlulib:
