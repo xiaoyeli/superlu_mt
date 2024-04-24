@@ -1,5 +1,5 @@
-		SuperLU_MT (version 3.1)
-		========================
+		SuperLU_MT (version 4.0.0)
+		==========================
 
 SuperLU_MT contains a set of subroutines to solve a sparse linear system 
 A*X=B. It uses Gaussian elimination with partial pivoting (GEPP). 
@@ -18,17 +18,17 @@ matrices, in both single and double precision.
 
 The distribution contains the following directory structure:
 
-SuperLU_MT_2.2/README    instructions on installation
-SuperLU_MT_2.2/CBLAS/    BLAS routines in C, functional but not fast
-SuperLU_MT_2.2/DOC/      Users' Guide
-SuperLU_MT_2.2/EXAMPLE/  example programs
-SuperLU_MT_2.2/INSTALL/  test machine dependent parameters; the Users' Guide.
-SuperLU_MT_2.2/MAKE_INC/ sample machine-specific make.inc files
-SuperLU_MT_2.2/SRC/      C source code, to be compiled into libsuperlu_mt.a
-SuperLU_MT_2.2/TESTING/  driver routines to test correctness
-SuperLU_MT_2.2/lib/      SuperLU_MT library archive libsuperlu_mt.a
-SuperLU_MT_2.2/Makefile  top level Makefile that does installation and testing
-SuperLU_MT_2.2/make.inc  compiler, compile flags, library definitions and C
+superlu_mt/README    instructions on installation
+superlu_mt/CBLAS/    BLAS routines in C, functional but not fast
+superlu_mt/DOC/      Users' Guide
+superlu_mt/EXAMPLE/  example programs
+superlu_mt/INSTALL/  test machine dependent parameters; the Users' Guide.
+superlu_mt/MAKE_INC/ sample machine-specific make.inc files
+superlu_mt/SRC/      C source code, to be compiled into libsuperlu_mt.a
+superlu_mt/TESTING/  driver routines to test correctness
+superlu_mt/lib/      SuperLU_MT library archive libsuperlu_mt.a
+superlu_mt/Makefile  top level Makefile that does installation and testing
+superlu_mt/make.inc  compiler, compile flags, library definitions and C
                          preprocessor definitions, included in all Makefiles.
                          (You may need to edit it to suit your system
                           before compiling the whole package.)
@@ -143,5 +143,3 @@ REFERENCES
 Xiaoye S. Li,    Lawrence Berkeley National Lab, xsli@lbl.gov
 James Demmel,    UC Berkeley, demmel@cs.berkeley.edu
 John R. Gilbert, UC Santa Barbara, gilbert@cs.ucsb.edu
-
-

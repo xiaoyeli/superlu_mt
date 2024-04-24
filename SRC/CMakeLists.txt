@@ -9,7 +9,7 @@ if (HAVE_LIB_M)
   target_link_libraries (superlu_mt${PLAT} PRIVATE m)
 endif ()
 
-target_link_libraries (superlu_mt${PLAT} PRIVATE ${BLAS_LIBRARIES})
+target_link_libraries (superlu_mt${PLAT} PRIVATE ${BLAS_LIB})
 target_compile_definitions (superlu_mt${PLAT} PRIVATE Add_)
 
 if (PLAT STREQUAL "_PTHREAD")

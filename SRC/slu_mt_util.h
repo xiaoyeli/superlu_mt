@@ -22,9 +22,26 @@ at the top-level directory.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
 #include "slu_mt_machines.h"
 
-/* Macros */
+/***********************************************************************
+ * Macros
+ ***********************************************************************/
+/*                                                                                           
+ * You can support older version of SuperLU_MT
+ * At compile-time, you can catch the new release as:                                          
+ *   #ifdef SUPERLU_MT_MAJOR_VERSION == 4
+ *       use the new interface                                                                 
+ *   #else                                                                                     
+ *       use the old interface                                                                 
+ *   #endif                                                                                    
+ * Versions 3.x and earlier do not include a #define'd version numbers.                        
+ */
+#define SUPERLU_MT_MAJOR_VERSION     4
+#define SUPERLU_MT_MINOR_VERSION     0
+#define SUPERLU_MT_PATCH_VERSION     0
+
 #ifndef USER_ABORT
 #define USER_ABORT(msg) superlu_abort_and_exit(msg)
 #endif
