@@ -28,7 +28,7 @@ at the top-level directory.
 #endif
 
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 /*
  * -- SuperLU MT routine (version 2.0) --
