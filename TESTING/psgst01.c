@@ -60,7 +60,7 @@ int_t psgst01(int_t m, int_t n, SuperMatrix *A, SuperMatrix *L,
     /* Local variables */
     float      zero = 0.0;
     int_t i, j, k, arow, lptr,isub,  urow, superno, fsupc, u_part;
-    float utemp, comp_temp;
+    float utemp;
     float anorm, tnorm, cnorm;
     float eps;
     float *work;

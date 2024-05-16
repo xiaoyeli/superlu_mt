@@ -14,7 +14,7 @@ jobs:
       run: sudo apt-get -y install cmake liblapack-dev
     - name: Build
       run: |
-        cmake -DCMAKE_INSTALL_PREFIX=$PWD/install .
+        cmake -DCMAKE_C_FLAGS="-Wall -Wextra -Wpedantic" -DCMAKE_INSTALL_PREFIX=$PWD/install .
         make -j2
     - name: Test
       run: ctest -R LA --output-on-failure -j2 --schedule-random --timeout 500
