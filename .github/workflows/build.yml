@@ -1,0 +1,21 @@
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install
+      run: sudo apt-get -y install cmake liblapack-dev
+    - name: Build
+      run: |
+        cmake -DCMAKE_C_FLAGS="-Wall -Wextra -Wpedantic" -DCMAKE_INSTALL_PREFIX=$PWD/install .
+        make -j2
+    - name: Test
+      run: ctest -R LA --output-on-failure -j2 --schedule-random --timeout 500
+
