@@ -54,7 +54,7 @@ typedef struct {
     int_t  top2;  /* grow downward */
     void *array;
 #if ( MACH==PTHREAD )
-    pthread_mutex_t lock;;
+    pthread_mutex_t lock;
 #endif
 } LU_stack_t;
 

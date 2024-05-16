@@ -60,7 +60,8 @@ int_t pzgst01(int_t m, int_t n, SuperMatrix *A, SuperMatrix *L,
     /* Local variables */
     doublecomplex      zero = {0.0, 0.0};
     int_t i, j, k, arow, lptr,isub,  urow, superno, fsupc, u_part;
-    doublecomplex utemp, comp_temp;
+    doublecomplex utemp;
+    doublecomplex comp_temp;
     double anorm, tnorm, cnorm;
     double eps;
     doublecomplex *work;
