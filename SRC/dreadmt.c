@@ -26,7 +26,7 @@ at the top-level directory.
 static void dumptitle();
 
 void
-dreadmt(int *m, int *n, int *nonz, double **nzval, int **rowind, int **colptr)
+dreadmt(int_t *m, int_t *n, int_t *nonz, double **nzval, int_t **rowind, int_t **colptr)
 {
 /*
  * Output parameters

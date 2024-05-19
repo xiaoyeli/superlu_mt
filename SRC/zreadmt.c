@@ -26,7 +26,7 @@ at the top-level directory.
 static void dumptitle();
 
 void
-zreadmt(int *m, int *n, int *nonz, doublecomplex **nzval, int **rowind, int **colptr)
+zreadmt(int_t *m, int_t *n, int_t *nonz, doublecomplex **nzval, int_t **rowind, int_t **colptr)
 {
 /*
  * Output parameters

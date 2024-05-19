@@ -589,7 +589,7 @@ void check_repfnz(int_t n, int_t w, int_t jcol, int_t *repfnz)
 }
 
 
-int_t PrintInt10(char *name, int_t len, int_t *x)
+int PrintInt10(char *name, int_t len, int_t *x)
 {
     register int_t i;
     

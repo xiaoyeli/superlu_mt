@@ -473,6 +473,7 @@ extern void superlu_free (void*);
 extern void PrintStat(Gstat_t *);
 extern int_t  ParallelProfile(const int_t, const int_t, const int_t,
 			    const int_t procs, Gstat_t *);
+extern int PrintInt10(char *name, int_t len, int_t *x);
 
 #ifdef __cplusplus
 	   }

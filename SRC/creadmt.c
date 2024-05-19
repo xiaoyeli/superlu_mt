@@ -26,7 +26,7 @@ at the top-level directory.
 static void dumptitle();
 
 void
-creadmt(int *m, int *n, int *nonz, complex **nzval, int **rowind, int **colptr)
+creadmt(int_t *m, int_t *n, int_t *nonz, complex **nzval, int_t **rowind, int_t **colptr)
 {
 /*
  * Output parameters
