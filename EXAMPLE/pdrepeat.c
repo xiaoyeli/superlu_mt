@@ -59,7 +59,7 @@ main(int argc, char *argv[])
     double      *rhsb, *xact;
     Gstat_t Gstat;
     flops_t     flopcnt;
-    void parse_command_line();
+    void parse_command_line(int argc, char *argv[], int_t *nprocs);
 
     /* Default parameters to control factorization. */
     nprocs = 1;

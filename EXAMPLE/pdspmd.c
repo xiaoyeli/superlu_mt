@@ -94,7 +94,7 @@ main(int argc, char *argv[])
     pthread_t *thread_id;
     void      *status;
 #endif
-    void parse_command_line();
+    void parse_command_line(int argc, char *argv[], int_t *nprocs);
 
     /* Default parameters to control factorization. */
     nprocs = 1;

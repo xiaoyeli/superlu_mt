@@ -15,7 +15,7 @@ jobs:
     - name: Build
       run: |
         cmake -DCMAKE_C_FLAGS="-Wall -Wextra -Wpedantic" -DCMAKE_INSTALL_PREFIX=$PWD/install .
-        make -j2
+        make -j4
     - name: Test
-      run: ctest -R LA --output-on-failure -j2 --schedule-random --timeout 500
+      run: ctest --output-on-failure -j4 --schedule-random --timeout 500
 

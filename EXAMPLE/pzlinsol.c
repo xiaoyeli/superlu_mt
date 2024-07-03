@@ -41,7 +41,8 @@ main(int argc, char *argv[])
     trans_t  trans;
     doublecomplex   *xact, *rhs;
     superlu_memusage_t   superlu_memusage;
-    void   parse_command_line();
+    void parse_command_line(int argc, char *argv[], int_t *procs, int_t *n,
+                            int_t *b, int_t *w, int_t *r, int_t *maxsup);
 
     nrhs              = 1;
     trans             = NOTRANS;

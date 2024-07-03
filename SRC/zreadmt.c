@@ -40,8 +40,8 @@ zreadmt(int_t *m, int_t *n, int_t *nonz, doublecomplex **nzval, int_t **rowind, 
     int    lasta;
     char   title[TLEN];
     doublecomplex *a;
-    int    *asub;
-    int    *xa;
+    int_t    *asub;
+    int_t    *xa;
     
     /* 	Matrix format:
      *         up to 60 characters           title

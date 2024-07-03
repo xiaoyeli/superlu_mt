@@ -9,7 +9,7 @@ The source code is distributed under BSD license, see the file License.txt
 at the top-level directory.
 */
 
-#include <string.h>
+#include <strings.h>
 #include "slu_mt_zdefs.h"
 
 #define NTESTS    5    /* Number of test types */
@@ -89,7 +89,9 @@ int main(int argc, char *argv[])
     trans_t trans;
     equed_t equed;
     yes_no_t refact, usepr;
-    void parse_command_line();
+    void parse_command_line(int argc, char *argv[], char *matrix_type,
+		   int_t *nprocs, int_t *n, int_t *w, int_t *relax, int_t *nrhs,
+		   int_t *maxsuper, int_t *rowblk, int_t *colblk, int_t *lwork);
 
     /* Fixed set of parameters */
     int      iseed[]  = {1994, 1995, 1996, 1997};
@@ -605,8 +607,8 @@ int main(int argc, char *argv[])
  */
 void
 parse_command_line(int argc, char *argv[], char *matrix_type,
-		   int *nprocs, int *n, int *w, int *relax, int *nrhs,
-		   int *maxsuper, int *rowblk, int *colblk, int *lwork)
+		   int_t *nprocs, int_t *n, int_t *w, int_t *relax, int_t *nrhs,
+		   int_t *maxsuper, int_t *rowblk, int_t *colblk, int_t *lwork)
 {
     int c;
     extern char *optarg;

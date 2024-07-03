@@ -54,7 +54,9 @@ main(int argc, char *argv[])
     float      *ferr, *berr;
     float      u, drop_tol, rpg, rcond;
     superlu_memusage_t superlu_memusage;
-    void parse_command_line();
+    void parse_command_line(int argc, char *argv[], int_t *nprocs, int_t *lwork, 
+                            int_t *w, int_t *relax, float *u, fact_t *fact, 
+                            trans_t *trans, yes_no_t *refact, equed_t *equed);
 
     /* Default parameters to control factorization. */
     nprocs = 1;
@@ -234,7 +236,7 @@ main(int argc, char *argv[])
  */
 void
 parse_command_line(int argc, char *argv[], int_t *nprocs, int_t *lwork, 
-		   int_t *w, int_t *relax, double *u, fact_t *fact, 
+		   int_t *w, int_t *relax, float *u, fact_t *fact, 
 		   trans_t *trans, yes_no_t *refact, equed_t *equed)
 {
     int c;

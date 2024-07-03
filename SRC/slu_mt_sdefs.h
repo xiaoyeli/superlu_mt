@@ -467,7 +467,7 @@ extern int_t  Glu_alloc (const int_t, const int_t, const int_t, const MemType,
    -------------------*/
 extern double  SuperLU_timer_();
 extern int_t     sp_ienv(int_t);
-extern double  slamch_();
+extern double  slamch_(char *);
 extern int     lsame_(char *, char *);
 extern int     xerbla_(char *, int *);
 extern void    superlu_abort_and_exit(char *);
