@@ -102,6 +102,7 @@ else ()
   message (SEND_ERROR "invalid PLAT setting")
 endif ()
 
+option (LONGINT "use 64-bit integers for indexing sparse matrices (default is 32-bit)" OFF)
 
 enable_language(C)
 if (enable_fortran)

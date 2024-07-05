@@ -40,8 +40,8 @@ dreadmt(int_t *m, int_t *n, int_t *nonz, double **nzval, int_t **rowind, int_t *
     int    lasta;
     char   title[TLEN];
     double *a;
-    int    *asub;
-    int    *xa;
+    int_t    *asub;
+    int_t    *xa;
     
     /* 	Matrix format:
      *         up to 60 characters           title

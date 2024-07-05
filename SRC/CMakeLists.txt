@@ -20,6 +20,10 @@ elseif (PLAT STREQUAL "_OPENMP")
   target_link_libraries (superlu_mt${PLAT} PRIVATE OpenMP::OpenMP_C)
 endif ()
 
+if (LONGINT)
+  target_compile_definitions (superlu_mt${PLAT} PUBLIC _LONGINT)
+endif ()
+
 target_include_directories (superlu_mt${PLAT} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories (superlu_mt${PLAT} INTERFACE $<INSTALL_INTERFACE:include>)
 install (TARGETS superlu_mt${PLAT} DESTINATION ${CMAKE_INSTALL_LIBDIR})

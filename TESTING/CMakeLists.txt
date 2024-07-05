@@ -20,7 +20,7 @@ function(add_superlumt_test target input)
           	  set(testName "${target}_${p}_${n}_${s}_${l}")
         	  add_test(
 			NAME ${testName}_LA
-          		COMMAND ${target} -t "LA" -n ${n} -s ${s} -l ${l} -p ${p} ) 
+          		COMMAND $<TARGET_FILE:${target}> -t "LA" -n ${n} -s ${s} -l ${l} -p ${p} ) 
       	  endforeach()
 
           # SP tests
@@ -29,7 +29,7 @@ function(add_superlumt_test target input)
           set(testName "${target}_${p}_${s}_${l}")
           add_test(
 		NAME ${testName}_SP
-        	COMMAND sh -c ${target} -t "SP" -s ${s} -l ${l} -p ${p} < ${TEST_INPUT} )
+        	COMMAND sh -c $<TARGET_FILE:${target}> -t "SP" -s ${s} -l ${l} -p ${p} < ${TEST_INPUT} )
       endforeach()
     endforeach()
   endforeach()
