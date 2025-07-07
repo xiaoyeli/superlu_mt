@@ -416,6 +416,7 @@ extern void compressSUP (const int_t, GlobalLU_t *);
 extern int_t  *TreePostorder (int_t, int_t *);
 extern void dreadmt (int_t *, int_t *, int_t *, double **, int_t **, int_t **);
 extern void dreadhb (int_t *, int_t *, int_t *, double **, int_t **, int_t **);
+extern void dreadMM (int *m, int *n, int_t *nonz, double **nzval, int_t **rowind, int_t **colptr);
 extern void dGenXtrue (int_t, int_t, double *, int_t);
 extern void dFillRHS (trans_t, int_t, double *, int_t, 
 		      SuperMatrix *, SuperMatrix *);
@@ -452,6 +453,7 @@ extern void pdgstrf_SetRWork (int_t, int_t, double *, double **, double **);
 extern void pdgstrf_WorkFree (int_t *, double *, GlobalLU_t *);
 extern int_t  pdgstrf_MemXpand (int_t, int_t, MemType, int_t *, GlobalLU_t *);
 
+extern int    *int32Malloc(int);
 extern int_t  *intMalloc (int_t);
 extern int_t  *intCalloc (int_t);
 extern double *doubleMalloc(int_t);

@@ -869,7 +869,7 @@ sPresetMap(
     int_t *map_in_sup; /* memory mapping function; values irrelevant on entry. */
     int_t *colcnt;     /* column count of Lc or H */
     int_t *super_bnd;  /* supernodes partition in H */
-    char *snode_env, *getenv();
+    char *snode_env;
 
     snode_env = getenv("SuperLU_DYNAMIC_SNODE_STORE");
     if ( snode_env != NULL ) {

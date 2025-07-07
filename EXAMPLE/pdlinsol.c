@@ -16,12 +16,10 @@ at the top-level directory.
  * September 10, 2007
  *
  */
+#include <unistd.h> 
 #include "slu_mt_ddefs.h"
 
-#include <unistd.h>
-
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     SuperMatrix   A;
     NCformat *Astore;
@@ -41,8 +39,7 @@ main(int argc, char *argv[])
     trans_t  trans;
     double   *xact, *rhs;
     superlu_memusage_t   superlu_memusage;
-    void   parse_command_line(int argc, char *argv[], int_t *procs, int_t *n,
-                              int_t *b, int_t *w, int_t *r, int_t *maxsup);
+    void   parse_command_line();
 
     nrhs              = 1;
     trans             = NOTRANS;
@@ -61,7 +58,8 @@ main(int argc, char *argv[])
     printf("int_t %d bytes\n", sizeof(int_t));
 #endif
 
-#define HB
+#undef HB
+
 #if defined( DEN )
     m = n;
     nnz = n * n;
@@ -78,8 +76,8 @@ main(int argc, char *argv[])
     dblockdiag(nb, bs, nnz, &a, &asub, &xa);
 #elif defined( HB )
     dreadhb(&m, &n, &nnz, &a, &asub, &xa);
-#else    
-    dreadmt(&m, &n, &nnz, &a, &asub, &xa);
+#else 
+    dreadMM(&m, &n, &nnz, &a, &asub, &xa);
 #endif
 
     dCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_D, SLU_GE);

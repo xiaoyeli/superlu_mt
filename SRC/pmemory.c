@@ -66,6 +66,15 @@ user_bcopy(char *src, char *dest, int_t bytes)
 }
 
 
+int *int32Malloc(int n)
+{
+    int *buf;
+    buf = (int *) SUPERLU_MALLOC((size_t) n * sizeof(int));
+    if ( !buf ) {
+	SUPERLU_ABORT("SUPERLU_MALLOC fails for buf in int32Malloc()");
+    }
+    return (buf);
+}
 
 int_t *intMalloc(int_t n)
 {

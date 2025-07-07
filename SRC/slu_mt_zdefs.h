@@ -417,6 +417,7 @@ extern void compressSUP (const int_t, GlobalLU_t *);
 extern int_t  *TreePostorder (int_t, int_t *);
 extern void zreadmt (int_t *, int_t *, int_t *, doublecomplex **, int_t **, int_t **);
 extern void zreadhb (int_t *, int_t *, int_t *, doublecomplex **, int_t **, int_t **);
+extern void zreadMM (int *m, int *n, int_t *nonz, doublecomplex **nzval, int_t **rowind, int_t **colptr);
 extern void zGenXtrue (int_t, int_t, doublecomplex *, int_t);
 extern void zFillRHS (trans_t, int_t, doublecomplex *, int_t, 
 		      SuperMatrix *, SuperMatrix *);
@@ -453,6 +454,7 @@ extern void pzgstrf_SetRWork (int_t, int_t, doublecomplex *, doublecomplex **, d
 extern void pzgstrf_WorkFree (int_t *, doublecomplex *, GlobalLU_t *);
 extern int_t  pzgstrf_MemXpand (int_t, int_t, MemType, int_t *, GlobalLU_t *);
 
+extern int    *int32Malloc(int);
 extern int_t  *intMalloc (int_t);
 extern int_t  *intCalloc (int_t);
 extern doublecomplex *doublecomplexMalloc(int_t);

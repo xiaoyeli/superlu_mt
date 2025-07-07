@@ -417,6 +417,7 @@ extern void compressSUP (const int_t, GlobalLU_t *);
 extern int_t  *TreePostorder (int_t, int_t *);
 extern void creadmt (int_t *, int_t *, int_t *, complex **, int_t **, int_t **);
 extern void creadhb (int_t *, int_t *, int_t *, complex **, int_t **, int_t **);
+extern void creadMM (int *m, int *n, int_t *nonz, complex **nzval, int_t **rowind, int_t **colptr);
 extern void cGenXtrue (int_t, int_t, complex *, int_t);
 extern void cFillRHS (trans_t, int_t, complex *, int_t, 
 		      SuperMatrix *, SuperMatrix *);
@@ -453,6 +454,7 @@ extern void pcgstrf_SetRWork (int_t, int_t, complex *, complex **, complex **);
 extern void pcgstrf_WorkFree (int_t *, complex *, GlobalLU_t *);
 extern int_t  pcgstrf_MemXpand (int_t, int_t, MemType, int_t *, GlobalLU_t *);
 
+extern int    *int32Malloc(int);
 extern int_t  *intMalloc (int_t);
 extern int_t  *intCalloc (int_t);
 extern complex *complexMalloc(int_t);
