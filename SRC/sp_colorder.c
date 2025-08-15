@@ -281,7 +281,7 @@ int_t
 dPrintSuperPart(char *pname, int_t n, int_t *part_super)
 {
     register int_t i;
-    FILE *fopen(), *fp;
+    FILE *fopen(const char *restrict, const char *restrict), *fp;
     char fname[20];
     strcpy(fname, pname);
     strcat(fname, ".dat");

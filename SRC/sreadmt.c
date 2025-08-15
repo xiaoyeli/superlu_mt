@@ -23,7 +23,7 @@ at the top-level directory.
 
 #define TLEN	80
 
-static void dumptitle();
+static void dumptitle(char *);
 
 void
 sreadmt(int_t *m, int_t *n, int_t *nonz, float **nzval, int_t **rowind, int_t **colptr)

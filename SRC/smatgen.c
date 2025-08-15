@@ -32,7 +32,7 @@ sband(int_t n, int_t b, int_t nonz, float **nzval, int_t **rowind, int_t **colpt
     int_t    *asub, *xa;
     float *val;
     int_t    *row;
-    extern double dlaran_();
+    extern double dlaran_(int *);
     
     printf("A banded matrix.");
     sallocateA(n, nonz, nzval, rowind, colptr); /* Allocate storage */
@@ -73,7 +73,7 @@ sblockdiag(int_t nb, /* number of blocks */
     int_t    *asub, *xa;
     float *val;
     int_t    *row;
-    extern double dlaran_();
+    extern double dlaran_(int *);
     
     n = bs * nb;
     printf("A block diagonal matrix: nb " IFMT ", bs " IFMT ", n " IFMT "\n", nb, bs, n);

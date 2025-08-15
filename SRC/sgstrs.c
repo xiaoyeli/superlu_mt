@@ -89,7 +89,7 @@ sgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
     float   *Lval, *Uval, *Bmat;
     float   *work, *work_col, *rhs_work, *soln;
     flops_t  solve_ops;
-    void sprint_soln();
+    void sprint_soln(int_t, int_t, float *);
 
     /* Test input parameters ... */
     *info = 0;

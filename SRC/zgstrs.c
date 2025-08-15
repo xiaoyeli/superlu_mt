@@ -90,7 +90,7 @@ zgstrs(trans_t trans, SuperMatrix *L, SuperMatrix *U,
     doublecomplex   *Lval, *Uval, *Bmat;
     doublecomplex   *work, *work_col, *rhs_work, *soln;
     flops_t  solve_ops;
-    void zprint_soln();
+    void zprint_soln(int_t, int_t, doublecomplex *);
 
     /* Test input parameters ... */
     *info = 0;
