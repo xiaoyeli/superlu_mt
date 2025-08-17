@@ -32,7 +32,7 @@ cband(int_t n, int_t b, int_t nonz, complex **nzval, int_t **rowind, int_t **col
     int_t    *asub, *xa;
     complex *val;
     int_t    *row;
-    extern double dlaran_();
+    extern double dlaran_(int *);
     
     printf("A banded matrix.");
     callocateA(n, nonz, nzval, rowind, colptr); /* Allocate storage */
@@ -73,7 +73,7 @@ cblockdiag(int_t nb, /* number of blocks */
     int_t    *asub, *xa;
     complex *val;
     int_t    *row;
-    extern double dlaran_();
+    extern double dlaran_(int *);
     
     n = bs * nb;
     printf("A block diagonal matrix: nb " IFMT ", bs " IFMT ", n " IFMT "\n", nb, bs, n);

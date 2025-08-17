@@ -289,7 +289,7 @@ extern void pxgstrf_scheduler (const int_t, const int_t, const int_t *,
 			       int_t *, int_t *, pxgstrf_shared_t *);
 extern int  ParallelInit (int_t, pxgstrf_relax_t *, superlumt_options_t *,
 			  pxgstrf_shared_t *);
-extern int_t  ParallelFinalize ();
+extern int_t  ParallelFinalize (pxgstrf_shared_t *);
 extern void pdgstrf_StackFree ();
 extern int_t  queue_init (queue_t *, int_t);
 extern int_t  queue_destroy (queue_t *);
