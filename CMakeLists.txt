@@ -45,9 +45,15 @@ option(enable_doc       "Add target 'doc' to build Doxygen documentation" OFF)
 option(enable_examples  "Build examples" ON)
 option(enable_fortran   "Build Fortran interface" ${enable_fortran_xSDK})
 option(enable_tests     "Build tests" ON)
+option(enable_doubledouble "Build double-double precision support" OFF)
 option (BUILD_SHARED_LIBS "shared/static" OFF)
 
+if(enable_doubledouble)
+  enable_language(CXX)
+endif()
+
 include (GNUInstallDirs)
+include (CMakePackageConfigHelpers)
 include (CheckLibraryExists)
 check_library_exists(m sin "" HAVE_LIB_M)
 
@@ -112,6 +118,7 @@ set(SUPERLU_MT_VERSION "${PROJECT_VERSION}")
 
 
 set (SUPERLUMT_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/superlu_mt CACHE STRING "include dir")
+set (SUPERLUMT_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/SuperLU_MT CACHE STRING "cmake package dir")
 
 add_subdirectory(SRC)
 add_subdirectory(EXAMPLE)
@@ -124,3 +131,36 @@ endif()
 if (enable_doc)
    add_subdirectory(DOC)
 endif()
+
+set(SUPERLUMT_CONFIG_FIND_DEPENDENCIES "")
+if (PLAT STREQUAL "_PTHREAD")
+  string(APPEND SUPERLUMT_CONFIG_FIND_DEPENDENCIES "find_dependency(Threads)\n")
+elseif (PLAT STREQUAL "_OPENMP")
+  string(APPEND SUPERLUMT_CONFIG_FIND_DEPENDENCIES "find_dependency(OpenMP COMPONENTS C)\n")
+endif()
+
+configure_package_config_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/SuperLU_MTConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/SuperLU_MTConfig.cmake
+  INSTALL_DESTINATION ${SUPERLUMT_INSTALL_CMAKEDIR}
+)
+
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/SuperLU_MTConfigVersion.cmake
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY SameMajorVersion
+)
+
+install(
+  EXPORT SuperLUMTTargets
+  FILE SuperLUMTTargets.cmake
+  NAMESPACE SuperLU_MT::
+  DESTINATION ${SUPERLUMT_INSTALL_CMAKEDIR}
+)
+
+install(
+  FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/SuperLU_MTConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/SuperLU_MTConfigVersion.cmake
+  DESTINATION ${SUPERLUMT_INSTALL_CMAKEDIR}
+)

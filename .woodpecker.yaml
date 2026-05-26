@@ -1,0 +1,11 @@
+variables:
+  - &ci_image 'cont-reg.bjodah.se:443/bjodah/triceratops-4:33'
+
+when:
+  - event: [push]
+
+steps:
+  - name: build-and-test
+    image: *ci_image
+    commands:
+      - bash -l .ci/build-and-test.sh

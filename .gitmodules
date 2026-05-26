@@ -1,0 +1,4 @@
+[submodule "external/doubledouble"]
+	path = external/doubledouble
+	url = https://github.com/bjodah/doubledouble.git
+	branch = minor-misc-improvements
