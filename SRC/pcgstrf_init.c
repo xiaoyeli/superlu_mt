@@ -128,6 +128,8 @@ pcgstrf_init(int_t nprocs, fact_t fact, trans_t trans, yes_no_t refact,
     double t;
 
     superlumt_options->nprocs = nprocs;
+    superlumt_options->fact = fact;
+    superlumt_options->trans = trans;
     superlumt_options->refact = refact;
     superlumt_options->panel_size = panel_size;
     superlumt_options->relax = relax;
