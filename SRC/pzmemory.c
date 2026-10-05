@@ -66,6 +66,7 @@ static LU_stack_t stack;
 static int_t        no_expand;
 static int_t        ndim;
 static LU_space_t whichspace; /* 0 - system malloc'd; 1 - user provided */
+static int_t      nwork_users; /* # threads holding work arrays at the TAIL */
 
 /* Macros to manipulate stack */
 #define StackFull(x)         ( x + stack.used >= stack.size )
@@ -93,6 +94,7 @@ void pzgstrf_SetupSpace(void *work, int_t lwork)
         stack.top1 = 0;
         stack.top2 = lwork;
         stack.array = (void *) work;
+        nwork_users = 0;
     }
 #if ( MACH==PTHREAD )
     pthread_mutex_init ( &stack.lock, NULL);
@@ -386,6 +388,7 @@ pzgstrf_MemInit(int_t n, int_t annz, superlumt_options_t *superlumt_options,
 	    whichspace = USER;
 	    stack.size = lwork;
 	    stack.top2 = lwork;
+	    nwork_users = 0;
 	}
 	
 	lsub  = zexpanders[LSUB].mem  = Lstore->rowind;
@@ -484,6 +487,20 @@ pzgstrf_WorkInit(int_t n, int_t panel_size, int_t **iworkptr, doublecomplex **dw
 	printf("malloc fails for local dworkptr[] ... dsize " IFMT "\n", dsize);
 	return (isize + dsize + n);
     }
+
+    if ( whichspace == USER ) {
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+        pthread_mutex_lock( &stack.lock );
+#elif ( MACH==OPENMP ) /* Use openMP ... */
+#pragma omp critical ( STACK_LOCK )
+#endif
+        {
+	    ++nwork_users;
+        }
+#if ( MACH==PTHREAD ) /* Use pthread ... */
+        pthread_mutex_unlock( &stack.lock );
+#endif
+    }
 	
     return 0;
 }
@@ -521,8 +538,12 @@ void pzgstrf_WorkFree(int_t *iwork, doublecomplex *dwork, GlobalLU_t *Glu)
 #pragma omp critical ( STACK_LOCK )
 #endif
         {
-	    stack.used -= (stack.size - stack.top2);
-	    stack.top2 = stack.size;
+	    /* The TAIL holds the work arrays of all threads, so it can only
+	       be released after the last thread is done with its own. */
+	    if ( --nwork_users == 0 ) {
+	        stack.used -= (stack.size - stack.top2);
+	        stack.top2 = stack.size;
+	    }
 	    
 	    /*	pzgstrf_StackCompress(Glu);  */
         }
