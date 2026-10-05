@@ -104,6 +104,12 @@ endif()
 if(THREAD_API STREQUAL "OPENMP" OR THREAD_API STREQUAL "BOTH")
   find_package(OpenMP REQUIRED)
 endif()
+# Library flavor that EXAMPLE/ and TESTING/ link against (superlu_mt${PLAT})
+if(THREAD_API STREQUAL "OPENMP")
+  set(PLAT "_OPENMP")
+else()
+  set(PLAT "_PTHREAD")
+endif()
 
 option (LONGINT "use 64-bit integers for indexing sparse matrices (default is 32-bit)" OFF)
 
