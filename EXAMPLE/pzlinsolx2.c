@@ -157,6 +157,9 @@ int main(int argc, char *argv[])
     superlumt_options.usepr = usepr;
     superlumt_options.drop_tol = drop_tol;
     superlumt_options.PrintStat = NO;
+    superlumt_options.fill_lusup = 0; /* use sp_ienv(6) */
+    superlumt_options.fill_ucol = 0;  /* use sp_ienv(7) */
+    superlumt_options.fill_lsub = 0;  /* use sp_ienv(8) */
     superlumt_options.perm_c = perm_c;
     superlumt_options.perm_r = perm_r;
     superlumt_options.work = work;

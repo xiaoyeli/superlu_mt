@@ -138,6 +138,9 @@ pcgstrf_init(int_t nprocs, fact_t fact, trans_t trans, yes_no_t refact,
     superlumt_options->drop_tol = drop_tol;
     superlumt_options->SymmetricMode = NO;
     superlumt_options->PrintStat = NO;
+    superlumt_options->fill_lusup = 0; /* use sp_ienv(6) */
+    superlumt_options->fill_ucol = 0;  /* use sp_ienv(7) */
+    superlumt_options->fill_lsub = 0;  /* use sp_ienv(8) */
 
     /* 
      * The following should be retained for repeated factorizations.

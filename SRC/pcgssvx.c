@@ -202,6 +202,15 @@ pcgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
  *                 performing the factorization, and returns it in
  *                 superlu_memusage->total_needed; no other side effects.
  *
+ *         o fill_lusup, fill_ucol, fill_lsub (int_t)
+ *           Storage estimates for the values of the L supernodes, the
+ *           columns of U, and the row subscripts of L, respectively.
+ *           A negative value is a fill-in growth factor: its magnitude
+ *           times nnz(A) entries are allocated. A positive value is the
+ *           number of entries to allocate. 0 means use the defaults from
+ *           sp_ienv(6), sp_ienv(7) and sp_ienv(8). Increase these if the
+ *           factorization aborts with "Storage for ... exceeded".
+ *
  *    -------------------------------------------------------------------------
  *    ** The following 3 arrays must be allocated before calling this routine.
  *    -------------------------------------------------------------------------
