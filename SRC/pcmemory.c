@@ -269,10 +269,16 @@ pcgstrf_MemInit(int_t n, int_t annz, superlumt_options_t *superlumt_options,
     complex   *ucol;
     int_t      *usub, *xusub, *xusub_end;
     int_t      nzlmax, nzumax, nzlumax;
-    int_t      FILL_LUSUP = sp_ienv(6); /* Guess the fill-in growth for LUSUP */
-    int_t      FILL_UCOL = sp_ienv(7); /* Guess the fill-in growth for UCOL */
-    int_t      FILL_LSUB = sp_ienv(8); /* Guess the fill-in growth for LSUB */
+    int_t      FILL_LUSUP, FILL_UCOL, FILL_LSUB; /* Guess the fill-in growth */
     
+    /* Storage estimates for L\U: from the options if set, else sp_ienv(). */
+    FILL_LUSUP = superlumt_options->fill_lusup;
+    FILL_UCOL  = superlumt_options->fill_ucol;
+    FILL_LSUB  = superlumt_options->fill_lsub;
+    if ( FILL_LUSUP == 0 ) FILL_LUSUP = sp_ienv(6);
+    if ( FILL_UCOL == 0 )  FILL_UCOL  = sp_ienv(7);
+    if ( FILL_LSUB == 0 )  FILL_LSUB  = sp_ienv(8);
+
     no_expand = 0;
     ndim      = n;
     iword     = sizeof(int_t);
@@ -334,9 +340,10 @@ pcgstrf_MemInit(int_t n, int_t annz, superlumt_options_t *superlumt_options,
 
 	while ( !ucol || !lsub || !usub ) {
 	    /*SUPERLU_ABORT("Not enough core in LUMemInit()");*/
-#if (PRNTlevel==1)
-	    printf(".. pcgstrf_MemInit(): #retries " IFMT "\n", ++retries);
-#endif
+	    ++retries;
+	    fprintf(stderr, "** pcgstrf_MemInit(): cannot allocate storage for L\\U"
+		    " (nzlmax " IFMT ", nzumax " IFMT "); halving the request,"
+		    " retry " IFMT "\n", nzlmax, nzumax, retries);
 	    if ( whichspace == SYSTEM ) {
 		SUPERLU_FREE(ucol);
 		SUPERLU_FREE(lsub);

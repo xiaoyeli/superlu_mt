@@ -292,6 +292,15 @@ typedef struct {
     yes_no_t   SymmetricMode;
     yes_no_t   PrintStat;
 
+    /* Storage estimates for the L and U factors, used by p?gstrf_MemInit().
+       Each behaves like the corresponding sp_ienv() parameter: a negative
+       value is a fill-in growth factor whose magnitude is multiplied by
+       nnz(A); a positive value is an absolute number of entries; 0 (the
+       default) means use sp_ienv(6), sp_ienv(7) or sp_ienv(8). */
+    int_t  fill_lusup;    /* values of the L supernodes; sp_ienv(6) */
+    int_t  fill_ucol;     /* columns of U;               sp_ienv(7) */
+    int_t  fill_lsub;     /* row subscripts of L;        sp_ienv(8) */
+
     /* The following arrays are persistent during repeated factorizations. */
     int_t  *perm_c;
     int_t  *perm_r;
